@@ -227,10 +227,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         bloc: BlocProvider.of<PatientProfileBloc>(context),
         // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<PatientProfileBloc, BaseState>(builder: (context, state)  {
-          if(state is UpdatePatientProfileState) {
+         /* if(state is UpdatePatientProfileState) {
             ProgressDialog.hideLoadingDialog(context);
             Navigator.of(context).pop();
-          }
+          }*/
           return Form(
             key: _formKey,
             child: buildWidget(),
@@ -246,13 +246,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Text(
+               Text(
                 "Personal Information",
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.normal,
                     fontFamily: 'Open Sans',
-                    fontSize: 18,
+                    fontSize:  DeviceUtil.isTablet ? 22 : 18,
                     color: CustomColors.colorDarkBlue
                 ),
               ),
@@ -349,6 +349,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                       ),
                     ],
                   )),
+              const SizedBox(height: 20,),
               CustomTextField(
                 key: const Key("tefFirstname"),
                 label: "First Name",
@@ -356,6 +357,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 errorMessage: "Please Enter First name",
                 textEditingController: firstNameController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefLastName"),
                 label: "Last Name",
@@ -363,6 +365,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 errorMessage: "Please Enter Last name",
                 textEditingController: lastNameController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefMobilenumber"),
                 label: "Mobile number",
@@ -373,35 +376,18 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 textInputType: TextInputType.phone,
                 textEditingController: mobileNumberController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefEmail"),
                 label: "Email",
                 hint: "Enter email",
                 errorMessage: "Please Enter email",
                 isEmail: true,
+                readOnly: true,
                 textInputType: TextInputType.emailAddress,
                 textEditingController: emailController,
               ),
-              /*CustomTextField(
-                key: const Key("tefPassword"),
-                label: "Password",
-                hint: "Enter password",
-                isObscureText: isPasswordShow,
-                errorMessage: "Please Enter password",
-                icon: IconButton(
-                    icon: Icon(
-                      isPasswordShow
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Colors.grey,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        isPasswordShow = !isPasswordShow;
-                      });
-                    }),
-                textEditingController: passwordController,
-              ),*/
+              const SizedBox(height: 10,),
               DropDown(
                 dropDownList: genderDropDown,
                 selectedValue: genderController.text,
@@ -409,8 +395,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 controller: genderController,
                 errorMessage: "Please select gender",
               ),
-              /*  DatePicker(
-                  dateController: dateController, lableText: "Date Of Birth"),*/
+              const SizedBox(height: 10,),
               DropDown(
                 dropDownList: bloodGroupDropDown,
                 selectedValue: bloodGroupController.text,
@@ -419,13 +404,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 label: "Select Blood Group",
               ),
               const SizedBox(height: 20,),
-              const Text(
+               Text(
                 "Medical Information",
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.normal,
                     fontFamily: 'Open Sans',
-                    fontSize: 18,
+                    fontSize:DeviceUtil.isTablet ? 22 : 18,
                     color: CustomColors.colorDarkBlue
                 ),
               ),
@@ -461,11 +446,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   }
                 },
               ),
-              /*MultiSelectionWidget(
-            controller: allergyController,
-            displayList: allergyList,
-            label: "Select Allergy",
-          ),*/
               const SizedBox(height: 15,),
               BlocBuilder<MedicationBloc, BaseState>(
                 builder: (context, state) {
@@ -498,11 +478,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   }
                 },
               ),
-              /* MultiSelectionWidget(
-                controller: medicationController,
-                displayList: medicationList,
-                label: "Select Medication",
-              ),*/
               const SizedBox(height: 15,),
               BlocBuilder<InjuryBloc, BaseState>(
                 builder: (context, state) {
@@ -535,11 +510,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   }
                 },
               ),
-              /* MultiSelectionWidget(
-                controller: injuryController,
-                displayList: injuryList,
-                label: "Select Past Injury",
-              ),*/
               const SizedBox(height: 15,),
               BlocBuilder<SurgeryBloc, BaseState>(
                 builder: (context, state) {
@@ -572,11 +542,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   }
                 },
               ),
-              /*MultiSelectionWidget(
-                controller: surgeryController,
-                displayList: surgeryList,
-                label: "Select Past Surgery",
-              ),*/
               const SizedBox(height: 15,),
               BlocBuilder<FoodPreferenceBloc, BaseState>(
                 builder: (context, state) {
@@ -609,11 +574,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   }
                 },
               ),
-              /* MultiSelectionWidget(
-                controller: foodController,
-                displayList: foodPreferenceList,
-                label: "Select Food Preference",
-              ),*/
               const SizedBox(height: 15,),
               DropDown(
                 dropDownList: activityLevelList,
@@ -621,12 +581,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 controller: activityController,
                 label: "Select Activity Level",
               ),
+              const SizedBox(height: 10,),
               RadioWidget(
                 label: "Smoking Habit",
                 selectedRadio: selectedRadioForSmoking,
                 radioList: smokingHabitList,
                 controller: smokingController,
               ),
+              const SizedBox(height: 10,),
               RadioWidget(
                 label: "Alcohol Consumption",
                 selectedRadio: selectedRadioForAlcohol,
@@ -634,13 +596,13 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 controller: alcoholController,
               ),
               const SizedBox(height: 20,),
-              const Text(
+               Text(
                 "Other Information",
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.normal,
                     fontFamily: 'Open Sans',
-                    fontSize: 18,
+                    fontSize: DeviceUtil.isTablet ? 22 : 18,
                     color: CustomColors.colorDarkBlue
                 ),
               ),
@@ -651,24 +613,28 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 firstDate: DateTime(1950),
                 lastDate: DateTime.now(),
               ),
+              const SizedBox(height: 10,),
               DropDown(
                 dropDownList: maritalList,
                 selectedValue: meritalStatusController.text,
                 controller: meritalStatusController,
                 label: "Select Marital status",
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefHeight"),
                 label: "Height",
                 hint: "Enter Height",
                 textEditingController: heightController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefWeight"),
                 label: "Weight",
                 hint: "Enter Weight",
                 textEditingController: weightController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefEmergencynumber"),
                 label: "Emergency Contact number",
@@ -678,6 +644,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 textInputType: TextInputType.phone,
                 textEditingController: emergenyContactController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefCity"),
                 label: "City",
@@ -685,12 +652,14 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 errorMessage: "Please Enter City name",
                 textEditingController: cityController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefOccupation"),
                 label: "Occupation",
                 hint: "Enter your occupation",
                 textEditingController: occupationController,
               ),
+              const SizedBox(height: 10,),
               Button(
                 "Update Profile",
                 onPress: () {
@@ -700,9 +669,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     List<String> allergyList = allergyController.text.split(" , ");
                     List<String> allergyIdList = [];
                     print(allergyList);
-                    for(int i=0;i<allergyList.length;i++){
-                      if(getAllergiesModel.data![i].allergy == allergyList[i]){
-                        allergyIdList.add(getAllergiesModel.data![i].id.toString());
+                    for(int j=0;j<allergyList.length;j++){
+                      for(int i=0;i<getAllergiesModel.data!.length;i++){
+                        if(getAllergiesModel.data![i].allergy == allergyList[j]){
+                          allergyIdList.add(getAllergiesModel.data![i].id.toString());
+                        }
                       }
                     }
                     print(allergyIdList);
@@ -711,20 +682,24 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     List<String> medicationList = medicationController.text.split(" , ");
                     List<String> medicationIdList = [];
                     print(medicationList);
-                    for(int i=0;i<medicationList.length;i++){
-                      if(getMedicationModel.data![i].currentMedication == medicationList[i]){
-                        medicationIdList.add(getMedicationModel.data![i].id.toString());
-                      }
-                    }
+                   for(int j=0;j<medicationList.length;j++){
+                     for(int i=0;i<getMedicationModel.data!.length;i++){
+                       if(getMedicationModel.data![i].currentMedication == medicationList[j]){
+                         medicationIdList.add(getMedicationModel.data![i].id.toString());
+                       }
+                     }
+                   }
                     print(medicationIdList);
                     String medicationIdString = medicationIdList.join(",");
                     print(medicationIdString);
                     List<String> injuryList = injuryController.text.split(" , ");
                     List<String> injuryIdList = [];
                     print(injuryList);
-                    for(int i=0;i<injuryList.length;i++){
-                      if(getInjuriesModel.data![i].pastInjury == injuryList[i]){
-                        injuryIdList.add(getInjuriesModel.data![i].id.toString());
+                    for(int j=0;j<injuryList.length;j++){
+                      for(int i=0;i<getInjuriesModel.data!.length;i++){
+                        if(getInjuriesModel.data![i].pastInjury == injuryList[j]){
+                          injuryIdList.add(getInjuriesModel.data![i].id.toString());
+                        }
                       }
                     }
                     print(injuryIdList);
@@ -733,9 +708,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     List<String> surgeryList = surgeryController.text.split(" , ");
                     List<String> surgeryIdList = [];
                     print(surgeryList);
-                    for(int i=0;i<surgeryList.length;i++){
-                      if(getSurgeryModel.data![i].pastSurgery == surgeryList[i]){
-                        surgeryIdList.add(getSurgeryModel.data![i].id.toString());
+                    for(int j=0;j<surgeryList.length;j++){
+                      for(int i=0;i<getSurgeryModel.data!.length;i++){
+                        if(getSurgeryModel.data![i].pastSurgery == surgeryList[j]){
+                          surgeryIdList.add(getSurgeryModel.data![i].id.toString());
+                        }
                       }
                     }
                     print(surgeryIdList);
@@ -744,9 +721,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     List<String> foodList = foodController.text.split(" , ");
                     List<String> foodIdList = [];
                     print(foodList);
-                    for(int i=0;i<foodList.length;i++){
-                      if(getFoodPreferenceModel.data![i].foodPreference == foodList[i]){
-                        foodIdList.add(getFoodPreferenceModel.data![i].id.toString());
+                    for(int j=0;j<foodList.length;j++){
+                      for(int i=0;i<getFoodPreferenceModel.data!.length;i++){
+                        if(getFoodPreferenceModel.data![i].foodPreference == foodList[j]){
+                          foodIdList.add(getFoodPreferenceModel.data![i].id.toString());
+                        }
                       }
                     }
                     print(foodIdList);
@@ -756,7 +735,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                       patient_id: patientId,
                         height: heightController.text,
                         email: emailController.text,
-                        profile_pic: imageFile!.path.isNotEmpty && !imageFile!.path.contains('patient_images') ? imageFile!.path : "",
+                        profile_pic: (imageFile!.path.isNotEmpty && !imageFile!.path.contains('patient_images')) ? imageFile!.path : "",
                         last_name: lastNameController.text,
                         first_name: firstNameController.text,
                         occupation: occupationController.text,

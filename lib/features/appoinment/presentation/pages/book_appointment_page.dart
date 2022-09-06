@@ -69,12 +69,12 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
         bloc: BlocProvider.of<AppointmentBloc>(context),
         // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
-          if(state is BookAppointmentState){
+         /* if(state is BookAppointmentState){
             ProgressDialog.hideLoadingDialog(context);
             Future.delayed(Duration.zero, () {
               Navigator.of(context).pop();
             });
-          }
+          }*/
           return  Form(
             key: _formKey,
             child: buildWidget(),
@@ -104,7 +104,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                             ? const AssetImage(
                           'assets/images/person_image.jpeg',
                         )
-                            : fileForProfilePic.toString().contains("static")
+                            : fileForProfilePic.toString().contains("patient_profile_pic_files")
                             ? NetworkImage(
                           "${fileForProfilePic?.path}",
                         )

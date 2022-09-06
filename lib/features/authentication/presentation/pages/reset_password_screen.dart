@@ -75,7 +75,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         child:  BlocBuilder<AuthenticationBloc, BaseState>(builder: (context, state)  {
           if(state is ResetPasswordState){
             ProgressDialog.hideLoadingDialog(context);
-            Get.to(ResetSuccess());
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ResetSuccess()),
+            );
           } else if(state is ForgotPasswordState){
             ProgressDialog.hideLoadingDialog(context);
           }
@@ -92,7 +95,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   buildWidget(){
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40),
+      padding: EdgeInsets.symmetric(horizontal: 40,vertical: 50),
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -109,8 +112,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     children: [
                       Center(
                         child: Container(
-                          height: 200,
-                          width: 200,
+                          height:DeviceUtil.isTablet ? 300: 200,
+                          width: DeviceUtil.isTablet ? 300:200,
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage("assets/images/reset.png"),
@@ -122,14 +125,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children:  [
                             Text(
                               "RESET",
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 36 : 26,
                                   color: CustomColors.colorDarkBlue
                               ),
                             ),
@@ -139,14 +142,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 36 : 26,
                                   color: CustomColors.colorPowerBlue
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      SizedBox(height: DeviceUtil.isTablet ? 20 : 10,),
                       CustomTextFieldWithBorder(
                         key: const Key("tefOtp"),
                         label: "OTP",
@@ -156,27 +159,23 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         lengthLimit: 6,
                         textEditingController: otpController,
                       ),
-                      const SizedBox(height: 10,),
+                      SizedBox(height: DeviceUtil.isTablet ? 20 :10,),
                       CustomTextFieldWithBorder(
                         key: const Key("tefPassword"),
                         label: "Password",
                         hint: "Enter Password",
                         errorMessage: "Please Enter Password",
-                        isEmail: true,
-                        textInputType: TextInputType.emailAddress,
                         textEditingController: passwordController,
                       ),
-                      const SizedBox(height: 10,),
+                      SizedBox(height: DeviceUtil.isTablet ? 20 : 10,),
                       CustomTextFieldWithBorder(
                         key: const Key("tefConfirmPassword"),
                         label: "Confirm Password",
                         hint: "Enter Confirm Password",
                         errorMessage: "Please Enter Confirm Password",
-                        isEmail: true,
-                        textInputType: TextInputType.emailAddress,
                         textEditingController: confirmPasswordController,
                       ),
-                      const SizedBox(height: 20,),
+                      SizedBox(height: DeviceUtil.isTablet ? 30 :20,),
                       Row(
                         children: [
                           Expanded(
@@ -224,7 +223,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Center(
                         child:  Text(
                           'after $secondsRemaining seconds',
-                          style: CustomTextStyle.styleBold.copyWith(fontSize: 18,color: Colors.black),
+                          style: CustomTextStyle.styleBold.copyWith(
+                              fontSize: DeviceUtil.isTablet ? 22 :18,color: Colors.black),
                         ),
                       ),
                       Center(
@@ -232,13 +232,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           onPressed: enableResend ? _resendCode : null,
                           child: Text(
                             'Resend Code',
-                            style: CustomTextStyle.styleBold.copyWith(fontSize: 18,color: CustomColors.colorDarkBlue),
+                            style: CustomTextStyle.styleBold.copyWith(
+                                fontSize: DeviceUtil.isTablet ? 22 :18,color: CustomColors.colorDarkBlue),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 48,
-                      )
                     ],
                   ),
                 ),

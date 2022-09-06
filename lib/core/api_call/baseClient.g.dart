@@ -10,7 +10,7 @@ part of 'baseClient.dart';
 
 class _ApiClient implements ApiClient {
   _ApiClient(this._dio, {this.baseUrl}) {
-    baseUrl ??= 'https://d373-180-211-112-179.in.ngrok.io/';
+    baseUrl ??= 'https://426d-180-211-112-179.in.ngrok.io/';
   }
 
   final Dio _dio;
@@ -140,7 +140,7 @@ class _ApiClient implements ApiClient {
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ForgotPasswordModel>(
             Options(method: 'POST', headers: _headers, extra: _extra)
-                .compose(_dio.options, 'patient/patient_forgot_password/',
+                .compose(_dio.options, 'patient/forget_password',
                     queryParameters: queryParameters, data: _data)
                 .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = ForgotPasswordModel.fromJson(_result.data!);
@@ -165,12 +165,11 @@ class _ApiClient implements ApiClient {
   }
 
   @override
-  Future<GetPatientProfileModel> getPatientProfile(hashMap) async {
+  Future<GetPatientProfileModel> getPatientProfile() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(hashMap);
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<GetPatientProfileModel>(
             Options(method: 'POST', headers: _headers, extra: _extra)

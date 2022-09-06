@@ -12,9 +12,12 @@ import 'package:hospital_management/features/authentication/presentation/pages/s
 import '../../../../core/base/base_bloc.dart';
 import '../../../../core/error_bloc_builder/error_builder_listener.dart';
 import '../../../../custom/progress_bar.dart';
+import '../../../appoinment/presentation/bloc/appointment_bloc.dart';
+import '../../../doctor/presentation/bloc/doctor_bloc.dart';
 import '../../../home.dart';
 import '../bloc/authentication_bloc.dart';
 import '../bloc/authentication_event.dart';
+import 'package:hospital_management/injection_container.dart' as Sl;
 
 class SignUpScreenMain extends StatefulWidget {
   const SignUpScreenMain({Key? key}) : super(key: key);
@@ -139,7 +142,16 @@ class _SignUpScreenMainState extends State<SignUpScreenMain>  {
               AddPatientModel? model = state.model;
               Future.delayed(Duration.zero, () {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => MultiBlocProvider(
+                        providers: [
+                          BlocProvider<AppointmentBloc>(
+                            create: (context) => Sl.Sl<AppointmentBloc>(),
+                          ),
+                          BlocProvider<DoctorBloc>(
+                            create: (context) => Sl.Sl<DoctorBloc>(),
+                          ),
+                        ],
+                        child: Home())),
                         (route) => false);
               });
             }

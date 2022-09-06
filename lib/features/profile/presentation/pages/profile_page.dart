@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
             getPatientProfileModel = state.model!;
           }
           return (getPatientProfileModel.data != null)  ? buildWidget() :
-          Center(
+          const Center(
             child: CircularProgressIndicator(color: Colors.white),
           );
         }),
@@ -93,17 +93,24 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Container(
               height: MediaQuery.of(context).size.height / 4,
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                   color: CustomColors.colorDarkBlue,
               ),
               padding: EdgeInsets.all(0),
               child: Padding(
-                padding: EdgeInsets.only(left: 14),
-                child: InkWell(
-                  onTap: (){
-                    Navigator.of(context).pop();
-                  },
-                  child: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,),
+                padding: EdgeInsets.only(left: 14,top: 40),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: (){
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(Icons.arrow_back_ios,color: Colors.white,size: 20,),
+                    )
+                  ],
                 )
               )
             ),
@@ -122,8 +129,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
         Positioned(
-          top: ((MediaQuery.of(context).size.height / 3.3) / 2) ,
-          child:   userProfilePic(radius: 46.0,
+          top: ((MediaQuery.of(context).size.height / (DeviceUtil.isTablet ? 2.8 :3.3)) / 2) ,
+          child:   userProfilePic(radius: DeviceUtil.isTablet ?  60.0: 46.0,
             imagePath:
             (getPatientProfileModel.data?.profilePic != null && getPatientProfileModel.data?.profilePic != "")
                 ? "${Strings.baseUrl}${getPatientProfileModel.data?.profilePic}"
@@ -147,15 +154,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(getPatientProfileModel.data!.firstName ?? ""),
-                    Text("  ${getPatientProfileModel.data!.lastName}"),
+                    Text(
+                        getPatientProfileModel.data!.firstName ?? "",
+                      style: CustomTextStyle.styleMedium,
+                    ),
+                    Text(
+                        "  ${getPatientProfileModel.data!.lastName}",
+                      style: CustomTextStyle.styleMedium,
+                    ),
                   ],
                 ),
                 SizedBox(height: 7,),
-                Text(getPatientProfileModel.data!.contactNumber.toString().substring(3)),
+                Text(
+                    getPatientProfileModel.data!.contactNumber.toString().substring(3),
+                  style: CustomTextStyle.styleMedium,
+                ),
               ],
             ),
-            const SizedBox(height: 30,),
+             SizedBox(height: DeviceUtil.isTablet ? 40 :30,),
             customCard(title: "Personal information",
                 index: 1,
                 icon:  Icon(
@@ -163,7 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: CustomColors.colorDarkBlue,
                   size: DeviceUtil.isTablet ? 30 : 25,
                 )),
-            const SizedBox(height: 15,),
+             SizedBox(height: DeviceUtil.isTablet ? 30 : 15,),
             customCard(title: "Medical information",
                 index: 2,
                 icon: Icon(Icons.medical_information, color: CustomColors.colorDarkBlue,
@@ -172,12 +188,12 @@ class _ProfilePageState extends State<ProfilePage> {
             customCard(title: "Other information",index: 3,
                 icon: Icon(Icons.info_outline_rounded, color: CustomColors.colorDarkBlue,
                   size: DeviceUtil.isTablet ? 30 : 25,)),*/
-            const SizedBox(height: 15,),
+             SizedBox(height: DeviceUtil.isTablet ? 30 : 15,),
             customCard(title: "Update profile",
                 index: 4,
                 icon: Icon(Icons.edit, color: CustomColors.colorDarkBlue,
                   size: DeviceUtil.isTablet ? 30 : 25,)),
-            const SizedBox(height: 15,),
+             SizedBox(height:  DeviceUtil.isTablet ? 30 : 15,),
             customCard(title: "Logout",
                 index: 5,
                 icon: Icon(Icons.logout, color: CustomColors.colorDarkBlue,
@@ -192,10 +208,13 @@ class _ProfilePageState extends State<ProfilePage> {
       color: Colors.grey.shade200,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: ListTile(
-          title: Text(title ?? ""),
+          title: Text(
+              title ?? "",
+            style: CustomTextStyle.styleMedium,
+          ),
          // leading: icon,
           trailing: Icon(Icons.arrow_forward_ios_rounded, color: CustomColors.colorDarkBlue,
-            size: DeviceUtil.isTablet ? 30 : 20,),
+            size: DeviceUtil.isTablet ? 26 : 20,),
           onTap: (){
             if(index == 1){
               Navigator.push(

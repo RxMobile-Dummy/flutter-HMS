@@ -23,10 +23,20 @@ class AppointmentDataSourceImpl implements AppointmentDataSource {
 
   @override
   Future<BookAppointmentModel> bookAppointmentCall(BookAppointmentParams params) async {
-    MultipartFile multipartFileForReport =
+    MultipartFile? multipartFileForReport;
+    if(params.fileData!.isNotEmpty) {
+      if(!params.fileData![0].contains("appointment_files")) {
+        multipartFileForReport =
         await MultipartFile.fromFile(params.fileData ?? "", filename: pathManager.basename(params.fileData ?? ""));
-    MultipartFile multipartFileForProfilePic =
-    await MultipartFile.fromFile(params.patientProfilePic ?? "", filename: pathManager.basename(params.patientProfilePic ?? ""));
+      }
+    }
+    MultipartFile? multipartFileForProfilePic;
+    if(params.patientProfilePic!.isNotEmpty) {
+      if(!params.patientProfilePic![0].contains("patient_profile_pic_files")) {
+        multipartFileForProfilePic =
+        await MultipartFile.fromFile(params.patientProfilePic ?? "", filename: pathManager.basename(params.patientProfilePic ?? ""));
+      }
+    }
     var map =  HashMap<String, dynamic>();
     map['first_name'] = params.firstName;
     map['last_name'] = params.lastName;
@@ -41,8 +51,8 @@ class AppointmentDataSourceImpl implements AppointmentDataSource {
     map['hospital_id'] = params.hospitalId;
     map['hospital_id'] = params.hospitalId;
     map['disease'] = params.disease;
-    map['patient_profile_pic'] = multipartFileForProfilePic;
-    map['file_data'] =  multipartFileForReport;
+    map['patient_profile_pic'] = params.patientProfilePic!.isNotEmpty ? multipartFileForProfilePic : params.patientProfilePic;
+    map['file_data'] =  params.fileData!.isNotEmpty ? multipartFileForReport : params.fileData;
     FormData formData =  FormData.fromMap(map);
     final response = await _apiClient.bookAppointment(formData);
     print(response.error);

@@ -114,7 +114,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                         child: CircleAvatar(
                           radius: DeviceUtil.isTablet ? 75 : 48,
                           backgroundColor: Colors.transparent,
-                          backgroundImage: (fileForProfilePic == null || fileForProfilePic == "")
+                          backgroundImage: (fileForProfilePic!.path == null || fileForProfilePic!.path == "")
                               ? const AssetImage(
                             'assets/images/person_image.jpeg',
                           )
@@ -197,6 +197,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                       ),
                     ],
                   )),
+              const SizedBox(height: 20,),
               CustomTextField(
                 key: const Key("tefFirstname"),
                 label: "First Name",
@@ -204,6 +205,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 errorMessage: "Please Enter First name",
                 textEditingController: firstNameController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefLastName"),
                 label: "Last Name",
@@ -211,6 +213,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 errorMessage: "Please Enter Last name",
                 textEditingController: lastNameController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefMobilenumber"),
                 label: "Mobile number",
@@ -220,6 +223,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 textInputType: TextInputType.phone,
                 textEditingController: mobileNumberController,
               ),
+              const SizedBox(height: 10,),
               CustomTextField(
                 key: const Key("tefDisease"),
                 label: "Enter Disease",
@@ -227,6 +231,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 errorMessage: "Please Enter Disease",
                 textEditingController: diseaseController,
               ),
+              const SizedBox(height: 10,),
               DropDown(
                 controller: timeSlotController,
                 dropDownList: timeSlotDropDown,
@@ -234,6 +239,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 label: "Select time slot",
                 errorMessage: "Select time slot",
               ),
+              const SizedBox(height: 10,),
               DatePicker(
                 dateController: appointmentDateController,
                 lableText: "Appointment Date",
@@ -245,9 +251,10 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  fileForReport?.path != null
+                  (fileForReport?.path != null && fileForReport!.path.isNotEmpty)
                       ? Container(
                       height: 50,
+                      margin: EdgeInsets.symmetric(horizontal: 16),
                       width: MediaQuery.of(context).size.width / 2.5,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),

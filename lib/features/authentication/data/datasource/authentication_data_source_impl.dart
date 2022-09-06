@@ -131,6 +131,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
     map['occupation'] = params.occupation;
     map['profile_pic'] =  multipartFile;
     FormData formData =  FormData.fromMap(map);
+    print(formData);
      final response = await _apiClient.addPatient(formData);
    /* print("before api");
     final http.Response response = await http.post(
@@ -185,8 +186,8 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @override
   Future<ResetPasswardModel> resetPasswordCall(ResetPasswordParams params) async {
     var map = new HashMap<String, String>();
-    map['password'] = params.password;
-    map['OTP'] = params.OTP;
+    map['new_password'] = params.password;
+    map['otp'] = params.OTP;
     final response = await _apiClient.resetPassword(map);
     var data ;
     if(response != null ){

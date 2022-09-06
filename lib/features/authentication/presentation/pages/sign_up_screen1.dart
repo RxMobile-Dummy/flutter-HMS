@@ -108,98 +108,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            /*  Center(
-                  child: Stack(
-                clipBehavior: Clip.none,
-                //fit: StackFit.expand,
-                children: [
-                  GestureDetector(
-                    child: CircleAvatar(
-                      radius: DeviceUtil.isTablet ? 75 : 48,
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: (imageFile == null || imageFile == "")
-                          ? const AssetImage(
-                              'assets/images/person_image.jpeg',
-                            )
-                          : imageFile.toString().contains("static")
-                              ? NetworkImage(
-                                  "${imageFile?.path}",
-                                )
-                              : FileImage(
-                                  imageFile!,
-                                ) as ImageProvider,
-                    ),
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) => GestureDetector(
-                                onTap: () => Navigator.of(context).pop(),
-                                child: Theme(
-                                    data: ThemeData(
-                                        bottomSheetTheme:
-                                            const BottomSheetThemeData(
-                                                backgroundColor: Colors.black,
-                                                modalBackgroundColor:
-                                                    Colors.grey)),
-                                    child: showSheetForImage()),
-                              ));
-                      print("OPEN");
-                    },
-                  ),
-                  Positioned(
-                    bottom: 3,
-                    right: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 3,
-                          color: Colors.white,
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(
-                            50,
-                          ),
-                        ),
-                        color: CustomColors.colorDarkBlue,
-                        *//*boxShadow: [
-                              BoxShadow(
-                                offset: Offset(2, 4),
-                                color: Colors.transparent,
-                                blurRadius: 3,
-                              ),
-                            ]*//*
-                      ),
-                      child: InkWell(
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Icon(
-                            Icons.edit_outlined,
-                            color: Colors.white,
-                            size: DeviceUtil.isTablet ? 20 : 15,
-                          ),
-                        ),
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => GestureDetector(
-                                    onTap: () => Navigator.of(context).pop(),
-                                    child: Theme(
-                                        data: ThemeData(
-                                            bottomSheetTheme:
-                                                const BottomSheetThemeData(
-                                                    backgroundColor:
-                                                        Colors.black,
-                                                    modalBackgroundColor:
-                                                        Colors.grey)),
-                                        child: showSheetForImage()),
-                                  ));
-                          print("OPEN");
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              )),*/
+              const SizedBox(height: 30,),
               CustomTextField(
                 key: const Key("tefFirstname"),
                 label: "First Name",
@@ -207,6 +116,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                 errorMessage: "Please Enter First name",
                 textEditingController: firstNameController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefLastName"),
                 label: "Last Name",
@@ -214,6 +124,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                 errorMessage: "Please Enter Last name",
                 textEditingController: lastNameController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefMobilenumber"),
                 label: "Mobile number",
@@ -223,6 +134,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                 textInputType: TextInputType.phone,
                 textEditingController: mobileNumberController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefEmail"),
                 label: "Email",
@@ -232,6 +144,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                 textInputType: TextInputType.emailAddress,
                 textEditingController: emailController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefPassword"),
                 label: "Password",
@@ -252,6 +165,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                     }),
                 textEditingController: passwordController,
               ),
+              const SizedBox(height: 15,),
               DropDown(
                 dropDownList: genderDropDown,
                 selectedValue: genderDropDown[0],
@@ -259,80 +173,22 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                 controller: genderController,
                 errorMessage: "Please select gender",
               ),
-            /*  DatePicker(
-                  dateController: dateController, lableText: "Date Of Birth"),*/
-              DropDown(
+              const SizedBox(height: 20,),
+             DropDown(
                 dropDownList: bloodGroupDropDown,
                 selectedValue: bloodGroupDropDown[0],
                 controller: bloodGroupController,
                 errorMessage: "Please select Blood group",
                 label: "Select Blood Group",
               ),
-              /*DropDown(
-                dropDownList: maritalList,
-                selectedValue: maritalList[0],
-                label: "Select Marital status",
-              ),
-              CustomTextField(
-                key: const Key("tefHeight"),
-                label: "Height",
-                hint: "Enter Height",
-                isEmail: true,
-                textEditingController: heightController,
-              ),
-              CustomTextField(
-                key: const Key("tefWeight"),
-                label: "Weight",
-                hint: "Enter Weight",
-                isEmail: true,
-                textEditingController: weightController,
-              ),
-              CustomTextField(
-                key: const Key("tefEmergencynumber"),
-                label: "Emergency Contact number",
-                hint: "Enter Emergency Contact number",
-                errorMessage: "Please Enter Emergency Contact number",
-                isMobile: true,
-                textInputType: TextInputType.phone,
-                textEditingController: emergenyContactController,
-              ),
-              CustomTextField(
-                key: const Key("tefCity"),
-                label: "City",
-                hint: "Enter City name",
-                errorMessage: "Please Enter City name",
-                textEditingController: cityContactController,
-              ),
-              MultiSelectionWidget(
-                controller: allergyController,
-                displayList: allergyList,
-                label: "Select Allergy",
-              ),
-              RadioWidget(
-                label: "Smoking Habit",
-                selectedRadio: selectedRadioForSmoking,
-                radioList: smokingHabitList,
-                controller: smokingController,
-              ),
-              RadioWidget(
-                label: "Alcohol Consumption",
-                selectedRadio: selectedRadioForAlcohol,
-                radioList: smokingHabitList,
-                controller: alcoholController,
-              ),
-              CustomTextField(
-                key: const Key("tefOccupation"),
-                label: "Occupation",
-                hint: "Enter your occupation",
-                textEditingController: occupationController,
-              ),*/
+              const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                    TextButton(
                        child:  Text("NEXT >>",style: CustomTextStyle.styleBold
-                           .copyWith(fontSize: 12, color: CustomColors.colorDarkBlue),),
+                           .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                        onPressed: ()async {
                          FocusScope.of(context).unfocus();
                          if(_formKey.currentState!.validate()){

@@ -22,9 +22,9 @@ class PatientProfileDataSourceImpl implements PatientProfileDataSource {
 
   @override
   Future<GetPatientProfileModel> getPatientProfileCall(GetPatientProfileParams params) async{
-    var map =  HashMap<String, dynamic>();
-    map['id'] = params.id;
-    final response = await _apiClient.getPatientProfile(map);
+   /* var map =  HashMap<String, dynamic>();
+    map['id'] = params.id;*/
+    final response = await _apiClient.getPatientProfile();
     print(response);
     var data;
     if (response != null) {

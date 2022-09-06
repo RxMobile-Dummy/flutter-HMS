@@ -121,13 +121,13 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children:  [
               InkWell(
-                child: const Text(
+                child:  Text(
                   "Apply filter",
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Open Sans',
-                      fontSize: 16,
+                      fontSize:  DeviceUtil.isTablet ? 20 :16,
                       color: CustomColors.colorDarkBlue
                   ),
                 ),
@@ -146,7 +146,16 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                     padding: MediaQuery.of(context).viewInsets,
                                     child: applyAppointmentFilterDialog(mystate)));}));
                 },
-              )
+              ),
+              filterDateController.text.isNotEmpty ? InkWell(
+                child:  Icon(
+                  Icons.close,
+                  size: DeviceUtil.isTablet ? 22 : 19,),
+                onTap: () async {
+                  filterDateController.clear();
+                  await  _getAppointment(patientId,"");
+                },
+              ) : const SizedBox()
             ],
           ),
         ),
@@ -181,7 +190,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                             "Appointment Filter",
                             style: CustomTextStyle.styleBold.copyWith(
                                 color: CustomColors.colorDarkBlue,
-                                fontSize: 18
+                                fontSize: DeviceUtil.isTablet ? 20 :18
                             ),
                           ),
                         ],
@@ -350,7 +359,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                         bottomLeft: Radius.circular(10),
                         topRight: Radius.circular(10),
                       ),
-                      color: Colors.blue.shade100
+                      color: Colors.grey.shade200
                     //color: Colors.orangeAccent.shade100,
                   ),
                   child: Padding(
@@ -360,7 +369,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         InkWell(
-                          child: const Icon(Icons.edit),
+                          child: const Icon(Icons.edit,color: CustomColors.colorDarkBlue,),
                           onTap: () async {
                            await Navigator.push(
                               context,
@@ -387,36 +396,10 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                            });
                           },
                         ),
-                       Padding(
-                         padding: const EdgeInsets.only(left: 5),
-                         child:  InkWell(
-                           child: const Icon(Icons.feedback_outlined),
-                           onTap: (){
-                             Navigator.push(
-                               context,
-                               MaterialPageRoute(
-                                   builder: (context) => MultiBlocProvider(
-                                     providers: [
-                                       BlocProvider<FeedbackBloc>(
-                                         create: (context) => Sl.Sl<FeedbackBloc>(),
-                                       ),
-                                     ],
-                                     child:  AppointmentFeedbackPage(
-                                       staffId: "",
-                                       hospitalId:  "",
-                                       doctorId: getAppointmentModel.data![index].doctorData!.id.toString(),
-                                       appointmentId: getAppointmentModel.data![index].id.toString(),
-                                       patientId: getAppointmentModel.data![index].patientId.toString(),
-                                     ),
-                                   )),
-                             );
-                           },
-                         ),
-                       ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 5),
+                          padding: const EdgeInsets.only(left: 10),
                           child:  InkWell(
-                            child: const Icon(Icons.delete_outline_rounded),
+                            child: const Icon(Icons.delete_outline_rounded,color: CustomColors.colorDarkBlue,),
                             onTap: (){
                               showDialog(
                                   context: context,
@@ -471,17 +454,18 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                         Stack(
                           alignment: Alignment.bottomCenter,
                           children: [
-                            Container(
+                          /*  Container(
                               height: 120,
                               width: 100,
                               decoration: BoxDecoration(
                                   color: Colors.blue.shade100,
                                   borderRadius: BorderRadius.circular(10)),
-                            ),
+                            ),*/
                             Container(
-                              height: 90,
-                              width: 100,
+                              height:DeviceUtil.isTablet ? 140 : 120,
+                              width: DeviceUtil.isTablet ? 120 : 100,
                               decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
                                  image: DecorationImage(
                                   image: userProfilePic(
                                     imagePath:
@@ -489,6 +473,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                         && getAppointmentModel.data![index].patientProfilePic != "")
                                         ? "${Strings.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
                                         : "",),//AssetImage("assets/images/ii_1.png"),
+                                   fit: BoxFit.fill
                                 ),
                               ),
                             ),
@@ -504,15 +489,15 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                 Text(
                                   "${getAppointmentModel.data![index].firstName} ${getAppointmentModel.data![index].lastName}",
                                   style: TextStyle(
-                                      fontSize: 16,
+                                      fontSize: DeviceUtil.isTablet ? 18 :16,
                                       color: (Theme.of(context).brightness ==
                                           Brightness.dark)
                                           ? Colors.white
                                           : Colors.black,
                                       fontWeight: FontWeight.w500),
                                 ),
-                                const SizedBox(
-                                  height: 7,
+                                 SizedBox(
+                                  height: DeviceUtil.isTablet ? 10 :7,
                                 ),
                                 Row(
                                   children: [
@@ -522,7 +507,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       overflow: TextOverflow.fade,
                                       maxLines: 4,
                                       style: TextStyle(
-                                          fontSize: 13,
+                                          fontSize: DeviceUtil.isTablet ? 15 :13,
                                           color: (Theme.of(context).brightness ==
                                               Brightness.dark)
                                               ? Colors.white
@@ -540,8 +525,8 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 10,
+                                 SizedBox(
+                                  height: DeviceUtil.isTablet ? 14 :10,
                                 ),
                                 RichText(
                                   text: TextSpan(
@@ -564,11 +549,49 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       )
                                     ],
                                     style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: DeviceUtil.isTablet ? 16 :14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                )
+                                ),
+                                 SizedBox(height: DeviceUtil.isTablet ? 16 :10,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    InkWell(
+                                      child:  Text(
+                                        "Give feedback",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontStyle: FontStyle.normal,
+                                            fontFamily: 'Open Sans',
+                                            fontSize: DeviceUtil.isTablet ? 18 :16,
+                                            color: CustomColors.colorDarkBlue
+                                        ),
+                                      ), /*const Icon(Icons.feedback_outlined)*/
+                                      onTap: (){
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MultiBlocProvider(
+                                                providers: [
+                                                  BlocProvider<FeedbackBloc>(
+                                                    create: (context) => Sl.Sl<FeedbackBloc>(),
+                                                  ),
+                                                ],
+                                                child:  AppointmentFeedbackPage(
+                                                  staffId: "",
+                                                  hospitalId:  "",
+                                                  doctorId: getAppointmentModel.data![index].doctorData!.id.toString(),
+                                                  appointmentId: getAppointmentModel.data![index].id.toString(),
+                                                  patientId: getAppointmentModel.data![index].patientId.toString(),
+                                                ),
+                                              )),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 /*IntrinsicHeight(
                                 child:  Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

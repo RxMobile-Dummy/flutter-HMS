@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../custom/progress_bar.dart';
 import '../../features/appoinment/presentation/bloc/appointment_state.dart';
+import '../../features/feedback/presentation/bloc/feedback_state.dart';
+import '../../features/profile/presentation/bloc/patient_profile_state.dart';
 import '../../utils/colors.dart';
 import '../../utils/device_file.dart';
 import '../../utils/style.dart';
@@ -28,6 +30,15 @@ class ErrorBlocListener<b extends Bloc<BaseEvent, BaseState>>
         } else if(state is UpdateAppointmentState){
           ProgressDialog.hideLoadingDialog(context);
             return Navigator.pop(context);
+        }else if(state is UpdatePatientProfileState) {
+          ProgressDialog.hideLoadingDialog(context);
+           Navigator.of(context).pop();
+        }else if(state is BookAppointmentState){
+          ProgressDialog.hideLoadingDialog(context);
+          return Navigator.pop(context);
+        }else if(state is SendDoctorFeedbackState){
+          ProgressDialog.hideLoadingDialog(context);
+          return Navigator.of(context).pop();
         } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
         }
@@ -38,7 +49,7 @@ showDialogForError({required BuildContext context, String? errorMessage,dynamic 
   return showDialog(
     context: context,
     builder: (ctx) => Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child:  AlertDialog(
         content:  Container(
           child: Text(

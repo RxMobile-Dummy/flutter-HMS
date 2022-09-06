@@ -57,6 +57,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 30,),
               Center(
                   child: Stack(
                     clipBehavior: Clip.none,
@@ -149,18 +150,21 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                       ),
                     ],
                   )),
+              const SizedBox(height: 15,),
               DatePicker(
                   dateController: dateController,
                   lableText: "Date Of Birth",
                 firstDate: DateTime(1950),
                 lastDate: DateTime.now(),
               ),
+              const SizedBox(height: 15,),
               DropDown(
                 dropDownList: maritalList,
                 selectedValue: maritalList[0],
                 controller: meritalStatusController,
                 label: "Select Marital status",
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefHeight"),
                 label: "Height",
@@ -168,6 +172,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                 isEmail: true,
                 textEditingController: heightController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefWeight"),
                 label: "Weight",
@@ -175,6 +180,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                 isEmail: true,
                 textEditingController: weightController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefEmergencynumber"),
                 label: "Emergency Contact number",
@@ -184,6 +190,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                 textInputType: TextInputType.phone,
                 textEditingController: emergenyContactController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefCity"),
                 label: "City",
@@ -191,19 +198,21 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                 errorMessage: "Please Enter City name",
                 textEditingController: cityContactController,
               ),
+              const SizedBox(height: 15,),
               CustomTextField(
                 key: const Key("tefOccupation"),
                 label: "Occupation",
                 hint: "Enter your occupation",
                 textEditingController: occupationController,
               ),
+              const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextButton(
                     child:  Text("<< Previous",style: CustomTextStyle.styleBold
-                        .copyWith(fontSize: 12, color: CustomColors.colorDarkBlue),),
+                        .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       widget.pageController.previousPage(
                           duration: Duration(seconds: 1), curve: Curves.ease);
@@ -211,7 +220,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                   ),
                   TextButton(
                     child:  Text("Register",style: CustomTextStyle.styleBold
-                        .copyWith(fontSize: 12, color: CustomColors.colorDarkBlue),),
+                        .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       function();
                     },
