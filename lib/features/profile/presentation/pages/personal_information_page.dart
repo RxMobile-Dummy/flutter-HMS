@@ -3,6 +3,7 @@ import 'package:hospital_management/features/profile/data/model/get_patient_prof
 
 import '../../../../utils/colors.dart';
 import '../../../../utils/device_file.dart';
+import '../../../../utils/style.dart';
 import '../../../../widget/custom_appbar.dart';
 
 class PersonalInformationPage extends StatefulWidget {
@@ -32,16 +33,41 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             customCard(title: "Name : ${widget.getPatientProfileModel.data!.firstName ?? ""} ${widget.getPatientProfileModel.data!.lastName ?? ""}"),
+            const SizedBox(height: 10,),
             customCard(title: "Contact Number : ${widget.getPatientProfileModel.data!.contactNumber.toString().substring(3)}"),
+            const SizedBox(height: 10,),
             customCard(title: "Email : ${widget.getPatientProfileModel.data!.email}"),
-            customCard(title: "Date Of Birth : ${widget.getPatientProfileModel.data!.dateOfBirth}"),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.dateOfBirth!.isNotEmpty)
+                ? customCard(title: "Date Of Birth : ${widget.getPatientProfileModel.data!.dateOfBirth}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
             customCard(title: "Gender : ${widget.getPatientProfileModel.data!.gender}"),
-            customCard(title: "Height : ${widget.getPatientProfileModel.data!.height}"),
-            customCard(title: "Weight : ${widget.getPatientProfileModel.data!.weight}"),
-            customCard(title: "Marital Status : ${widget.getPatientProfileModel.data!.maritalStatus}"),
-            customCard(title: "Emergency Contact number : ${widget.getPatientProfileModel.data!.emergencyContactNumber}"),
-            customCard(title: "Occupation : ${widget.getPatientProfileModel.data!.occupation}"),
-            customCard(title: "City : ${widget.getPatientProfileModel.data!.city}"),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.height!.isNotEmpty)
+                ?customCard(title: "Height : ${widget.getPatientProfileModel.data!.height}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.weight!.isNotEmpty)
+            ? customCard(title: "Weight : ${widget.getPatientProfileModel.data!.weight}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.maritalStatus!.isNotEmpty)
+            ? customCard(title: "Marital Status : ${widget.getPatientProfileModel.data!.maritalStatus}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.emergencyContactNumber!.isNotEmpty)
+            ? customCard(title: "Emergency Contact number : ${widget.getPatientProfileModel.data!.emergencyContactNumber}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.occupation!.isNotEmpty)
+            ? customCard(title: "Occupation : ${widget.getPatientProfileModel.data!.occupation}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
+            (widget.getPatientProfileModel.data!.city!.isNotEmpty)
+            ? customCard(title: "City : ${widget.getPatientProfileModel.data!.city}")
+            : const SizedBox(),
+            const SizedBox(height: 10,),
           ],
         ),
       ),
@@ -54,7 +80,10 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10,vertical:  15),
-          child: Text(title ?? ""),
+          child: Text(
+              title ?? "",
+            style: CustomTextStyle.styleMedium,
+          ),
         )
     ) : const SizedBox();
   }

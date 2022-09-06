@@ -61,6 +61,8 @@ dependencies:
   file_picker: ^5.0.1
   path_provider: ^2.0.11
   syncfusion_flutter_pdfviewer: ^20.2.46-beta
+  geocoding: ^2.0.5
+  url_launcher: ^6.1.5
 #  flutter_pdfview: ^1.2.3
 
 dev_dependencies:

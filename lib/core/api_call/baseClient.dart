@@ -26,7 +26,7 @@ import '../../features/feedback/data/model/send_patient_feedback.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://d373-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://426d-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;
@@ -54,7 +54,7 @@ abstract class  ApiClient {
   Future<SignInPatientModel> signInPatient(
       @Body() HashMap<String, dynamic> hashMap,);
 
-  @POST('patient/patient_forgot_password/')
+  @POST('patient/forget_password')
   Future<ForgotPasswordModel> forgotPassword(
       @Body() HashMap<String, dynamic> hashMap,);
 
@@ -63,8 +63,7 @@ abstract class  ApiClient {
       @Body() HashMap<String, dynamic> hashMap,);
 
   @POST('patient/get_patient_details')
-  Future<GetPatientProfileModel> getPatientProfile(
-      @Body() HashMap<String, dynamic> hashMap,);
+  Future<GetPatientProfileModel> getPatientProfile();
 
   @POST('patient/update_patient_details')
   Future<UpdatePatientProfileModel> updatePatientProfile(

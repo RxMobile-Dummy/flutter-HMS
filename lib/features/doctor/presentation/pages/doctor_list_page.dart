@@ -147,13 +147,13 @@ class _DoctorListPageState extends State<DoctorListPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children:  [
               InkWell(
-                child: const Text(
+                child:  Text(
                   "Apply filter",
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.normal,
                       fontFamily: 'Open Sans',
-                      fontSize: 16,
+                      fontSize: DeviceUtil.isTablet ? 20 :16,
                       color: CustomColors.colorDarkBlue
                   ),
                 ),
@@ -172,7 +172,16 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     padding: MediaQuery.of(context).viewInsets,
                                     child: applyDoctorFilterDialog(mystate)));}));
                 },
-              )
+              ),
+              departmentController.text.isNotEmpty ? InkWell(
+                child:  Icon(
+                    Icons.close,
+                size: DeviceUtil.isTablet ? 22 : 19,),
+                onTap: () async {
+                  departmentController.clear();
+                  await _getDoctor("");
+                },
+              ) : const SizedBox()
             ],
           ),
         ),
@@ -208,7 +217,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                             "Doctor Filter",
                             style: CustomTextStyle.styleBold.copyWith(
                               color: CustomColors.colorDarkBlue,
-                              fontSize: 18
+                              fontSize: DeviceUtil.isTablet ? 20 : 18
                             ),
                           ),
                         ],
@@ -219,7 +228,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                       DropDown(
                         controller: departmentController,
                         dropDownList: departmentDropDown,
-                        selectedValue:  departmentController.text,
+                        selectedValue:  departmentController.text.isNotEmpty ? departmentController.text : departmentDropDown[0],
                         label: "Select Department",
                         errorMessage: "Select Department",
                       ),
@@ -402,7 +411,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                       bottomLeft: Radius.circular(10),
                       topRight: Radius.circular(10),
                     ),
-                    color: Colors.blue.shade100
+                    color: Colors.grey.shade200
                     //color: Colors.orangeAccent.shade100,
                     ),
                 child: Padding(
@@ -464,15 +473,15 @@ class _DoctorListPageState extends State<DoctorListPage> {
                         alignment: Alignment.bottomCenter,
                         children: [
                           Container(
-                            height: 90,
-                            width: 100,
+                            height: DeviceUtil.isTablet ? 110 : 90,
+                            width: DeviceUtil.isTablet ? 120 : 100,
                             decoration: BoxDecoration(
                                 color: colors[3],
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           Container(
-                            height: 120,
-                            width: 100,
+                            height: DeviceUtil.isTablet ? 145 : 120,
+                            width: DeviceUtil.isTablet ? 120 :100,
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: userProfilePic(
@@ -499,15 +508,15 @@ class _DoctorListPageState extends State<DoctorListPage> {
                             Text(
                               "Dr. ${getDoctorModel.data![index].firstName} ${getDoctorModel.data![index].lastName}",
                               style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DeviceUtil.isTablet ? 20 : 16,
                                   color: (Theme.of(context).brightness ==
                                           Brightness.dark)
                                       ? Colors.white
                                       : Colors.black,
                                   fontWeight: FontWeight.w500),
                             ),
-                            const SizedBox(
-                              height: 7,
+                             SizedBox(
+                              height: DeviceUtil.isTablet ? 12 : 7,
                             ),
                             Text(
                               "${getDoctorModel.data![index].specialistField} Department",
@@ -515,15 +524,15 @@ class _DoctorListPageState extends State<DoctorListPage> {
                               overflow: TextOverflow.fade,
                               maxLines: 4,
                               style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: DeviceUtil.isTablet ? 16 :13,
                                   color: (Theme.of(context).brightness ==
                                           Brightness.dark)
                                       ? Colors.white
                                       : Colors.grey.shade400,
                                   fontWeight: FontWeight.w500),
                             ),
-                            const SizedBox(
-                              height: 10,
+                             SizedBox(
+                              height: DeviceUtil.isTablet ? 15 :10,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -533,7 +542,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     Text(
                                       "Exp : ",
                                       style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: DeviceUtil.isTablet ? 16 : 14,
                                           color:
                                               (Theme.of(context).brightness ==
                                                       Brightness.dark)
@@ -544,7 +553,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     Text(
                                       " ${getDoctorModel.data![index].yearsOfExperience} years",
                                       style: TextStyle(
-                                          fontSize: 12,
+                                          fontSize: DeviceUtil.isTablet ? 14 :12,
                                           color:
                                               (Theme.of(context).brightness ==
                                                       Brightness.dark)
@@ -561,7 +570,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                       Text(
                                         "Fees: ",
                                         style: TextStyle(
-                                            fontSize: 14,
+                                            fontSize: DeviceUtil.isTablet ? 16 :14,
                                             color:
                                                 (Theme.of(context).brightness ==
                                                         Brightness.dark)
@@ -570,9 +579,9 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       Text(
-                                        "${getDoctorModel.data![index].inClinicAppointmentFees}",
+                                        " ${getDoctorModel.data![index].inClinicAppointmentFees}",
                                         style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize:DeviceUtil.isTablet ? 14 : 12,
                                             color:
                                                 (Theme.of(context).brightness ==
                                                         Brightness.dark)
@@ -598,21 +607,23 @@ class _DoctorListPageState extends State<DoctorListPage> {
                             StarDisplayWidget(
                               value: ratings.toInt() ~/
                                   getDoctorModel.data![index].feedbacks!.length,
-                              filledStar: Icon(Icons.star,
-                                  color: Colors.orange, size: 15),
-                              unfilledStar: Icon(
+                              filledStar:  Icon(Icons.star,
+                                  color: Colors.orange, size: DeviceUtil.isTablet ? 20 :15),
+                              unfilledStar:  Icon(
                                 Icons.star_border,
                                 color: Colors.grey,
-                                size: 15,
+                                size: DeviceUtil.isTablet ? 20 : 15,
                               ),
                             ),
                             Text(
-                              "  (${getDoctorModel.data![index].feedbacks!.length.toString()})",
-                              style: TextStyle(
+                              "  (${ratings.toInt() ~/
+                                  getDoctorModel.data![index].feedbacks!.length})",
+                              /*"  (${getDoctorModel.data![index].feedbacks!.length.toString()})",*/
+                              style:  TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: 15,
+                                  fontSize: DeviceUtil.isTablet ? 18 : 15,
                                   color: Colors.orange),
                             )
                           ],

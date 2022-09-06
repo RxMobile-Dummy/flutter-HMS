@@ -203,6 +203,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 30,),
               BlocBuilder<AllergiesBloc, BaseState>(
                 builder: (context, state) {
                   if (state is GetAllergiesState) {
@@ -394,25 +395,28 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                 controller: activityController,
                 label: "Select Activity Level",
               ),
+              const SizedBox(height: 15,),
               RadioWidget(
                 label: "Smoking Habit",
                 selectedRadio: selectedRadioForSmoking,
                 radioList: smokingHabitList,
                 controller: smokingController,
               ),
+              const SizedBox(height: 15,),
               RadioWidget(
                 label: "Alcohol Consumption",
                 selectedRadio: selectedRadioForAlcohol,
                 radioList: smokingHabitList,
                 controller: alcoholController,
               ),
+              const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 //crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextButton(
                     child:  Text("<< Previous",style: CustomTextStyle.styleBold
-                        .copyWith(fontSize: 12, color: CustomColors.colorDarkBlue),),
+                        .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       widget.pageController.previousPage(
                           duration: Duration(seconds: 1), curve: Curves.ease);
@@ -420,7 +424,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   ),
                   TextButton(
                     child:  Text("NEXT >>",style: CustomTextStyle.styleBold
-                        .copyWith(fontSize: 12, color: CustomColors.colorDarkBlue),),
+                        .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       function();
                       widget.pageController.nextPage(
@@ -438,9 +442,11 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     List<String> allergyIdList = [];
     print(allergyList);
     if(allergyController.text.isNotEmpty){
-      for(int i=0;i<allergyList.length;i++){
-        if(getAllergiesModel.data![i].allergy == allergyList[i]){
-          allergyIdList.add(getAllergiesModel.data![i].id.toString());
+      for(int j=0;j<allergyList.length;j++){
+        for(int i=0;i<getAllergiesModel.data!.length;i++){
+          if(getAllergiesModel.data![i].allergy == allergyList[j]){
+            allergyIdList.add(getAllergiesModel.data![i].id.toString());
+          }
         }
       }
     }
@@ -452,9 +458,11 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     List<String> medicationIdList = [];
     print(medicationList);
    if(medicationController.text.isNotEmpty){
-     for(int i=0;i<medicationList.length;i++){
-       if(getMedicationModel.data![i].currentMedication == medicationList[i]){
-         medicationIdList.add(getMedicationModel.data![i].id.toString());
+     for(int j=0;j<medicationList.length;j++){
+       for(int i=0;i<getMedicationModel.data!.length;i++){
+         if(getMedicationModel.data![i].currentMedication == medicationList[j]){
+           medicationIdList.add(getMedicationModel.data![i].id.toString());
+         }
        }
      }
    }
@@ -466,9 +474,11 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     List<String> injuryIdList = [];
     print(injuryList);
     if(injuryController.text.isNotEmpty){
-      for(int i=0;i<injuryList.length;i++){
-        if(getInjuriesModel.data![i].pastInjury == injuryList[i]){
-          injuryIdList.add(getInjuriesModel.data![i].id.toString());
+      for(int j=0;j<injuryList.length;j++){
+        for(int i=0;i<getInjuriesModel.data!.length;i++){
+          if(getInjuriesModel.data![i].pastInjury == injuryList[j]){
+            injuryIdList.add(getInjuriesModel.data![i].id.toString());
+          }
         }
       }
     }
@@ -480,9 +490,11 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     List<String> surgeryIdList = [];
     print(surgeryList);
    if(surgeryController.text.isNotEmpty){
-     for(int i=0;i<surgeryList.length;i++){
-       if(getSurgeryModel.data![i].pastSurgery == surgeryList[i]){
-         surgeryIdList.add(getSurgeryModel.data![i].id.toString());
+     for(int j=0;j<surgeryList.length;j++){
+       for(int i=0;i<getSurgeryModel.data!.length;i++){
+         if(getSurgeryModel.data![i].pastSurgery == surgeryList[j]){
+           surgeryIdList.add(getSurgeryModel.data![i].id.toString());
+         }
        }
      }
    }
@@ -497,11 +509,13 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     List<String> foodIdList = [];
     print(foodList);
     if(foodController.text.isNotEmpty){
-      for(int i=0;i<foodList.length;i++){
-        if(getFoodPreferenceModel.data![i].foodPreference == foodList[i]){
-          foodIdList.add(getFoodPreferenceModel.data![i].id.toString());
-        }
-      }
+     for(int j=0;j<foodList.length;j++){
+       for(int i=0;i<getFoodPreferenceModel.data!.length;i++){
+         if(getFoodPreferenceModel.data![i].foodPreference == foodList[j]){
+           foodIdList.add(getFoodPreferenceModel.data![i].id.toString());
+         }
+       }
+     }
     }
     print(foodIdList);
     String foodIdString = foodIdList.join(",");

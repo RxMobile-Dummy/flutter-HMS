@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/login.dart';
+import 'package:hospital_management/utils/device_file.dart';
 
 import '../../../../utils/colors.dart';
 import '../../../../utils/style.dart';
@@ -16,7 +17,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white.withOpacity(0.99),
       body: Container(
         width: double.infinity,
         child: Column(
@@ -24,17 +25,18 @@ class _ResetSuccessState extends State<ResetSuccess> {
           children: [
             Expanded(child: Container()),
             Image.asset(
-              "assets/images/ic_reset_success.png",
+              "assets/images/reset_successfully.png",
               width: MediaQuery.of(context).size.width * .5,
               height: MediaQuery.of(context).size.width * .5,
             ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Text(
               "Successful!",
               textAlign: TextAlign.center,
-              style: CustomTextStyle.styleBold.copyWith(fontSize: 28),
+              style: CustomTextStyle.styleBold.copyWith(
+                  fontSize: DeviceUtil.isTablet ? 32 : 28),
             ),
             const SizedBox(
               height: 8,
@@ -43,7 +45,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
               "You have successfully change password.\nPlease use your new password when\nlogging in.",
               textAlign: TextAlign.center,
               style: CustomTextStyle.styleMedium
-                  .copyWith(fontSize: 14, color: Colors.grey.shade700),
+                  .copyWith(fontSize: DeviceUtil.isTablet ? 20 :14, color: Colors.grey.shade700),
             ),
             const SizedBox(
               height: 50,
@@ -61,7 +63,8 @@ class _ResetSuccessState extends State<ResetSuccess> {
               child: Text(
                 "Login",
                 style: CustomTextStyle.styleBold
-                    .copyWith(color: CustomColors.colorDarkBlue),
+                    .copyWith(color: CustomColors.colorDarkBlue,
+                fontSize: DeviceUtil.isTablet ? 20 :14),
               ),
             ),
             Expanded(child: Container()),

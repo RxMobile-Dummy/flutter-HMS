@@ -28,13 +28,13 @@ class _OnBoardingState extends State<OnBoarding> {
   ];
   List<String> listTitle = [
     "Welcome to Hospital Management",
-    "Work happens",
-    "Tasks and assign"
+    "Book your appointment",
+    "Staff and environment that is given to you"
   ];
   List<String> listDescription = [
     "Whats happen with you?",
-    "Get notify when work happens",
-    "Task and assign them to colleagues"
+    "Best treatment provide here.",
+    "Are very friendly and best."
   ];
   List<String> listImage = [
     "assets/images/h1.png",

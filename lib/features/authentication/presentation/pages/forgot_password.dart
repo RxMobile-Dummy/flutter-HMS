@@ -14,6 +14,7 @@ import '../../../../utils/style.dart';
 import '../../../../widget/text_field_with_border.dart';
 import '../bloc/authentication_bloc.dart';
 import 'login.dart';
+import 'package:hospital_management/injection_container.dart' as Sl;
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -36,9 +37,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         child:  BlocBuilder<AuthenticationBloc, BaseState>(builder: (context, state)  {
           if(state is ForgotPasswordState) {
             ProgressDialog.hideLoadingDialog(context);
+            Fluttertoast.showToast(
+                msg: state.model!.message ?? "",
+                toastLength: Toast.LENGTH_LONG,
+                fontSize: DeviceUtil.isTablet ? 20 : 12,
+                backgroundColor: CustomColors.colorDarkBlue,
+                textColor: Colors.white
+            );
             Future.delayed(Duration.zero, () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => ResetPasswordScreen(email: emailController.text,)),
+                  MaterialPageRoute(builder: (context) => MultiBlocProvider(
+                      providers: [
+                        BlocProvider<AuthenticationBloc>(
+                          create: (context) => Sl.Sl<AuthenticationBloc>(),
+                        ),
+                      ],
+                      child: ResetPasswordScreen(email: emailController.text,))),
                       (route) => false);
             });
           }
@@ -72,8 +86,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     children: [
                       Center(
                         child: Container(
-                          height: 200,
-                          width: 200,
+                          height:DeviceUtil.isTablet ? 300: 200,
+                          width: DeviceUtil.isTablet ? 300:200,
                           decoration: const BoxDecoration(
                               image: DecorationImage(
                                 image: AssetImage("assets/images/forgot.png"),
@@ -85,14 +99,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Center(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children:  [
                             Text(
                               "FORGOT",
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 36 : 28,
                                   color: CustomColors.colorDarkBlue
                               ),
                             ),
@@ -102,14 +116,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 36 : 28,
                                   color: CustomColors.colorPowerBlue
                               ),
                             ),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                       SizedBox(height: DeviceUtil.isTablet ? 25:10,),
                       CustomTextFieldWithBorder(
                         key: const Key("tefEmail"),
                         label: "Email Address",
@@ -119,7 +133,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         textInputType: TextInputType.emailAddress,
                         textEditingController: emailController,
                       ),
-                      const SizedBox(height: 10,),
+                       SizedBox(height: DeviceUtil.isTablet ? 20 :  10,),
                       Row(
                         children: [
                           Expanded(
@@ -159,9 +173,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                            style: CustomTextStyle.styleSemiBold.copyWith(color: CustomColors.colorDarkBlue),
                          ),
                           onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => LoginScreen()),
+                            Navigator.pushAndRemoveUntil(
+                              context,MaterialPageRoute(builder: (context) =>BlocProvider<AuthenticationBloc>(
+                              create: (context) => Sl.Sl<AuthenticationBloc>(),
+                              child: LoginScreen(),
+                            )),
+                                  (route) => false,
                             );
                           },
                         ),

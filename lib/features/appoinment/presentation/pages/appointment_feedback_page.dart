@@ -42,10 +42,10 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
         bloc: BlocProvider.of<FeedbackBloc>(context),
         // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<FeedbackBloc, BaseState>(builder: (context, state)  {
-          if(state is SendDoctorFeedbackState){
+          /*if(state is SendDoctorFeedbackState){
             ProgressDialog.hideLoadingDialog(context);
               Navigator.of(context).pop();
-          }
+          }*/
           return  Form(
             key: _formKey,
             child: buildWidget(),
@@ -77,11 +77,11 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
             Text(
               "Comment",
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DeviceUtil.isTablet ? 18 :16,
                   color: Colors.grey.shade500,
                   fontWeight: FontWeight.w500),
             ),
-            const SizedBox(height: 10,),
+             SizedBox(height: DeviceUtil.isTablet ? 15 :10,),
             CustomTextFieldWithBorder(
               key: const Key("tefComment"),
               label: "Comment",
@@ -96,7 +96,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
             Text(
               "Ratings",
               style: TextStyle(
-                  fontSize: 16,
+                  fontSize: DeviceUtil.isTablet ? 18 : 16,
                   color: Colors.grey.shade500,
                   fontWeight: FontWeight.w500),
             ),

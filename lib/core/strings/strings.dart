@@ -4,5 +4,5 @@ class Strings{
   static const kCacheFailureMessage = 'Cache Failure';
   static const kInternalServerError = "Internal Server Error";
   static const kNoRecordsFound = "No Records Found";
-  static const baseUrl = "https://d373-180-211-112-179.in.ngrok.io/";
+  static const baseUrl = "https://426d-180-211-112-179.in.ngrok.io/";
 }

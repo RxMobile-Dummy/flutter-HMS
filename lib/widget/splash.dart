@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/allergies_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/food_preference_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/injuries_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/medication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/surgery_bloc.dart';
+import 'package:hospital_management/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../features/authentication/presentation/pages/login.dart';
 import '../features/authentication/presentation/pages/sign_up_screen1.dart';
@@ -38,6 +40,12 @@ class _SplashState extends State<Splash> {
             MultiBlocProvider(providers: [
               BlocProvider<AuthenticationBloc>(
                 create: (context) => Sl.Sl<AuthenticationBloc>(),
+              ),
+              BlocProvider<AppointmentBloc>(
+                create: (context) => Sl.Sl<AppointmentBloc>(),
+              ),
+              BlocProvider<DoctorBloc>(
+                create: (context) => Sl.Sl<DoctorBloc>(),
               ),
             ], child: authToken == null ? (isOnBoardingComplete == "true") ? LoginScreen() : OnBoarding() : Home()
         ));

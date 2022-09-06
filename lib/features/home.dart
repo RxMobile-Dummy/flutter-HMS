@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appoinment_list_page.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appointment_details_page.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appointment_feedback_page.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/book_appointment_page.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/edit_appointment_page.dart';
+import 'package:hospital_management/features/doctor/data/model/get_doctor_model.dart';
 import 'package:hospital_management/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:hospital_management/features/doctor/presentation/pages/doctor_list_page.dart';
 import 'package:hospital_management/features/feedback/presentation/bloc/feedback_bloc.dart';
@@ -13,10 +15,17 @@ import 'package:hospital_management/features/profile/presentation/bloc/patient_p
 import 'package:hospital_management/features/profile/presentation/pages/profile_page.dart';
 import 'package:hospital_management/utils/colors.dart';
 import 'package:hospital_management/widget/custom_appbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/base/base_bloc.dart';
+import '../custom/progress_bar.dart';
 import '../utils/device_file.dart';
 import 'package:hospital_management/injection_container.dart' as Sl;
 
+import 'appoinment/presentation/bloc/appointment_event.dart';
+import 'appoinment/presentation/bloc/appointment_state.dart';
+import 'doctor/presentation/bloc/doctor_event.dart';
+import 'doctor/presentation/bloc/doctor_state.dart';
 import 'doctor/presentation/pages/doctor_list_page.dart';
 
 class Home extends StatefulWidget {
@@ -35,15 +44,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   GlobalKey keyFab = GlobalKey();
   bool isFabClicked = false;
   late AnimationController _controller;
+  var patientId;
+  GetAppointmentModel getAppointmentModel = GetAppointmentModel();
+  GetDoctorModel getDoctorModel = GetDoctorModel();
 
   static const List<IconData> icons = const [ Icons.add_task, Icons.note_add_outlined, Icons.check_box_outlined ];
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
   List<String> gridNameList = [
-    "Appointment",
+    "Appointments",
     "Doctors",
-    "Departments",
-    "Profile",
-    "Feedbacks"
+    /*"Departments",*/
+    "Profile"
+    /*"Feedbacks"*/
   ];
   List<String> gridNameSubTitleList = [
     "289",
@@ -66,9 +78,35 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      patientId = prefs.getString('id');
+      await _getAppointment(patientId ?? "","");
+      await _getDoctor("");
+    });
     /*doctorList =  DoctorListPage();
     selectedWidget = doctorList;*/
   }
+
+  Future<String> _getAppointment(String id,String date) {
+    return Future.delayed(const Duration()).then((_) {
+      //ProgressDialog.showLoadingDialog(context);
+      BlocProvider.of<AppointmentBloc>(context).add(
+          GetAppointmentEvent(
+              id: id,
+              date: date));
+      return "";
+    });
+  }
+
+  Future<String> _getDoctor(String specialistField) {
+    return Future.delayed(const Duration()).then((_) {
+      ProgressDialog.showLoadingDialog(context);
+      BlocProvider.of<DoctorBloc>(context).add(GetDoctorEvent(specialistField: specialistField));
+      return "";
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +133,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             child: GridView.builder(
               itemCount: gridNameList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: DeviceUtil.isTablet ? 3 : 2,
-                crossAxisSpacing: 4,
-                mainAxisSpacing: 4
+                  crossAxisCount: DeviceUtil.isTablet ? 2 : 2,
+                crossAxisSpacing:DeviceUtil.isTablet ? 14 : 4,
+                mainAxisSpacing: DeviceUtil.isTablet ? 14 : 4
               ),
               itemBuilder: (BuildContext context, int index) {
                 return  InkWell(
@@ -116,6 +154,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                                 child:  AppoinmentListPage(),
                               )),
                         );
+                      }).then((value) async {
+                        await _getAppointment(patientId ?? "","");
                       });
                     }else if(index == 1){
                       Future.delayed(Duration.zero, () {
@@ -127,70 +167,37 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                                   BlocProvider<DoctorBloc>(
                                     create: (context) => Sl.Sl<DoctorBloc>(),
                                   ),
+                                  BlocProvider<AppointmentBloc>(
+                                    create: (context) => Sl.Sl<AppointmentBloc>(),
+                                  ),
                                 ],
                                 child:  DoctorListPage(),
                               )),
                         );
+                      }).then((value) async {
+                        await _getAppointment(patientId ?? "","");
                       });
                     }else if(index == 2){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider<AppointmentBloc>(
-                                  create: (context) => Sl.Sl<AppointmentBloc>(),
-                                ),
-                              ],
-                              child:  BookAppointmentPage(doctorId:  "1"),
-                            )),
-                      );
-                    /*  Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider<AppointmentBloc>(
-                                  create: (context) => Sl.Sl<AppointmentBloc>(),
-                                ),
-                              ],
-                              child:  UpdateAppointmentPage(index: 1),
-                            )),
-                      );*/
-                    }else if(index == 3){
                       Future.delayed(Duration.zero, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MultiBlocProvider(
-                                  providers: [
-                                    BlocProvider<PatientProfileBloc>(
-                                      create: (context) => Sl.Sl<PatientProfileBloc>(),
-                                    ),
-                                  ],
-                                  child: ProfilePage(),
+                                providers: [
+                                  BlocProvider<PatientProfileBloc>(
+                                    create: (context) => Sl.Sl<PatientProfileBloc>(),
+                                  ),
+                                ],
+                                child: ProfilePage(),
                               )),
                         );
+                      }).then((value) async {
+                        await _getAppointment(patientId ?? "","");
                       });
+                    }else if(index == 3){
+
                     }else if(index == 4){
-                   /*   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MultiBlocProvider(
-                              providers: [
-                                BlocProvider<FeedbackBloc>(
-                                  create: (context) => Sl.Sl<FeedbackBloc>(),
-                                ),
-                              ],
-                              child:  AppointmentFeedbackPage(
-                                patientId: "",
-                                appointmentId: "",
-                                doctorId: "",
-                                hospitalId: "",
-                                staffId: "",
-                              ),
-                            )),
-                      );*/
+
                     }
                   },
                   child: Card(
@@ -208,29 +215,29 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                                 children: [
                                   Text(
                                     gridNameList[index],
-                                    style: TextStyle(
+                                    style:  TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontStyle: FontStyle.normal,
                                         fontFamily: 'Open Sans',
-                                        fontSize: 15,
+                                        fontSize: DeviceUtil.isTablet ? 20:15,
                                         color: Colors.black
                                     ),
                                   ),
-                                  Text(
+                                 /* Text(
                                     gridNameSubTitleList[index],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontStyle: FontStyle.normal,
                                         fontFamily: 'Open Sans',
                                         fontSize: 12,
                                         color: Colors.grey
-                                    ),),
+                                    ),),*/
 
                                 ],
                               )
                           ),
                           Container(
-                            padding: EdgeInsets.only(bottom: 0),
+                            padding: const EdgeInsets.only(bottom: 0),
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     image: AssetImage(imageList[index]),
@@ -253,7 +260,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
 
   topBar(){
     return Padding(
-      padding: const EdgeInsets.only(top: 25,left: 10),
+      padding:  EdgeInsets.only(top: DeviceUtil.isTablet ? 50 : 25,left: 10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,83 +268,100 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children:  [
-              const Text(
+               Text(
                 "Apollo Hospital",
-                style: const TextStyle(
+                style:  TextStyle(
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.normal,
                     //fontFamily: 'Open Sans',
-                    fontSize: 22,
+                    fontSize: DeviceUtil.isTablet ? 28 : 22,
                     color: Colors.white
                 ),
               ),
               IconButton(
                   onPressed: (){},
-                  icon: Icon(Icons.more_vert,color: Colors.white,),
+                  icon: Icon(Icons.more_vert,color: Colors.transparent,),
               )
             ],
           ),
-          const Text(
+           Text(
             "General Hospital",
             style: TextStyle(
                 fontStyle: FontStyle.normal,
                 //fontFamily: 'Open Sans',
-                fontSize: 13,
+                fontSize: DeviceUtil.isTablet ? 18: 13,
                 color: Colors.white24
             ),
           ),
-          SizedBox(height: 25,),
+          SizedBox(height: DeviceUtil.isTablet ? 160 :25,),
           Padding(
             padding: EdgeInsets.only(right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "142",
+                  children:  [
+                    BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
+                      if(state is GetAppointmentState) {
+                        ProgressDialog.hideLoadingDialog(context);
+                        getAppointmentModel = state.model!;
+                        return Text(
+                          getAppointmentModel.data!.length.toString(),
+                          style:  TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                              fontFamily: 'Open Sans',
+                              fontSize: DeviceUtil.isTablet ? 25:20,
+                              color: Colors.white
+                          ),
+                        );
+                      }
+                      return  const SizedBox();
+
+                    }),
+
+                    const SizedBox(height: 5,),
+                     Text(
+                      "Appointments",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'Open Sans',
-                          fontSize: 20,
-                          color: Colors.white
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Text(
-                      "Appointments Today",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                          fontFamily: 'Open Sans',
-                          fontSize: 16,
+                          fontSize: DeviceUtil.isTablet ? 20 :16,
                           color: Colors.white24
                       ),)
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "11",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontStyle: FontStyle.normal,
-                          fontFamily: 'Open Sans',
-                          fontSize: 20,
-                          color: Colors.white
-                      ),
-                    ),
-                    SizedBox(height: 5,),
-                    Text(
+                  children:  [
+                    BlocBuilder<DoctorBloc, BaseState>(builder: (context, state) {
+                      if (state is GetDoctorState) {
+                        ProgressDialog.hideLoadingDialog(context);
+                        getDoctorModel = state.model!;
+                        return Text(
+                          getDoctorModel.data!.length.toString(),
+                          style:  TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FontStyle.normal,
+                              fontFamily: 'Open Sans',
+                              fontSize: DeviceUtil.isTablet ? 25 :  20,
+                              color: Colors.white
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    }),
+                    const SizedBox(height: 5,),
+                     Text(
                       "Doctors available",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'Open Sans',
-                          fontSize: 16,
+                          fontSize:DeviceUtil.isTablet ? 20 :  16,
                           color: Colors.white24
                       ),
                     )

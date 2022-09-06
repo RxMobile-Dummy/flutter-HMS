@@ -42,7 +42,11 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
       ),
     );*/Stack(
         children: <Widget>[
-          PDFView(
+          (widget.path!.contains(".png") ||
+              widget.path!.contains(".jpeg") ||
+              widget.path!.contains(".jpg"))
+              ? Image.network("${Strings.baseUrl}${widget.path}")
+              : PDFView(
             filePath: widget.path,
             enableSwipe: true,
             swipeHorizontal: true,

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:hospital_management/features/doctor/data/model/get_doctor_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/strings/strings.dart';
+import '../../../../utils/colors.dart';
+import '../../../../utils/device_file.dart';
 import '../../../../widget/custom_appbar.dart';
 import '../../../../widget/expandable_text.dart';
 import '../../../../widget/star_display_widget.dart';
@@ -82,15 +87,15 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                           alignment: Alignment.bottomCenter,
                           children: [
                             Container(
-                              height: 140,
-                              width: MediaQuery.of(context).size.width / 2.6,
+                              height: DeviceUtil.isTablet ? 200 :140,
+                              width: MediaQuery.of(context).size.width / (DeviceUtil.isTablet ? 3.4 :2.6),
                               decoration: BoxDecoration(
                                   color: Colors.blue.shade100,
                                   borderRadius: BorderRadius.circular(10)),
                             ),
                             Container(
-                              height: 190,
-                              width: MediaQuery.of(context).size.width / 2.6,
+                              height: DeviceUtil.isTablet ? 250 :190,
+                              width: MediaQuery.of(context).size.width /(DeviceUtil.isTablet ? 3.4 :2.6),
                               decoration:  BoxDecoration(
                                 image: DecorationImage(
                                   image: userProfilePic(
@@ -113,7 +118,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               Text(
                                 "Experience",
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DeviceUtil.isTablet ? 16 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -121,12 +126,12 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: DeviceUtil.isTablet ? 8 :5,
                               ),
                               Text(
                                 "${widget.getDoctorModel.data![widget.index].yearsOfExperience} years",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DeviceUtil.isTablet ? 18 :16,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -134,12 +139,12 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
-                                height: 50,
+                                height: DeviceUtil.isTablet ? 80 :50,
                               ),
                               Text(
                                 "Consultancy Fees",
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DeviceUtil.isTablet ? 16 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -147,12 +152,12 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                     fontWeight: FontWeight.w500),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: DeviceUtil.isTablet ? 10 :5,
                               ),
                               Text(
                                 "${widget.getDoctorModel.data![widget.index].inClinicAppointmentFees}",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DeviceUtil.isTablet ? 18 :16,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -164,8 +169,8 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                         )
                       ],
                     ),
-                    const SizedBox(
-                      height: 10,
+                     SizedBox(
+                      height: DeviceUtil.isTablet ? 20 :10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -178,7 +183,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               "Dr.",
                               maxLines: 3,
                               style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 24 :22,
                                   color: (Theme.of(context).brightness ==
                                       Brightness.dark)
                                       ? Colors.white
@@ -189,7 +194,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               "${widget.getDoctorModel.data![widget.index].firstName}",
                               maxLines: 3,
                               style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 24 :22,
                                   color: (Theme.of(context).brightness ==
                                       Brightness.dark)
                                       ? Colors.white
@@ -200,20 +205,20 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               "${widget.getDoctorModel.data![widget.index].lastName}",
                               maxLines: 3,
                               style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: DeviceUtil.isTablet ? 24 :22,
                                   color: (Theme.of(context).brightness ==
                                       Brightness.dark)
                                       ? Colors.white
                                       : Colors.black,
                                   fontWeight: FontWeight.w500),
                             ),
-                            const SizedBox(
-                              height: 7,
+                             SizedBox(
+                              height: DeviceUtil.isTablet ? 10 :7,
                             ),
                             Text(
                               "${widget.getDoctorModel.data![widget.index].specialistField} Department",
                               style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: DeviceUtil.isTablet ? 18 :16,
                                   color: (Theme.of(context).brightness ==
                                       Brightness.dark)
                                       ? Colors.white
@@ -227,79 +232,60 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              (ratings > 0) ? Text(
                                 "Feedbacks",
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DeviceUtil.isTablet ? 16 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
                                         : Colors.grey.shade400,
                                     fontWeight: FontWeight.w500),
-                              ),
-                              const SizedBox(
-                                height: 7,
-                              ),
+                              ) : const SizedBox(),
+                              (ratings > 0) ? SizedBox(
+                                height: DeviceUtil.isTablet ? 10 : 7,
+                              ) : const SizedBox(),
                               (ratings > 0) ? Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   StarDisplayWidget(
                                     value: ratings.toInt()~/widget.getDoctorModel.data![widget.index].feedbacks!.length,
-                                    filledStar: const Icon(Icons.star, color: Colors.orange, size: 15),
-                                    unfilledStar: const Icon(Icons.star_border, color: Colors.grey,size: 15,),
+                                    filledStar:  Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 18 :15),
+                                    unfilledStar:  Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 18 :15,),
                                   ),
                                   Text(
-                                    "  (${widget.getDoctorModel.data![widget.index].feedbacks!.length.toString()})",
-                                    style: const TextStyle(
+                                    "  (${ratings.toInt()~/widget.getDoctorModel.data![widget.index].feedbacks!.length})",
+                                    style:  TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontStyle: FontStyle.normal,
                                         fontFamily: 'Open Sans',
-                                        fontSize: 15,
+                                        fontSize: DeviceUtil.isTablet ? 18 :15,
                                         color: Colors.orange
                                     ),
                                   )
                                 ],
                               ) : const SizedBox(),
-                              /*Row(
-                                children: const [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.orangeAccent,
-                                    size: 18,
-                                  ),
-                                 *//* Text(
-                                    "(${widget.getDoctorModel.data![widget.index].rating})",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: (Theme.of(context).brightness ==
-                                            Brightness.dark)
-                                            ? Colors.white
-                                            : Colors.orangeAccent,
-                                        fontWeight: FontWeight.w500),
-                                  )*//*
-                                ],
-                              ),*/
-                              const SizedBox(
+                               const SizedBox(
                                 height: 20,
                               ),
                               Text(
                                 "Availability",
                                 style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: DeviceUtil.isTablet ? 16 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
                                         : Colors.grey.shade400,
                                     fontWeight: FontWeight.w500),
                               ),
-                              const SizedBox(
-                                height: 7,
+                               SizedBox(
+                                height: DeviceUtil.isTablet ? 10 :7,
                               ),
                               Text(
                                 "12:00 to 13:00",
                                 style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: DeviceUtil.isTablet ? 18 :16,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -323,14 +309,14 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                       Text(
                         "About",
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DeviceUtil.isTablet ? 16 :14,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
                                 : Colors.grey.shade400,
                             fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(height: 7,),
+                       SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
                       const ExpandableText(
                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/* "${widget.getDoctorModel.data![widget.index].about}",*/
                         ,trimLines: 4,
@@ -343,35 +329,55 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Services At",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: (Theme.of(context).brightness ==
-                              Brightness.dark)
-                              ? Colors.white
-                              : Colors.grey.shade400,
-                          fontWeight: FontWeight.w500),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(child: Text(
+                          "Services At",
+                          style: TextStyle(
+                              fontSize: DeviceUtil.isTablet ? 16 :14,
+                              color: (Theme.of(context).brightness ==
+                                  Brightness.dark)
+                                  ? Colors.white
+                                  : Colors.grey.shade400,
+                              fontWeight: FontWeight.w500),
+                        ),),
+                        InkWell(
+                          child:  Text(
+                            "View In Map",
+                            style: TextStyle(
+                                fontSize: DeviceUtil.isTablet ? 16 :14,
+                                color: CustomColors.colorDarkBlue,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onTap: () async {
+                            List<Location> locations = await locationFromAddress("1, Tulsibaug Society, Opp. Doctor House, Nr. Parimal Garden, Ellisbridge, Ahmedabad – 380006");
+                            navigateTo(locations.first.latitude, locations.first.longitude);
+                          },
+                        )
+                      ],
                     ),
-                    const SizedBox(height: 15,),
+                     SizedBox(height: DeviceUtil.isTablet ? 18 :15,),
                     Text(
                         "Apollo Hospitals City Center",
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: DeviceUtil.isTablet ? 18 :16,
                           color: (Theme.of(context).brightness ==
                               Brightness.dark)
                               ? Colors.white
                               : Colors.black,
                           fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 7,),
+                     SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
                     const Text(
-                        "1, Tulsibaug Society, Opp. Doctor House, Nr. Parimal Garden, Ellisbridge, Ahmedabad – 380006"
-                    )
+                      "1, Tulsibaug Society, Opp. Doctor House, Nr. Parimal Garden, Ellisbridge, Ahmedabad – 380006",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 3,
+                    ),
                   ],
                 )),
           ),
-          Card(
+          (widget.getDoctorModel.data![widget.index].feedbacks!.isNotEmpty) ? Card(
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: Column(
@@ -380,14 +386,14 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                       Text(
                         "Feedbacks",
                         style: TextStyle(
-                            fontSize: 14,
+                            fontSize: DeviceUtil.isTablet ? 16 :14,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
                                 : Colors.grey.shade400,
                             fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(height: 7,),
+                       SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
                       ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
@@ -397,41 +403,57 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                             children: [
                               Text(
                                 widget.getDoctorModel.data![widget.index].feedbacks![index].patientName ?? "Saint Joseph",
-                                style: const TextStyle(
+                                style:  TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: 18,
+                                    fontSize: DeviceUtil.isTablet ? 20 :18,
                                     color: Colors.black
                                 ),
                               ),
-                              const SizedBox(height: 5,),
+                               SizedBox(height: DeviceUtil.isTablet ? 7 :5,),
                               Text(
                                   widget.getDoctorModel.data![widget.index].feedbacks![index].comment ?? "",
-                                style: const TextStyle(
+                                style:  TextStyle(
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: 15,
+                                    fontSize: DeviceUtil.isTablet ? 17 :15,
                                     color: Colors.black
                                 ),
                               ),
-                              const SizedBox(height: 5,),
+                               SizedBox(height: DeviceUtil.isTablet ? 7 :5,),
                               StarDisplayWidget(
                                 value: double.parse(widget.getDoctorModel.data![widget.index].feedbacks![index].rating ?? "").toInt(),
-                                filledStar: Icon(Icons.star, color: Colors.orange, size: 15),
-                                unfilledStar: Icon(Icons.star_border, color: Colors.grey,size: 15,),
+                                filledStar: Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 20 :15),
+                                unfilledStar: Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 20 :15,),
                               ),
-                              const SizedBox(height: 15,),
+                               SizedBox(height: DeviceUtil.isTablet ? 20 :15,),
                             ],
                           );
                         },
                         itemCount: widget.getDoctorModel.data![widget.index].feedbacks!.length,
                       )
                     ],
-                  ))),
+                  ))) : const SizedBox(),
         ],
       ),
     );
+  }
+
+  static void navigateTo(double lat, double lng) async {
+    var uri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+    if (await canLaunch(uri.toString())) {
+      await launch(uri.toString());
+    } else {
+      Fluttertoast.showToast(
+          msg: "Could not open google map",
+          toastLength: Toast.LENGTH_LONG,
+          fontSize: DeviceUtil.isTablet ? 20 : 12,
+          backgroundColor: CustomColors.colorDarkBlue,
+          textColor: Colors.white
+      );
+      //throw 'Could not launch ${uri.toString()}';
+    }
   }
 
   userProfilePic({String? imagePath}) {
