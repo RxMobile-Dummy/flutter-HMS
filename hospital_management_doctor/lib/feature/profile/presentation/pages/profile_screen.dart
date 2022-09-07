@@ -62,6 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if(state is GetProfileState) {
             ProgressDialog.hideLoadingDialog(context);
             getProfileModel = state.model!;
+            ratings = 0.0;
             if(getProfileModel.data!.feedbacks!.isNotEmpty){
               for(int i=0;i<getProfileModel.data!.feedbacks!.length;i++){
                 ratings = ratings + double.parse(getProfileModel.data!.feedbacks![i].rating.toString());
@@ -144,7 +145,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
+              (ratings == 0.0)
+                  ? const SizedBox()
+                  :Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: Colors.grey.shade200

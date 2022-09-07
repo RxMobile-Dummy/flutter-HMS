@@ -282,7 +282,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                 height: DeviceUtil.isTablet ? 10 :7,
                               ),
                               Text(
-                                "12:00 to 13:00",
+                                widget.getProfileModel.data!.nextAvailableAt ?? "",
                                 style: TextStyle(
                                     fontSize: DeviceUtil.isTablet ? 18 :16,
                                     color: (Theme.of(context).brightness ==
@@ -316,9 +316,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                             fontWeight: FontWeight.w500),
                       ),
                       SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
-                      const ExpandableText(
-                        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/* "${widget.getDoctorModel.data![widget.index].about}",*/
-                        ,trimLines: 4,
+                       ExpandableText(
+                        widget.getProfileModel.data!.about ?? "",
+                        trimLines: 4,
                       )
                     ],
                   ))),
