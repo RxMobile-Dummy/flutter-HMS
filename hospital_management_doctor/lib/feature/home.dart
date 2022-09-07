@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/pages/profile_screen.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
 import 'package:hospital_management_doctor/utils/device_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hospital_management_doctor/injection_container.dart' as Sl;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,10 +14,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   late Widget doctorList;
-  Widget dashboardWidget =   HomeScreen();
+  Widget dashboardWidget =   ProfileScreen();
 
-  Widget appointmentWidget =  HomeScreen();
-  Widget profileWidget =  HomeScreen();
+  Widget appointmentWidget =  ProfileScreen();
+  Widget profileWidget =  ProfileScreen();
   Widget? selectedWidget;
   int menuIndex = 0;
   GlobalKey keyFab = GlobalKey();
@@ -154,20 +157,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         await _getAppointment(patientId ?? "","");
                       });*/
                     }else if(index == 2){
-                      /*Future.delayed(Duration.zero, () {
+                      Future.delayed(Duration.zero, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfileScreen()*//*MultiBlocProvider(
+                              builder: (context) => MultiBlocProvider(
                                 providers: [
-                                  BlocProvider<PatientProfileBloc>(
-                                    create: (context) => Sl.Sl<PatientProfileBloc>(),
+                                  BlocProvider<ProfileBloc>(
+                                    create: (context) => Sl.Sl<ProfileBloc>(),
                                   ),
                                 ],
                                 child: ProfileScreen(),
-                              )*//*),
+                              )),
                         );
-                      })*//*.then((value) async {
+                      })/*.then((value) async {
                         await _getAppointment(patientId ?? "","");
                       })*/;
                     }else if(index == 3){

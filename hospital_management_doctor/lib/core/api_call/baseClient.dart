@@ -5,6 +5,8 @@ import 'dart:collection';
 import 'package:dio/dio.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/reset_password_model.dart';
+import 'package:hospital_management_doctor/feature/profile/data/model/get_profile_model.dart';
+import 'package:hospital_management_doctor/feature/profile/data/model/update_profile_model.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../feature/authentication/data/model/sign_in_doctor.dart';
@@ -12,7 +14,7 @@ import '../../feature/authentication/data/model/sign_in_doctor.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://426d-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://284f-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;
@@ -28,4 +30,12 @@ abstract class  ApiClient {
   @POST('doctor/doctor_reset_password')
   Future<ResetPasswardModel> resetPassword(
       @Body() HashMap<String, dynamic> hashMap,);
+
+  @POST('doctor/get_doctor_details')
+  Future<GetProfileModel> getDoctorProfile(
+      @Body() HashMap<String, dynamic> hashMap,);
+
+  @POST('doctor/update_doctor_details')
+  Future<UpdateProfileModel> updateDoctorProfile(
+      @Body() FormData formData);
 }

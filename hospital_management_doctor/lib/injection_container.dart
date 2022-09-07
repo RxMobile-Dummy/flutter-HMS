@@ -12,6 +12,14 @@ import 'package:hospital_management_doctor/feature/authentication/domain/usecase
 import 'package:hospital_management_doctor/feature/authentication/domain/usecases/reset_password_usecase.dart';
 import 'package:hospital_management_doctor/feature/authentication/domain/usecases/sign_in_doctor_usecase.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:hospital_management_doctor/feature/profile/data/datasourse/profile_data_sourse.dart';
+import 'package:hospital_management_doctor/feature/profile/data/datasourse/profile_data_sourse_impl.dart';
+import 'package:hospital_management_doctor/feature/profile/data/repositories/profile_repositories.dart';
+import 'package:hospital_management_doctor/feature/profile/domain/repositories/profile_repositories.dart';
+import 'package:hospital_management_doctor/feature/profile/domain/usecases/get_profile_usecase.dart';
+import 'package:hospital_management_doctor/feature/profile/domain/usecases/update_profile_usecase.dart';
+import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_bloc.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api_call/baseClient.dart';
@@ -32,20 +40,34 @@ Future<void> init() async {
     forgotPasswordUsecase: Sl.call(),
     resetPasswordUsecase: Sl.call()
   ));
+  Sl.registerFactory(() => ProfileBloc(
+      getProfileUsecase:  Sl.call(),
+    updateProfileUsecase: Sl.call()
+  ));
 
   // Use cases
   Sl.registerLazySingleton(() => SignInDoctorUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => ForgotPasswordUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => ResetPasswordUsecase(authenticationRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetProfileUsecase(profileRepositories: Sl()));
+  Sl.registerLazySingleton(() => UpdateProfileUsecase(profileRepositories: Sl()));
 
   // Repository
   Sl.registerLazySingleton<AuthenticationRepositories>(
         () => AuthenticationRepositoriesImpl(authenticationDataSource: Sl()),
   );
 
+  Sl.registerLazySingleton<ProfileRepositories>(
+        () => ProfileRepositoriesImpl(profileDataSource: Sl()),
+  );
+
   // Local Data sources
   Sl.registerLazySingleton<AuthenticationDataSource>(
         () => AuthenticationDataSourceImpl(Sl.get()),
+  );
+
+  Sl.registerLazySingleton<ProfileDataSource>(
+        () => ProfileDataSourceImpl(Sl.get()),
   );
 
 
