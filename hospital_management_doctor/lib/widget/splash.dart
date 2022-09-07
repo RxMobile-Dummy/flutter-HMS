@@ -3,12 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_doctor/feature/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../feature/login_screen.dart';
+import '../feature/authentication/presentation/pages/login_screen.dart';
 import '../feature/onboarding.dart';
 import '../utils/style.dart';
 import '../widget/size.dart';
+import 'package:hospital_management_doctor/injection_container.dart' as Sl;
 
 
 class Splash extends StatefulWidget {
@@ -26,19 +28,18 @@ class _SplashState extends State<Splash> {
       var isOnBoardingComplete = prefs.getString("isOnBoardingCompleted");
       Timer(Duration(seconds: 2), () {
         Get.off(
-            authToken == null ? (isOnBoardingComplete == "true") ? LoginScreen() : OnBoarding() : HomeScreen()
-            /*MultiBlocProvider(providers: [
-           *//*   BlocProvider<AuthenticationBloc>(
+            MultiBlocProvider(providers: [
+              BlocProvider<AuthenticationBloc>(
                 create: (context) => Sl.Sl<AuthenticationBloc>(),
               ),
-              BlocProvider<AppointmentBloc>(
+              /*BlocProvider<AppointmentBloc>(
                 create: (context) => Sl.Sl<AppointmentBloc>(),
               ),
               BlocProvider<DoctorBloc>(
                 create: (context) => Sl.Sl<DoctorBloc>(),
-              ),*//*
+              ),*/
             ], child: authToken == null ? (isOnBoardingComplete == "true") ? LoginScreen() : OnBoarding() : HomeScreen()
-        )*/);
+        ));
       });
     });
   }

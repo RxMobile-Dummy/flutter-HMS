@@ -4,6 +4,14 @@ import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source.dart';
+import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source_impl.dart';
+import 'package:hospital_management_doctor/feature/authentication/data/repositories/authentication_repositories.dart';
+import 'package:hospital_management_doctor/feature/authentication/domain/repositories/authentication_repositories.dart';
+import 'package:hospital_management_doctor/feature/authentication/domain/usecases/forgot_password_usecase.dart';
+import 'package:hospital_management_doctor/feature/authentication/domain/usecases/reset_password_usecase.dart';
+import 'package:hospital_management_doctor/feature/authentication/domain/usecases/sign_in_doctor_usecase.dart';
+import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/api_call/baseClient.dart';
@@ -19,12 +27,26 @@ Future<void> init() async {
 
  Sl.registerSingleton(ApiClient(Sl.get()));
  //bloc
+  Sl.registerFactory(() => AuthenticationBloc(
+      signInDoctorUsecase:  Sl.call(),
+    forgotPasswordUsecase: Sl.call(),
+    resetPasswordUsecase: Sl.call()
+  ));
 
   // Use cases
+  Sl.registerLazySingleton(() => SignInDoctorUsecase(authenticationRepositories: Sl()));
+  Sl.registerLazySingleton(() => ForgotPasswordUsecase(authenticationRepositories: Sl()));
+  Sl.registerLazySingleton(() => ResetPasswordUsecase(authenticationRepositories: Sl()));
 
   // Repository
+  Sl.registerLazySingleton<AuthenticationRepositories>(
+        () => AuthenticationRepositoriesImpl(authenticationDataSource: Sl()),
+  );
 
   // Local Data sources
+  Sl.registerLazySingleton<AuthenticationDataSource>(
+        () => AuthenticationDataSourceImpl(Sl.get()),
+  );
 
 
 

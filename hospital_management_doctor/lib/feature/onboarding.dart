@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hospital_management_doctor/feature/login_screen.dart';
+import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:hospital_management_doctor/feature/authentication/presentation/pages/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../custom/curve_painter.dart';
 import '../../utils/colors.dart';
 import '../../utils/style.dart';
+import 'package:hospital_management_doctor/injection_container.dart' as Sl;
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -128,11 +130,11 @@ class _OnBoardingState extends State<OnBoarding> {
                           Future.delayed(Duration.zero, () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) =>LoginScreen()
-                                /*BlocProvider<AuthenticationBloc>(
+                              MaterialPageRoute(builder: (context) =>
+                                BlocProvider<AuthenticationBloc>(
                                 create: (context) => Sl.Sl<AuthenticationBloc>(),
                                 child: LoginScreen(),
-                              )*/),
+                              )),
                             );
                           });
 
