@@ -12,6 +12,7 @@ import 'package:hospital_management_doctor/feature/appointments/domain/usecases/
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/update_appointment_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source_impl.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/repositories/authentication_repositories.dart';
@@ -60,12 +61,14 @@ Future<void> init() async {
   ));
   Sl.registerFactory(() => AppointmentBloc(
       getAppointmentUsecase:  Sl.call(),
-    getAppointmentStatusUsecase: Sl.call(),
     updateAppointmentUsecase: Sl.call()
   ));
 
   Sl.registerFactory(() => MedicineBloc(
       getMedicineUsecase:  Sl.call(),
+  ));
+  Sl.registerFactory(() => AppointmentStatusBloc(
+    getAppointmentStatusUsecase:  Sl.call(),
   ));
 
   // Use cases

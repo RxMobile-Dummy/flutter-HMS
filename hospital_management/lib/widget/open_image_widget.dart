@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management/utils/colors.dart';
 
 class OpenImageWidget extends StatefulWidget {
   String path;
@@ -13,6 +14,7 @@ class _OpenImageWidgetState extends State<OpenImageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: CustomColors.colorDarkBlue,
         title: Text("Image "),
         actions: <Widget>[
           IconButton(
