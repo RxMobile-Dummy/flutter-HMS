@@ -1,6 +1,7 @@
 import 'package:hospital_management/features/appoinment/data/model/book_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/delete_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
+import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/update_appointment_model.dart';
 
 import '../../../../core/base/base_bloc.dart';
@@ -91,5 +92,19 @@ class UpdateAppointmentSuccessEvent extends BaseEvent {
   UpdateAppointmentModel? model;
 
   UpdateAppointmentSuccessEvent({this.model});
+}
+
+class GetAppointmentStatusEvent extends BaseEvent {
+  String? id;
+
+  GetAppointmentStatusEvent({
+    this.id,
+  });
+}
+
+class GetAppointmentStatusSuccessEvent extends BaseEvent {
+  GetAppointmentStatusModel? model;
+
+  GetAppointmentStatusSuccessEvent({this.model});
 }
 

@@ -4,7 +4,15 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/base/base_bloc.dart';
+import 'package:hospital_management/core/error_bloc_builder/error_builder_listener.dart';
+import 'package:hospital_management/custom/progress_bar.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
+import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
+import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
+import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_event.dart';
+import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management/utils/colors.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,6 +33,16 @@ class AppointmentDetailsPage extends StatefulWidget {
 
 class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   String remotePDFpath = "";
+  List<String> statusRadioList = [
+    "-- Select Status --"
+  ];
+  GetAppointmentStatusModel getAppointmentStatusModel = GetAppointmentStatusModel();
+  String appointmentStatus = "";
+  List<String> medicineList = [];
+
+
+
+
   @override
   void initState() {
     super.initState();
@@ -36,8 +54,25 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
         });
       });
     }
+    if(widget.getAppointmentModel.data![widget.index].patientReportData != null &&
+        widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails!.isNotEmpty){
+      for(int i=0;i<widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails!.length;i++){
+        medicineList.add(widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails![i].medicineName ?? "");
+      }
+    }
+
   }
 
+
+  Future<String> _getAppointmentStatus(String id) {
+    return Future.delayed(const Duration()).then((_) {
+      ProgressDialog.showLoadingDialog(context);
+      BlocProvider.of<AppointmentBloc>(context).add(
+          GetAppointmentStatusEvent(
+            id: id,));
+      return "";
+    });
+  }
 
 
 
@@ -67,7 +102,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
               Navigator.of(context).pop();
             }),
       ),
-      body: buildWidget(),
+      body: buildWidget()
     );
   }
 
@@ -297,7 +332,57 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                 ],
               )
             ],
-          ) : const SizedBox()
+          ) : const SizedBox(),
+          const SizedBox(height: 25,),
+          (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+              ? Text(
+            "Report suggestion",
+            style: TextStyle(
+                fontSize: DeviceUtil.isTablet ? 18 :16,
+                color: (Theme.of(context).brightness ==
+                    Brightness.dark)
+                    ? Colors.white
+                    : Colors.grey.shade400,
+                fontWeight: FontWeight.w500),
+          )
+              : const SizedBox(),
+          (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+              ? const SizedBox(height: 10,) : const SizedBox(),
+          (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+              ?Text(
+            widget.getAppointmentModel.data![widget.index].patientReportData!.reportDescription ?? "",
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: DeviceUtil.isTablet ? 18 : 16,
+                color: Colors.black,
+                fontWeight: FontWeight.w500),
+          )
+              : const SizedBox(),
+          const SizedBox(height: 25,),
+          (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+              ? Text(
+            "Medicine Given",
+            style: TextStyle(
+                fontSize: DeviceUtil.isTablet ? 18 :16,
+                color: (Theme.of(context).brightness ==
+                    Brightness.dark)
+                    ? Colors.white
+                    : Colors.grey.shade400,
+                fontWeight: FontWeight.w500),
+          )
+              : const SizedBox(),
+          (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+              ? const SizedBox(height: 10,) : const SizedBox(),
+          (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+              ?Text(
+            medicineList.join(" , "),
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: DeviceUtil.isTablet ? 18 : 16,
+                color: Colors.black,
+                fontWeight: FontWeight.w500),
+          )
+              : const SizedBox(),
         ],
       ),
     );
