@@ -9,6 +9,7 @@ import 'package:hospital_management_doctor/feature/appointments/data/model/get_a
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_doctor/feature/medicine/data/model/get_medicine_model.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_bloc.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_event.dart';
@@ -69,7 +70,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
   Future<String> _getAppointmentStatus(String id) {
     return Future.delayed(const Duration()).then((_) {
       ProgressDialog.showLoadingDialog(context);
-      BlocProvider.of<AppointmentBloc>(context).add(
+      BlocProvider.of<AppointmentStatusBloc>(context).add(
           GetAppointmentStatusEvent(
               id: id,));
       return "";
@@ -97,7 +98,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
       body: ErrorBlocListener<AppointmentBloc>(
         bloc: BlocProvider.of<AppointmentBloc>(context),
         child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
-           if(state is GetAppointmentStatusState){
+        /*   if(state is GetAppointmentStatusState){
              statusRadioList = [];
             ProgressDialog.hideLoadingDialog(context);
             getAppointmentStatusModel = state.model!;
@@ -109,7 +110,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 appointmentStatus = getAppointmentStatusModel.data![i].status ?? "";
               }
             }
-          }
+          }*/
           return  Form(
             key: _formKey,
             child: buildWidget(),
@@ -172,7 +173,35 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 errorMessage: "Please Enter Report Suggestion name",
                 textEditingController: reportSuggestionController,
               ),
-              const SizedBox(height: 10,),
+              BlocBuilder<AppointmentStatusBloc, BaseState>(builder: (context, state)  {
+                if(state is GetAppointmentStatusState){
+                  statusRadioList = [];
+                  ProgressDialog.hideLoadingDialog(context);
+                  getAppointmentStatusModel = state.model!;
+                  for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
+                    statusRadioList.add(getAppointmentStatusModel.data![i].status ?? "");
+                  }
+                  for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
+                    if(int.parse(widget.getAppointmentModel!.data![widget.index].statusId ?? "") == getAppointmentStatusModel.data![i].aId){
+                      appointmentStatus = getAppointmentStatusModel.data![i].status ?? "";
+                    }
+                  }
+                  return DropDown(
+                    controller: appointmentStatusController,
+                    dropDownList: statusRadioList,
+                    selectedValue:  appointmentStatusController.text.isEmpty ?
+                    appointmentStatus.isEmpty
+                        ?statusRadioList[0]
+                        : appointmentStatus
+                        : appointmentStatusController.text,
+                    label: "Select Appointment Status",
+                    errorMessage: "Select Appointment Status",
+                  );
+                }
+                return  const SizedBox();
+
+              }),
+            /*  const SizedBox(height: 10,),
               (getAppointmentStatusModel != null)
               ? DropDown(
                 controller: appointmentStatusController,
@@ -184,7 +213,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                     : appointmentStatusController.text,
                 label: "Select Appointment Status",
                 errorMessage: "Select Appointment Status",
-              ) : const SizedBox(),
+              ) : const SizedBox(),*/
               const SizedBox(height: 20,),
               Row(
                 children: [

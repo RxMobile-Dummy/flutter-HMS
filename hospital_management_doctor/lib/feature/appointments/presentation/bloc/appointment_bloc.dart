@@ -13,11 +13,10 @@ import 'package:hospital_management_doctor/feature/profile/domain/usecases/updat
 
 class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
   GetAppointmentUsecase? getAppointmentUsecase;
-  GetAppointmentStatusUsecase? getAppointmentStatusUsecase;
   UpdateAppointmentUsecase? updateAppointmentUsecase;
 
   AppointmentBloc(
-      {required this.getAppointmentUsecase,required this.getAppointmentStatusUsecase,
+      {required this.getAppointmentUsecase,
       required this.updateAppointmentUsecase})
       : super(StateLoading()) {
     on<BaseEvent>((event, emit) {
@@ -26,10 +25,7 @@ class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
         getAppointmentCall(
             id: event.id,
             date: event.date);
-      }else if (event is GetAppointmentStatusEvent) {
-        getAppointmentStatusCall(
-            id: event.id,);
-      }  else if (event is UpdateAppointmentEvent) {
+      }else if (event is UpdateAppointmentEvent) {
         updateAppointmentCall(
             reportDescription: event.reportDescription,
         medicineId: event.medicineId,
@@ -45,14 +41,7 @@ class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
         } else {
           emit(GetAppointmentState(model: model));
         }
-      }else if (event is GetAppointmentStatusSuccessEvent) {
-        GetAppointmentStatusModel? model = event.model;
-        if (model?.success != true) {
-          emit(StateErrorGeneral(model?.error ?? ""));
-        } else {
-          emit(GetAppointmentStatusState(model: model));
-        }
-      } else if (event is UpdateAppointmentSuccessEvent) {
+      }else if (event is UpdateAppointmentSuccessEvent) {
         UpdateAppointmentModel? model = event.model;
         if (model?.success != true) {
           emit(StateErrorGeneral(model?.error ?? ""));
@@ -100,21 +89,6 @@ class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
         add(EventErrorGeneral(ErrorObject.mapFailureToMessage(onError) ?? ""));
       }, (onSuccess) {
         add(UpdateAppointmentSuccessEvent(model: onSuccess));
-      });
-    });
-  }
-
-  getAppointmentStatusCall({
-    String? id,
-  }) {
-    getAppointmentStatusUsecase!
-        .call(GetAppointmentStatusParams(
-        id: id ?? '',))
-        .listen((data) {
-      data.fold((onError) {
-        add(EventErrorGeneral(ErrorObject.mapFailureToMessage(onError) ?? ""));
-      }, (onSuccess) {
-        add(GetAppointmentStatusSuccessEvent(model: onSuccess));
       });
     });
   }

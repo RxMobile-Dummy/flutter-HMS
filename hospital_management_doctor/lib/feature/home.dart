@@ -6,6 +6,7 @@ import 'package:hospital_management_doctor/feature/appointments/data/model/get_a
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_list_page.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/pages/profile_screen.dart';
@@ -114,11 +115,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                     BlocProvider<AppointmentBloc>(
                                       create: (context) => Sl.Sl<AppointmentBloc>(),
                                     ),
+                                    BlocProvider<AppointmentStatusBloc>(
+                                      create: (context) => Sl.Sl<AppointmentStatusBloc>(),
+                                    ),
                                   ],
                                   child: AppoinmentListPage())),
                         );
                       }).then((value) async {
-                         await _getAppointment(doctorId ?? "","");
+                        // await _getAppointment(doctorId ?? "","");
                       });
                     }else if(index == 1){
                      /* Future.delayed(Duration.zero, () {

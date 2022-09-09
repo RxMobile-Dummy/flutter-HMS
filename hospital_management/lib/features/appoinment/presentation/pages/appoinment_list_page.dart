@@ -414,49 +414,52 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                            });
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child:  InkWell(
-                            child: const Icon(Icons.delete_outline_rounded,color: CustomColors.colorDarkBlue,),
-                            onTap: (){
-                              showDialog(
-                                  context: context,
-                                  builder: (ctx) => Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 20),
-                                    child: AlertDialog(
-                                      title:  Text(
-                                        "Delete Appointment",
-                                        style: TextStyle(fontSize:  DeviceUtil.isTablet ? 18 : 14),
-                                      ),
-                                      content:  Container(
-                                        child: Text(
-                                          "Are you sure you want to delete?",
-                                          softWrap: true,
-                                          overflow: TextOverflow.fade,
-                                          style:  CustomTextStyle.styleMedium.copyWith(
-                                              fontSize: DeviceUtil.isTablet ? 18 : 14
+                        (getAppointmentModel.data![index].statusId == "4" ||
+                            getAppointmentModel.data![index].statusId == "7" )
+                       ? SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child:  InkWell(
+                              child: const Icon(Icons.delete_outline_rounded,color: CustomColors.colorDarkBlue,),
+                              onTap: (){
+                                showDialog(
+                                    context: context,
+                                    builder: (ctx) => Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20),
+                                      child: AlertDialog(
+                                        title:  Text(
+                                          "Delete Appointment",
+                                          style: TextStyle(fontSize:  DeviceUtil.isTablet ? 18 : 14),
+                                        ),
+                                        content:  Container(
+                                          child: Text(
+                                            "Are you sure you want to delete?",
+                                            softWrap: true,
+                                            overflow: TextOverflow.fade,
+                                            style:  CustomTextStyle.styleMedium.copyWith(
+                                                fontSize: DeviceUtil.isTablet ? 18 : 14
+                                            ),
                                           ),
                                         ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              _deleteAppointment(
+                                                  getAppointmentModel.data![index].id.toString()
+                                              );
+                                              Navigator.of(ctx).pop();
+                                            },
+                                            child: Text(
+                                              "Yes",
+                                              style: CustomTextStyle.styleSemiBold
+                                                  .copyWith(color: CustomColors.colorDarkBlue, fontSize:
+                                              DeviceUtil.isTablet ? 18 : 16),),
+                                          ),
+                                        ],
                                       ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            _deleteAppointment(
-                                                getAppointmentModel.data![index].id.toString()
-                                            );
-                                            Navigator.of(ctx).pop();
-                                          },
-                                          child: Text(
-                                            "Yes",
-                                            style: CustomTextStyle.styleSemiBold
-                                                .copyWith(color: CustomColors.colorDarkBlue, fontSize:
-                                            DeviceUtil.isTablet ? 18 : 16),),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                            },
-                          )
+                                    ));
+                              },
+                            )
                         ),
                       ],
                     ),

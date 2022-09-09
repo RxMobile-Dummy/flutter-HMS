@@ -5,9 +5,11 @@ import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_detail_page.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/update_appointment_page.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_bloc.dart';
@@ -31,12 +33,18 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
   var doctorId;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController filterDateController = TextEditingController();
+  List<String> statusRadioList = [
+    "-- Select Status --"
+  ];
+  GetAppointmentStatusModel getAppointmentStatusModel = GetAppointmentStatusModel();
+  String appointmentStatus = "";
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       doctorId = prefs.getString('id');
+      await _getAppointmentStatus("");
       await _getAppointment(doctorId ?? "","");
     });
     super.initState();
@@ -53,7 +61,15 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
     });
   }
 
-
+  Future<String> _getAppointmentStatus(String id) {
+    return Future.delayed(const Duration()).then((_) {
+      // ProgressDialog.showLoadingDialog(context);
+      BlocProvider.of<AppointmentStatusBloc>(context).add(
+          GetAppointmentStatusEvent(
+            id: id,));
+      return "";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -372,6 +388,9 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       BlocProvider<AppointmentBloc>(
                                         create: (context) => Sl.Sl<AppointmentBloc>(),
                                       ),
+                                      BlocProvider<AppointmentStatusBloc>(
+                                        create: (context) => Sl.Sl<AppointmentStatusBloc>(),
+                                      ),
                                       BlocProvider<MedicineBloc>(
                                         create: (context) => Sl.Sl<MedicineBloc>(),
                                       ),
@@ -391,47 +410,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                               await _getAppointment(doctorId, "");
                             });
                           },
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child:  InkWell(
-                              child: const Icon(Icons.delete_outline_rounded,color: CustomColors.colorDarkBlue,),
-                              onTap: (){
-                                showDialog(
-                                    context: context,
-                                    builder: (ctx) => Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 20),
-                                      child: AlertDialog(
-                                        title:  Text(
-                                          "Delete Appointment",
-                                          style: TextStyle(fontSize:  DeviceUtil.isTablet ? 18 : 14),
-                                        ),
-                                        content:  Container(
-                                          child: Text(
-                                            "Are you sure you want to delete?",
-                                            softWrap: true,
-                                            overflow: TextOverflow.fade,
-                                            style:  CustomTextStyle.styleMedium.copyWith(
-                                                fontSize: DeviceUtil.isTablet ? 18 : 14
-                                            ),
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(ctx).pop();
-                                            },
-                                            child: Text(
-                                              "Yes",
-                                              style: CustomTextStyle.styleSemiBold
-                                                  .copyWith(color: CustomColors.colorDarkBlue, fontSize:
-                                              DeviceUtil.isTablet ? 18 : 16),),
-                                          ),
-                                        ],
-                                      ),
-                                    ));
-                              },
-                            )
                         ),
                       ],
                     ),
@@ -550,6 +528,52 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500),
                                   ),
+                                ),
+                                SizedBox(height: DeviceUtil.isTablet ? 16 :10,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    BlocBuilder<AppointmentStatusBloc, BaseState>(builder: (context, state)  {
+                                      if(state is GetAppointmentStatusState){
+                                        statusRadioList = [];
+                                        appointmentStatus = "";
+                                        ProgressDialog.hideLoadingDialog(context);
+                                        getAppointmentStatusModel = state.model!;
+                                        for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
+                                          statusRadioList.add(getAppointmentStatusModel.data![i].status ?? "");
+                                        }
+                                        if(getAppointmentModel.data != null && getAppointmentModel.data!.isNotEmpty){
+                                          for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
+                                            if(int.parse(getAppointmentModel.data![index].statusId ?? "") == getAppointmentStatusModel.data![i].aId){
+                                              appointmentStatus = getAppointmentStatusModel.data![i].status ?? "";
+                                            }
+                                          }
+                                        }
+                                        return Text(
+                                          appointmentStatus,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontStyle: FontStyle.normal,
+                                              fontFamily: 'Open Sans',
+                                              fontSize: DeviceUtil.isTablet ? 18 :16,
+                                              color: (getAppointmentModel.data![index].statusId == "3")
+                                                  ? CustomColors.colorGrey
+                                                  :(getAppointmentModel.data![index].statusId == "4")
+                                                  ?CustomColors.colorGreen
+                                                  :(getAppointmentModel.data![index].statusId == "5")
+                                                  ?CustomColors.colorRed
+                                                  :(getAppointmentModel.data![index].statusId == "6")
+                                                  ?CustomColors.colorOrange
+                                                  :(getAppointmentModel.data![index].statusId == "7")
+                                                  ?CustomColors.colorYellow
+                                                  :CustomColors.colorDarkBlue
+                                          ),
+                                        );
+                                      }
+                                      return  const SizedBox();
+
+                                    }),
+                                  ],
                                 ),
                                 SizedBox(height: DeviceUtil.isTablet ? 16 :10,),
                               ],
