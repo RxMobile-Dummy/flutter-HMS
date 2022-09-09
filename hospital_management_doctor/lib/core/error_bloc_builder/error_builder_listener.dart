@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_state.dart';
 
 import '../../custom/progress_bar.dart';
@@ -28,7 +29,10 @@ class ErrorBlocListener<b extends Bloc<BaseEvent, BaseState>>
         }else  if(state is UpdateProfileState) {
           ProgressDialog.hideLoadingDialog(context);
          return Navigator.of(context).pop();
-        }  else if (state is StateOnSuccess) {
+        } else if(state is UpdateAppointmentState){
+          ProgressDialog.hideLoadingDialog(context);
+          return Navigator.pop(context);
+        } else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
         }
       });

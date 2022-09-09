@@ -4,6 +4,14 @@ import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/datasourse/appointment_data_sourse.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/datasourse/appointment_data_sourse_impl.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/repositories/appointment_repositories.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/repositories/appointment_repositories.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_status_usecase.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_usecase.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/usecases/update_appointment_usecase.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source_impl.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/repositories/authentication_repositories.dart';
@@ -12,6 +20,12 @@ import 'package:hospital_management_doctor/feature/authentication/domain/usecase
 import 'package:hospital_management_doctor/feature/authentication/domain/usecases/reset_password_usecase.dart';
 import 'package:hospital_management_doctor/feature/authentication/domain/usecases/sign_in_doctor_usecase.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:hospital_management_doctor/feature/medicine/data/datasourse/medicine_data_sourse.dart';
+import 'package:hospital_management_doctor/feature/medicine/data/datasourse/medicine_data_sourse_impl.dart';
+import 'package:hospital_management_doctor/feature/medicine/data/repositories/medicine_repositories.dart';
+import 'package:hospital_management_doctor/feature/medicine/domain/repositories/medicine_repositories.dart';
+import 'package:hospital_management_doctor/feature/medicine/domain/usecases/get_medicine_usecase.dart';
+import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_bloc.dart';
 import 'package:hospital_management_doctor/feature/profile/data/datasourse/profile_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/profile/data/datasourse/profile_data_sourse_impl.dart';
 import 'package:hospital_management_doctor/feature/profile/data/repositories/profile_repositories.dart';
@@ -44,6 +58,15 @@ Future<void> init() async {
       getProfileUsecase:  Sl.call(),
     updateProfileUsecase: Sl.call()
   ));
+  Sl.registerFactory(() => AppointmentBloc(
+      getAppointmentUsecase:  Sl.call(),
+    getAppointmentStatusUsecase: Sl.call(),
+    updateAppointmentUsecase: Sl.call()
+  ));
+
+  Sl.registerFactory(() => MedicineBloc(
+      getMedicineUsecase:  Sl.call(),
+  ));
 
   // Use cases
   Sl.registerLazySingleton(() => SignInDoctorUsecase(authenticationRepositories: Sl()));
@@ -51,6 +74,10 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => ResetPasswordUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => GetProfileUsecase(profileRepositories: Sl()));
   Sl.registerLazySingleton(() => UpdateProfileUsecase(profileRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetAppointmentUsecase(appointmentRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetAppointmentStatusUsecase(appointmentRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetMedicineUsecase(medicineRepositories: Sl()));
+  Sl.registerLazySingleton(() => UpdateAppointmentUsecase(appointmentRepositories: Sl()));
 
   // Repository
   Sl.registerLazySingleton<AuthenticationRepositories>(
@@ -61,6 +88,15 @@ Future<void> init() async {
         () => ProfileRepositoriesImpl(profileDataSource: Sl()),
   );
 
+  Sl.registerLazySingleton<AppointmentRepositories>(
+        () => AppointmentRepositoriesImpl(appointmentDataSource: Sl()),
+  );
+
+  Sl.registerLazySingleton<MedicineRepositories>(
+        () => MedicineRepositoriesImpl(medicineDataSource: Sl()),
+  );
+
+
   // Local Data sources
   Sl.registerLazySingleton<AuthenticationDataSource>(
         () => AuthenticationDataSourceImpl(Sl.get()),
@@ -68,6 +104,14 @@ Future<void> init() async {
 
   Sl.registerLazySingleton<ProfileDataSource>(
         () => ProfileDataSourceImpl(Sl.get()),
+  );
+
+  Sl.registerLazySingleton<AppointmentDataSource>(
+        () => AppointmentDataSourceImpl(Sl.get()),
+  );
+
+  Sl.registerLazySingleton<MedicineDataSource>(
+        () => MedicineDataSourceImpl(Sl.get()),
   );
 
 

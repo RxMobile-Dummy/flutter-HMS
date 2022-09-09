@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/custom/progress_bar.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_list_page.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/pages/profile_screen.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
 import 'package:hospital_management_doctor/utils/device_file.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hospital_management_doctor/injection_container.dart' as Sl;
 
@@ -14,18 +22,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   late Widget doctorList;
-  Widget dashboardWidget =   ProfileScreen();
+  Widget dashboardWidget =   AppoinmentListPage();
 
-  Widget appointmentWidget =  ProfileScreen();
+  Widget appointmentWidget =  AppoinmentListPage();
   Widget profileWidget =  ProfileScreen();
   Widget? selectedWidget;
   int menuIndex = 0;
   GlobalKey keyFab = GlobalKey();
   bool isFabClicked = false;
   late AnimationController _controller;
-  var patientId;
-/*  GetAppointmentModel getAppointmentModel = GetAppointmentModel();
-  GetDoctorModel getDoctorModel = GetDoctorModel();*/
+  var doctorId;
+  GetAppointmentModel getAppointmentModel = GetAppointmentModel();
 
   static const List<IconData> icons = const [ Icons.add_task, Icons.note_add_outlined, Icons.check_box_outlined ];
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
@@ -59,32 +66,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      patientId = prefs.getString('id');
-      /*await _getAppointment(patientId ?? "","");
-      await _getDoctor("");*/
-    });
-    /*doctorList =  DoctorListPage();
-    selectedWidget = doctorList;*/
-  }
-
-/*  Future<String> _getAppointment(String id,String date) {
-    return Future.delayed(const Duration()).then((_) {
-      //ProgressDialog.showLoadingDialog(context);
-      BlocProvider.of<AppointmentBloc>(context).add(
-          GetAppointmentEvent(
-              id: id,
-              date: date));
-      return "";
+      doctorId = prefs.getString('id');
+      await _getAppointment(doctorId ?? "","");
     });
   }
-
-  Future<String> _getDoctor(String specialistField) {
-    return Future.delayed(const Duration()).then((_) {
-      ProgressDialog.showLoadingDialog(context);
-      BlocProvider.of<DoctorBloc>(context).add(GetDoctorEvent(specialistField: specialistField));
-      return "";
-    });
-  }*/
 
 
   @override
@@ -120,22 +105,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 return  InkWell(
                   onTap: (){
                     if(index == 0){
-                    /*  Future.delayed(Duration.zero, () {
+                      Future.delayed(Duration.zero, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MultiBlocProvider(
-                                providers: [
-                                  BlocProvider<AppointmentBloc>(
-                                    create: (context) => Sl.Sl<AppointmentBloc>(),
-                                  ),
-                                ],
-                                child:  AppoinmentListPage(),
-                              )),
+                                  providers: [
+                                    BlocProvider<AppointmentBloc>(
+                                      create: (context) => Sl.Sl<AppointmentBloc>(),
+                                    ),
+                                  ],
+                                  child: AppoinmentListPage())),
                         );
                       }).then((value) async {
-                        await _getAppointment(patientId ?? "","");
-                      });*/
+                         await _getAppointment(doctorId ?? "","");
+                      });
                     }else if(index == 1){
                      /* Future.delayed(Duration.zero, () {
                         Navigator.push(
@@ -170,13 +154,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                 child: ProfileScreen(),
                               )),
                         );
-                      })/*.then((value) async {
-                        await _getAppointment(patientId ?? "","");
-                      })*/;
-                    }else if(index == 3){
-
-                    }else if(index == 4){
-
+                      }).then((value) async {
+                        await _getAppointment(doctorId ?? "","");
+                      });
                     }
                   },
                   child: Card(
@@ -237,6 +217,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     );
   }
 
+  Future<String> _getAppointment(String id,String date) {
+    return Future.delayed(const Duration()).then((_) {
+      ProgressDialog.showLoadingDialog(context);
+      BlocProvider.of<AppointmentBloc>(context).add(
+          GetAppointmentEvent(
+              id: id,
+              date: date));
+      return "";
+    });
+  }
+
+  getFormatedDate(date) {
+    var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
+    var inputDate = inputFormat.parse(date);
+    var outputFormat = DateFormat('dd/MM/yyyy');
+    print(outputFormat.format(inputDate));
+    return outputFormat.format(inputDate);
+  }
+
   topBar(){
     return Padding(
       padding:  EdgeInsets.only(top: DeviceUtil.isTablet ? 50 : 25,left: 10),
@@ -282,12 +281,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
-                    /*BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
+                    BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
                       if(state is GetAppointmentState) {
                         ProgressDialog.hideLoadingDialog(context);
                         getAppointmentModel = state.model!;
+                        int count =0;
+                        if(getAppointmentModel != null && getAppointmentModel.data!.isNotEmpty){
+                          for(int i=0;i<getAppointmentModel.data!.length;i++){
+                            if(getAppointmentModel.data![i].appointmentDate == getFormatedDate(DateTime.now().toString())){
+                              count++;
+                            }
+                          }
+                        }
                         return Text(
-                          getAppointmentModel.data!.length.toString(),
+                          count.toString(),
                           style:  TextStyle(
                               fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
@@ -299,11 +306,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                       }
                       return  const SizedBox();
 
-                    }),*/
+                    }),
 
                     const SizedBox(height: 5,),
                     Text(
-                      "Appointments",
+                      "Today's Appointments",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
@@ -316,12 +323,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
-                 /*   BlocBuilder<DoctorBloc, BaseState>(builder: (context, state) {
-                      if (state is GetDoctorState) {
+                    BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state) {
+                      if (state is GetAppointmentState) {
                         ProgressDialog.hideLoadingDialog(context);
-                        getDoctorModel = state.model!;
+                        getAppointmentModel = state.model!;
                         return Text(
-                          getDoctorModel.data!.length.toString(),
+                          getAppointmentModel.data!.length.toString(),
                           style:  TextStyle(
                               fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
@@ -332,10 +339,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         );
                       }
                       return const SizedBox();
-                    }),*/
+                    }),
                     const SizedBox(height: 5,),
                     Text(
-                      "Doctors available",
+                      "Total Appointment",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_doctor/feature/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,9 @@ class _SplashState extends State<Splash> {
             MultiBlocProvider(providers: [
               BlocProvider<AuthenticationBloc>(
                 create: (context) => Sl.Sl<AuthenticationBloc>(),
+              ),
+              BlocProvider<AppointmentBloc>(
+                create: (context) => Sl.Sl<AppointmentBloc>(),
               ),
               /*BlocProvider<AppointmentBloc>(
                 create: (context) => Sl.Sl<AppointmentBloc>(),
