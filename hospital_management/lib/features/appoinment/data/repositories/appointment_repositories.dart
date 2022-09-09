@@ -4,10 +4,12 @@ import 'package:hospital_management/features/appoinment/data/datasource/appointm
 import 'package:hospital_management/features/appoinment/data/model/book_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/delete_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
+import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/update_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/domain/repositories/appointment_repositories.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/book_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/delete_appointment_usecase.dart';
+import 'package:hospital_management/features/appoinment/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/get_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/update_appointment_usecase.dart';
 
@@ -77,6 +79,20 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
     }
   }
 
+  @override
+  Stream<Either<Failure, GetAppointmentStatusModel>> getAppointmentStatusCall(GetAppointmentStatusParams params)async* {
+    try{
+      var response = await appointmentDataSource!.getAppointmentStatusCall(params);
+      if (response != null) {
+        yield Right(response);
+      }
+    }catch(e,s){
+      Failure error = await ErrorObject.checkErrorState(e);
+      yield Left(FailureMessage(error.message.toString()));
+      print(e);
+      print("Fail");
+    }
+  }
 
 
 

@@ -288,7 +288,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                           mobileNumber: "+91${mobileNumberController.text}",
                           patientId: patientId,
                           staffId: "",
-                          statusId: "1",
+                          statusId: "",
                           timeSlot: timeSlotController.text,
                           patientProfilePic: (fileForProfilePic?.path == null || fileForProfilePic?.path == "") ? "" : fileForProfilePic!.path,
                           disease: diseaseController.text
