@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_state.dart';
@@ -40,16 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ProgressDialog.hideLoadingDialog(context);
             Future.delayed(Duration.zero, () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => HomeScreen()/*MultiBlocProvider(
+                  MaterialPageRoute(builder: (context) => MultiBlocProvider(
                       providers: [
                         BlocProvider<AppointmentBloc>(
                           create: (context) => Sl.Sl<AppointmentBloc>(),
                         ),
-                        BlocProvider<DoctorBloc>(
-                          create: (context) => Sl.Sl<DoctorBloc>(),
-                        ),
                       ],
-                      child: Home())*/),
+                      child: HomeScreen())),
                       (route) => false);
             });
           }
