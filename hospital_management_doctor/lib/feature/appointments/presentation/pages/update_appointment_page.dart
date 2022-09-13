@@ -141,6 +141,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                       controller: medicineController,
                       displayList: medicineList,
                       label: "Select Medicine name",
+                      errorMessage: "Please enter medicine name.",
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);

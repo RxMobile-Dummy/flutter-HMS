@@ -9,6 +9,7 @@ import 'package:hospital_management_doctor/feature/appointments/data/model/updat
 import 'package:hospital_management_doctor/feature/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/reset_password_model.dart';
 import 'package:hospital_management_doctor/feature/medicine/data/model/get_medicine_model.dart';
+import 'package:hospital_management_doctor/feature/patient/data/model/get_patient_model.dart';
 import 'package:hospital_management_doctor/feature/profile/data/model/get_profile_model.dart';
 import 'package:hospital_management_doctor/feature/profile/data/model/update_profile_model.dart';
 import 'package:retrofit/retrofit.dart';
@@ -18,7 +19,7 @@ import '../../feature/authentication/data/model/sign_in_doctor.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://f889-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://1faa-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;
@@ -57,5 +58,9 @@ abstract class  ApiClient {
 
   @POST('medicine/get_medicine_details')
   Future<GetMedicineModel> getMedicine(
+      @Body() HashMap<String, dynamic> hashMap,);
+
+  @POST('patient/get_patient_details')
+  Future<GetPatientModel> getPatient(
       @Body() HashMap<String, dynamic> hashMap,);
 }
