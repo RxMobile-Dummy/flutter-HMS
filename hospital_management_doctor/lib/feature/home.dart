@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
@@ -8,6 +9,8 @@ import 'package:hospital_management_doctor/feature/appointments/presentation/blo
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_list_page.dart';
+import 'package:hospital_management_doctor/feature/patient/presentation/bloc/patient_bloc.dart';
+import 'package:hospital_management_doctor/feature/patient/presentation/pages/patient_list_page.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/pages/profile_screen.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
@@ -39,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
   List<String> gridNameList = [
     "Appointments",
-    "Doctors",
+    "Patients",
     /*"Departments",*/
     "Profile"
     /*"Feedbacks"*/
@@ -53,10 +56,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   ];
   List imageList = [
     "assets/images/appointment.png",
-    "assets/images/doctors.png",
     "assets/images/departments.png",
-    "assets/images/profile.png",
-    "assets/images/feedback.png",
+    "assets/images/doctor_profile.png",
   ];
   @override
   void initState() {
@@ -125,25 +126,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         // await _getAppointment(doctorId ?? "","");
                       });
                     }else if(index == 1){
-                     /* Future.delayed(Duration.zero, () {
+                      Future.delayed(Duration.zero, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => MultiBlocProvider(
                                 providers: [
-                                  BlocProvider<DoctorBloc>(
-                                    create: (context) => Sl.Sl<DoctorBloc>(),
-                                  ),
-                                  BlocProvider<AppointmentBloc>(
-                                    create: (context) => Sl.Sl<AppointmentBloc>(),
+                                  BlocProvider<PatientBloc>(
+                                    create: (context) => Sl.Sl<PatientBloc>(),
                                   ),
                                 ],
-                                child:  DoctorListPage(),
+                                child:  PatientListPage(),
                               )),
                         );
                       }).then((value) async {
-                        await _getAppointment(patientId ?? "","");
-                      });*/
+                        //await _getAppointment(patientId ?? "","");
+                      });
                     }else if(index == 2){
                       Future.delayed(Duration.zero, () {
                         Navigator.push(
@@ -159,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                               )),
                         );
                       }).then((value) async {
-                        await _getAppointment(doctorId ?? "","");
+                       // await _getAppointment(doctorId ?? "","");
                       });
                     }
                   },
@@ -314,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
 
                     const SizedBox(height: 5,),
                     Text(
-                      "Today's Appointments",
+                      Strings.homeAppointmentsLabel,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
@@ -346,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     }),
                     const SizedBox(height: 5,),
                     Text(
-                      "Total Appointment",
+                      "Total Appointments",
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,

@@ -1,52 +1,40 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
-import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
-import 'package:hospital_management_doctor/utils/colors.dart';
+import 'package:hospital_management_doctor/feature/patient/data/model/get_patient_model.dart';
 import 'package:hospital_management_doctor/utils/device_file.dart';
-import 'package:hospital_management_doctor/widget/open_image_widget.dart';
-import 'package:hospital_management_doctor/widget/open_pdf_widget.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 
-class AppointmentDetailsPage extends StatefulWidget {
-  GetAppointmentModel getAppointmentModel;
+class PatientDetailsPage extends StatefulWidget {
+  GetPatientModel getPatientModel;
   int index;
-  AppointmentDetailsPage({Key? key,required this.getAppointmentModel, required this.index}) : super(key: key);
+   PatientDetailsPage({Key? key,required this.getPatientModel,required this.index}) : super(key: key);
 
   @override
-  _AppointmentDetailsPageState createState() => _AppointmentDetailsPageState();
+  _PatientDetailsPageState createState() => _PatientDetailsPageState();
 }
 
-class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
+class _PatientDetailsPageState extends State<PatientDetailsPage> {
   String remotePDFpath = "";
   List<String> medicineList = [];
-
 
   @override
   void initState() {
     super.initState();
-    if(widget.getAppointmentModel.data![widget.index].fileData != null
-        && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty){
-      createFileOfPdfUrl(widget.getAppointmentModel.data![widget.index].fileData ?? "").then((f) {
+   /* if(widget.getPatientModel.data![widget.index].fileData != null
+        && widget.getPatientModel.data![widget.index].fileData!.isNotEmpty){
+      createFileOfPdfUrl(widget.getPatientModel.data![widget.index].fileData ?? "").then((f) {
         setState(() {
           remotePDFpath = f.path;
         });
       });
-    }
-    if(widget.getAppointmentModel.data![widget.index].patientReportData != null &&
-        widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails!.isNotEmpty){
-      for(int i=0;i<widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails!.length;i++){
-        medicineList.add(widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails![i].medicineName ?? "");
+    }*/
+    if(widget.getPatientModel.data![widget.index].patientReportData != null &&
+        widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails!.isNotEmpty){
+      for(int i=0;i<widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails!.length;i++){
+        medicineList.add(widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails![i].medicineName ?? "");
       }
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,36 +66,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
     );
   }
 
-
-  Future<File> createFileOfPdfUrl(String filePath) async {
-    Completer<File> completer = Completer();
-    print("Start download file from internet!");
-    try {
-      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
-      // final url = "https://pdfkit.org/docs/guide.pdf";
-      final url = "${Strings.baseUrl}$filePath";
-      final filename = url.substring(url.lastIndexOf("/") + 1);
-      var request = await HttpClient().getUrl(Uri.parse(url));
-      var response = await request.close();
-      var bytes = await consolidateHttpClientResponseBytes(response);
-      var dir = await getApplicationDocumentsDirectory();
-      print("Download files");
-      print("${dir.path}/$filename");
-      File file = File("${dir.path}/$filename");
-
-      await file.writeAsBytes(bytes, flush: true);
-      completer.complete(file);
-    } catch (e) {
-      throw Exception('Error parsing asset file!');
-    }
-
-    return completer.future;
-  }
-
-
   buildWidget() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,8 +96,8 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                         image: DecorationImage(
                             image: userProfilePic(
                               imagePath:
-                              (widget.getAppointmentModel.data![widget.index].patientProfilePic != null && widget.getAppointmentModel.data![widget.index].patientProfilePic != "")
-                                  ? "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
+                              (widget.getPatientModel.data![widget.index].profilePic != null && widget.getPatientModel.data![widget.index].profilePic != "")
+                                  ? "${Strings.baseUrl}${widget.getPatientModel.data![widget.index].profilePic}"
                                   : "",),
                             fit: BoxFit.fill
                           //AssetImage("assets/images/ii_1.png"),
@@ -151,7 +112,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${widget.getAppointmentModel.data![widget.index].firstName}",
+                        "${widget.getPatientModel.data![widget.index].firstName}",
                         maxLines: 3,
                         style: TextStyle(
                             fontSize: DeviceUtil.isTablet ? 26 :22,
@@ -162,7 +123,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                             fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        "${widget.getAppointmentModel.data![widget.index].lastName}",
+                        "${widget.getPatientModel.data![widget.index].lastName}",
                         maxLines: 3,
                         style: TextStyle(
                             fontSize: DeviceUtil.isTablet ? 26 :22,
@@ -178,8 +139,10 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
               ],
             ),
             const SizedBox(height: 25,),
-            Text(
-              "Appointment On",
+            (widget.getPatientModel.data![widget.index].dateOfBirth != null &&
+                widget.getPatientModel.data![widget.index].dateOfBirth != "")
+                ? Text(
+              "Date of Birth",
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 :16,
                   color: (Theme.of(context).brightness ==
@@ -187,9 +150,13 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                       ? Colors.white
                       : Colors.grey.shade400,
                   fontWeight: FontWeight.w500),
-            ),
-            SizedBox(height: DeviceUtil.isTablet ? 15 :10,),
-            IntrinsicHeight(
+            ) : const SizedBox(),
+            (widget.getPatientModel.data![widget.index].dateOfBirth != null &&
+                widget.getPatientModel.data![widget.index].dateOfBirth != "")
+                ?  SizedBox(height: DeviceUtil.isTablet ? 15 :10,) : const SizedBox(),
+            (widget.getPatientModel.data![widget.index].dateOfBirth != null &&
+                widget.getPatientModel.data![widget.index].dateOfBirth != "")
+                ? IntrinsicHeight(
               child: Row(
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -197,32 +164,25 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                     getFormattedDateFromFormattedString(
                         currentFormat: "dd-MM-yyyy - HH:mm",
                         desiredFormat: "dd MMM yyyy",
-                        value:  "${widget.getAppointmentModel.data![widget.index].appointmentDate} - 00:00".replaceAll("/", "-")),
+                        value:  "${widget.getPatientModel.data![widget.index].dateOfBirth} - 00:00".replaceAll("/", "-")),
                     // DateFormat.yMMMMd().format(DateTime.parse(DateFormat('dd-MM-yyyy hh:mm:ss a').parse("30/08/2022".replaceAll("/", "-")).toString())),
                     style:  TextStyle(
                         fontSize: DeviceUtil.isTablet ? 18 :16,
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 2),
-                    child: VerticalDivider(
-                      color: Colors.grey.shade400,
-                      thickness: 2,
-                    ),
+                  /*Padding(
+                  padding: EdgeInsets.symmetric(vertical: 2),
+                  child: VerticalDivider(
+                    color: Colors.grey.shade400,
+                    thickness: 2,
                   ),
-                  Text(
-                    widget.getAppointmentModel.data![widget.index].timeSlot ?? "",
-                    style:  TextStyle(
-                        fontSize: DeviceUtil.isTablet ? 18 :16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500),
-                  ),
+                ),*/
                 ],
-              ),),
+              ),) : const SizedBox(),
             const SizedBox(height: 25,),
             Text(
-              "Appointment For",
+              "Blood Group",
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 :16,
                   color: (Theme.of(context).brightness ==
@@ -233,16 +193,15 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             ),
             const SizedBox(height: 10,),
             Text(
-              widget.getAppointmentModel.data![widget.index].disease ?? "",
+              widget.getPatientModel.data![widget.index].bloodGroup ?? "",
               style:  TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 :16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 25,),
-            (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
-                ? Text(
-              "Attachment",
+            Text(
+              "Mobile Number",
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 :16,
                   color: (Theme.of(context).brightness ==
@@ -250,64 +209,103 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                       ? Colors.white
                       : Colors.grey.shade400,
                   fontWeight: FontWeight.w500),
-            ) : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
-                ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
-                ?  Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(child: Text(
-                  widget.getAppointmentModel.data![widget.index].fileData!.split('/').last,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: DeviceUtil.isTablet ? 18 : 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500),
-                ),),
-                Row(
-                  children:  [
-                    Icon(
-                      Icons.remove_red_eye,
-                      color: CustomColors.colorDarkBlue,
-                      size: DeviceUtil.isTablet ? 18 :16,
-                    ),
-                    SizedBox(width: 7,),
-                    InkWell(
-                      child: Text(
-                        "View",
-                        style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 18 : 16,
-                            color: CustomColors.colorDarkBlue,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      onTap: (){
-                        if (remotePDFpath.isNotEmpty) {
-                          (remotePDFpath.contains(".jpeg") ||
-                              remotePDFpath.contains(".jpg") ||
-                              remotePDFpath.contains(".png"))
-                              ? Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",),
-                            ),
-                          )
-                          /*  NetworkImage("${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}")*/
-                              : Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PDFScreen(path: remotePDFpath),
-                            ),
-                          );
-                        }
-                      },
-                    )
-                  ],
-                )
-              ],
-            ) : const SizedBox(),
+            ),
+            const SizedBox(height: 10,),
+            Text(
+              widget.getPatientModel.data![widget.index].contactNumber.toString().substring(3),
+              style:  TextStyle(
+                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500),
+            ),
             const SizedBox(height: 25,),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            Text(
+              "Email",
+              style: TextStyle(
+                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  color: (Theme.of(context).brightness ==
+                      Brightness.dark)
+                      ? Colors.white
+                      : Colors.grey.shade400,
+                  fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 10,),
+            Text(
+              widget.getPatientModel.data![widget.index].email ?? "",
+              style:  TextStyle(
+                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500),
+            ),
+            /*  const SizedBox(height: 25,),
+          (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
+              ? Text(
+            "Attachment",
+            style: TextStyle(
+                fontSize: DeviceUtil.isTablet ? 18 :16,
+                color: (Theme.of(context).brightness ==
+                    Brightness.dark)
+                    ? Colors.white
+                    : Colors.grey.shade400,
+                fontWeight: FontWeight.w500),
+          ) : const SizedBox(),
+          (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
+              ? const SizedBox(height: 10,) : const SizedBox(),
+          (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
+              ?  Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(child: Text(
+                widget.getAppointmentModel.data![widget.index].fileData!.split('/').last,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: DeviceUtil.isTablet ? 18 : 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500),
+              ),),
+              Row(
+                children:  [
+                  Icon(
+                    Icons.remove_red_eye,
+                    color: CustomColors.colorDarkBlue,
+                    size: DeviceUtil.isTablet ? 18 :16,
+                  ),
+                  SizedBox(width: 7,),
+                  InkWell(
+                    child: Text(
+                      "View",
+                      style: TextStyle(
+                          fontSize: DeviceUtil.isTablet ? 18 : 16,
+                          color: CustomColors.colorDarkBlue,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    onTap: (){
+                      if (remotePDFpath.isNotEmpty) {
+                        (remotePDFpath.contains(".jpeg") ||
+                            remotePDFpath.contains(".jpg") ||
+                            remotePDFpath.contains(".png"))
+                            ? Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",),
+                          ),
+                        )
+                        *//*  NetworkImage("${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}")*//*
+                            : Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PDFScreen(path: remotePDFpath),
+                          ),
+                        );
+                      }
+                    },
+                  )
+                ],
+              )
+            ],
+          ) : const SizedBox(),*/
+            const SizedBox(height: 25,),
+            (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ? Text(
               "Report suggestion",
               style: TextStyle(
@@ -319,11 +317,11 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   fontWeight: FontWeight.w500),
             )
                 : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ?Text(
-              widget.getAppointmentModel.data![widget.index].patientReportData!.reportDescription ?? "",
+              widget.getPatientModel.data![widget.index].patientReportData!.reportDescription ?? "",
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 : 16,
@@ -332,7 +330,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             )
                 : const SizedBox(),
             const SizedBox(height: 25,),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ? Text(
               "Medicine Given",
               style: TextStyle(
@@ -344,9 +342,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   fontWeight: FontWeight.w500),
             )
                 : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ?Text(
               medicineList.join(" , "),
               overflow: TextOverflow.ellipsis,

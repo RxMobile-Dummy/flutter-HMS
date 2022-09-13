@@ -9,10 +9,12 @@ class MultiSelectionWidget extends StatefulWidget {
   TextEditingController controller = TextEditingController();
   List<String> displayList;
   String label;
+  String? errorMessage = "";
   MultiSelectionWidget({
     required this.controller,
     required this.displayList,
-    required this.label,});
+    required this.label,
+    this.errorMessage});
 
   @override
   _MultiSelectionWidgetState createState() => _MultiSelectionWidgetState();
@@ -52,6 +54,12 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
               style: CustomTextStyle.styleMedium.copyWith(
                   fontSize: DeviceUtil.isTablet ? 16 : 14
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return widget.errorMessage;
+                }
+                return null;
+              },
               onTap: () => _showReportDialog(),
               decoration:  InputDecoration(
                   enabledBorder: OutlineInputBorder(
