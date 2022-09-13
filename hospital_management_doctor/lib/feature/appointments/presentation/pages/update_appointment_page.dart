@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
@@ -141,7 +142,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                       controller: medicineController,
                       displayList: medicineList,
                       label: "Select Medicine name",
-                      errorMessage: "Please enter medicine name.",
+                      errorMessage: Strings.errorMessageForMedicine,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);

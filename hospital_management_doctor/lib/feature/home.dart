@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
@@ -311,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
 
                     const SizedBox(height: 5,),
                     Text(
-                      "Today's Appointments",
+                      Strings.homeAppointmentsLabel,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
