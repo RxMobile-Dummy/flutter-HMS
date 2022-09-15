@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
 
 class OpenImageWidget extends StatefulWidget {
@@ -15,7 +16,7 @@ class _OpenImageWidgetState extends State<OpenImageWidget> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.colorDarkBlue,
-        title: Text("Image "),
+        title: Text(Strings.kImage),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),

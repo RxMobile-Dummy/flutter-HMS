@@ -32,7 +32,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.colorDarkBlue,
-        title: Text("Document"),
+        title: Text(Strings.kDocument),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
@@ -40,11 +40,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           ),
         ],
       ),
-      body: /*SfPdfViewer.network(
-        "${Strings.baseUrl}${widget.path}",
-        key: _pdfViewerKey,
-      ),
-    );*/Stack(
+      body: Stack(
         children: <Widget>[
           (widget.path!.contains(".png") ||
               widget.path!.contains(".jpeg") ||

@@ -149,13 +149,17 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     foodList1.add(widget.getPatientProfileModel.data!.patientFoodPreferences![i].foodPreference);
   }
   foodController.text = foodList1.join(" , ");
-  activityController.text = widget.getPatientProfileModel.data?.activityLevel ?? activityLevelList[0];
+  activityController.text =
+  (widget.getPatientProfileModel.data?.activityLevel != null && widget.getPatientProfileModel.data?.activityLevel != "")
+  ? widget.getPatientProfileModel.data?.activityLevel ?? activityLevelList[0] :activityLevelList[0];
   smokingController.text = widget.getPatientProfileModel.data?.smokingHabits ?? "No";
   selectedRadioForSmoking = smokingController.text;
   alcoholController.text = widget.getPatientProfileModel.data?.alcholConsumption ?? "No";
   selectedRadioForAlcohol = alcoholController.text;
   dateController.text = widget.getPatientProfileModel.data?.dateOfBirth ?? "";
-  meritalStatusController.text = widget.getPatientProfileModel.data?.maritalStatus ?? "";
+  meritalStatusController.text =
+      (widget.getPatientProfileModel.data?.maritalStatus != null && widget.getPatientProfileModel.data?.maritalStatus != "")
+          ? widget.getPatientProfileModel.data?.maritalStatus?? maritalList[0] : maritalList[0];
   heightController.text = widget.getPatientProfileModel.data?.height ?? "";
   weightController.text = widget.getPatientProfileModel.data?.weight ?? "";
   emergenyContactController.text = widget.getPatientProfileModel.data?.emergencyContactNumber.toString().substring(3) ?? "";
@@ -266,17 +270,21 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         child: CircleAvatar(
                           radius: DeviceUtil.isTablet ? 75 : 48,
                           backgroundColor: Colors.transparent,
-                          backgroundImage: (imageFile == null || imageFile == "")
+                          backgroundImage: (imageFile!.path == null || imageFile!.path == "")
+                              ? AssetImage('assets/images/person_image.jpeg')
+                              :  imageFile.toString().contains("patient/app/patient_images")
+                              ? NetworkImage( "${Strings.baseUrl}${imageFile?.path}")
+                              : FileImage(imageFile!) as ImageProvider, /*(imageFile == null || imageFile == "")
                               ? const AssetImage(
                             'assets/images/person_image.jpeg',
                           )
-                              : imageFile.toString().contains("patient_images")
+                              : imageFile.toString().contains("patient/app/patient_images")
                               ? NetworkImage(
                             "${Strings.baseUrl}${imageFile?.path}",
                           )
                               : FileImage(
                             imageFile!,
-                          ) as ImageProvider,
+                          ) as ImageProvider,*/
                         ),
                         onTap: () {
                           showModalBottomSheet(

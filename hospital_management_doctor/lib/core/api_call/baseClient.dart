@@ -19,7 +19,7 @@ import '../../feature/authentication/data/model/sign_in_doctor.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://1faa-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://6f24-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;

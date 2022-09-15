@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/pages/login_screen.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
@@ -24,7 +25,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
           children: [
             Expanded(child: Container()),
             Image.asset(
-              "assets/images/reset_successfully.png",
+              Strings.kResetSuccessImage,
               width: MediaQuery.of(context).size.width * .5,
               height: MediaQuery.of(context).size.width * .5,
             ),
@@ -32,7 +33,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
               height: 24,
             ),
             Text(
-              "Successful!",
+              Strings.kSuccessful,
               textAlign: TextAlign.center,
               style: CustomTextStyle.styleBold.copyWith(
                   fontSize: DeviceUtil.isTablet ? 32 : 28),
@@ -41,7 +42,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
               height: 8,
             ),
             Text(
-              "You have successfully change password.\nPlease use your new password when\nlogging in.",
+              Strings.kSuccessfulChangePassword,
               textAlign: TextAlign.center,
               style: CustomTextStyle.styleMedium
                   .copyWith(fontSize: DeviceUtil.isTablet ? 20 :14, color: Colors.grey.shade700),
@@ -60,7 +61,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
                 );
               },
               child: Text(
-                "Login",
+                Strings.kLogin,
                 style: CustomTextStyle.styleBold
                     .copyWith(color: CustomColors.colorDarkBlue,
                     fontSize: DeviceUtil.isTablet ? 20 :14),

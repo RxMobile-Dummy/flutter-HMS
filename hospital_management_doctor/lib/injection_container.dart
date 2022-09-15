@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hospital_management_doctor/core/failure/error_object.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/datasourse/appointment_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/datasourse/appointment_data_sourse_impl.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/repositories/appointment_repositories.dart';
@@ -142,15 +144,14 @@ Future<void> init() async {
 
 Future<Dio> createDioClient() async {
   Dio dio = Dio();
-  // Authorization Headers
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var authToken = prefs.getString('access');
+  var authToken = prefs.getString(Strings.kAccess);
   Map<String, dynamic> headers = {};
   if (authToken != null && authToken != "") {
-    headers["Accept"] = 'application/json';
-    headers["Authorization"] = authToken;
+    headers[Strings.kAccept] = Strings.kApplicationJson;
+    headers[Strings.kAuthorization] = authToken;
   }else{
-    headers["Accept"] = 'application/json';
+    headers[Strings.kAccept] = Strings.kApplicationJson;
   }
 
   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
@@ -166,38 +167,24 @@ Future<Dio> createDioClient() async {
     InterceptorsWrapper(
       onRequest: (request, handler) async {
         if (authToken != null && authToken != ''){
-          var authToken1 = prefs.getString('access');
-          request.headers['Authorization'] = 'Bearer $authToken1';
+          var authToken1 = prefs.getString(Strings.kAccess);
+          request.headers[Strings.kAuthorization] = 'Bearer $authToken1';
         }else {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          var authToken = prefs.getString('access');
-          // var authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTk2NzI5MTIsImVtYWlsIjoicmVlY2hhOTk5QGdtYWlsLmNvbSIsIm1vYmlsZV9udW1iZXIiOiIrOTE3MDA0MjQyOTU0In0.68SG-dqGiFRSsqQJqp0hqlHsSnvtaQhRjREk_OmpSdM";
-          Map<String, dynamic> headers = {};
+          var authToken = prefs.getString(Strings.kAccess);
+           Map<String, dynamic> headers = {};
           if (authToken != null && authToken != "") {
-            request.headers['Authorization'] = 'Bearer $authToken';
+            request.headers[Strings.kAuthorization] = 'Bearer $authToken';
           }else{
-            request.headers["Accept"] = 'application/json';
+            request.headers[Strings.kAccept] = Strings.kApplicationJson;
           }
         }
         return handler.next(request);
       },
-     /* onResponse: (response, handler) {
-        response.data = json.decode(response.data['data']);
-        print(response.data);
-        handler.next(response);
-      },*/
       onError: (err, handler) async {
         if (err.response?.statusCode == 401) {
           try {
-            //ErrorObject.logout();
-            /*  await refreshTokenCall();
-            var authToken = prefs.getString('access');
-            if (authToken != null || authToken != "") {
-              headers["Accept"] = 'application/json';
-              headers["Authorization"] = authToken;
-              dio.options.headers = headers;
-              dio.request(err.requestOptions.path);
-            }*/
+            ErrorObject.logout();
           } catch (err, st) {
             print(err);
           }

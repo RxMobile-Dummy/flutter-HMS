@@ -63,6 +63,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^20.2.46-beta
   geocoding: ^2.0.5
   url_launcher: ^6.1.5
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hospital_management_doctor/core/failure/error_object.dart';
 import 'package:hospital_management_doctor/core/failure/failure.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/profile/data/datasourse/profile_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/profile/data/model/get_profile_model.dart';
 import 'package:hospital_management_doctor/feature/profile/data/model/update_profile_model.dart';
@@ -23,7 +24,7 @@ class ProfileRepositoriesImpl extends ProfileRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -38,7 +39,7 @@ class ProfileRepositoriesImpl extends ProfileRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 

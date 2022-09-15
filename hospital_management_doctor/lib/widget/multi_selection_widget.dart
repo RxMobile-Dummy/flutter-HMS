@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 
 import '../utils/colors.dart';
 import '../utils/device_file.dart';
@@ -46,9 +47,7 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
             ),
             const SizedBox(height: 15,),
             TextFormField(
-              //initialValue: textEditingController?.text,
               controller: widget.controller,
-              //enabled: false,
               readOnly: true,
               maxLines: 5,
               style: CustomTextStyle.styleMedium.copyWith(
@@ -96,7 +95,6 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          //Here we will build the content of the dialog
           return AlertDialog(
             title: Text(widget.label),
             content: MultiSelectChip(
@@ -111,7 +109,7 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text("Add"),
+                child: Text(Strings.kAdd),
                 onPressed: () => Navigator.of(context).pop(),
               )
             ],

@@ -82,7 +82,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     "Endocrinologists",
     "Hematologists",
     "Gastroenterologists",
-    "Neurologists"
+    "Neurologist"
   ];
   var doctorId;
 
@@ -112,16 +112,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Update Doctor Profile", isBackPress: true),
+        child: CustomAppBar(title: Strings.kUpdateDoctorProfile, isBackPress: true),
       ),
       body:ErrorBlocListener<ProfileBloc>(
         bloc: BlocProvider.of<ProfileBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<ProfileBloc, BaseState>(builder: (context, state)  {
-          /* if(state is UpdateProfileState) {
-            ProgressDialog.hideLoadingDialog(context);
-            Navigator.of(context).pop();
-          }*/
           return  Form(
             key: _formKey,
             child: buildWidget(),
@@ -137,21 +132,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-             /* Text(
-                "Personal Information",
-                style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontStyle: FontStyle.normal,
-                    fontFamily: 'Open Sans',
-                    fontSize:  DeviceUtil.isTablet ? 22 : 18,
-                    color: CustomColors.colorDarkBlue
-                ),
-              ),*/
               const SizedBox(height: 20,),
               Center(
                   child: Stack(
                     clipBehavior: Clip.none,
-                    //fit: StackFit.expand,
                     children: [
                       GestureDetector(
                         child: CircleAvatar(
@@ -159,9 +143,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           backgroundColor: Colors.transparent,
                           backgroundImage: (imageFile == null || imageFile == "")
                               ? const AssetImage(
-                            'assets/images/person_image.jpeg',
+                            Strings.kPersonImage,
                           )
-                              : imageFile.toString().contains("doctor/app/doctor_images")
+                              : imageFile.toString().contains(Strings.kDoctorImageStoredPath)
                               ? NetworkImage(
                             "${Strings.baseUrl}${imageFile?.path}",
                           )
@@ -183,7 +167,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                             Colors.grey)),
                                     child: showSheetForImage()),
                               ));
-                          print("OPEN");
                         },
                       ),
                       Positioned(
@@ -201,13 +184,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                               ),
                             ),
                             color: CustomColors.colorDarkBlue,
-                            /*boxShadow: [
-                              BoxShadow(
-                                offset: Offset(2, 4),
-                                color: Colors.transparent,
-                                blurRadius: 3,
-                              ),
-                            ]*/
                           ),
                           child: InkWell(
                             child: Padding(
@@ -233,7 +209,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                 Colors.grey)),
                                         child: showSheetForImage()),
                                   ));
-                              print("OPEN");
                             },
                           ),
                         ),
@@ -242,26 +217,26 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   )),
               const SizedBox(height: 20,),
               CustomTextField(
-                key: const Key("tefFirstname"),
-                label: "First Name",
-                hint: "Enter First Name",
-                errorMessage: "Please Enter First name",
+                key: const Key(Strings.kFirstNameKey),
+                label: Strings.kFirstNameLabel,
+                hint: Strings.kFirstNameHint,
+                errorMessage: Strings.kFirstNameErrorMessage,
                 textEditingController: firstNameController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefLastName"),
-                label: "Last Name",
-                hint: "Enter Last Name",
-                errorMessage: "Please Enter Last name",
+                key: const Key(Strings.kLastNameKey),
+                label: Strings.kLastNameLabel,
+                hint: Strings.kLastNameHint,
+                errorMessage: Strings.kLastNameErrorMessage,
                 textEditingController: lastNameController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefMobilenumber"),
-                label: "Mobile number",
-                hint: "Enter mobile number",
-                errorMessage: "Please Enter mobile number",
+                key: const Key(Strings.kMobileKey),
+                label: Strings.kMobileLabel,
+                hint: Strings.kMobileHint,
+                errorMessage: Strings.kMobileHErrorMessage,
                 isMobile: true,
                 readOnly: true,
                 textInputType: TextInputType.phone,
@@ -269,10 +244,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefEmail"),
-                label: "Email",
-                hint: "Enter email",
-                errorMessage: "Please Enter email",
+                key: const Key(Strings.kEmailKey),
+                label: Strings.kEmail,
+                hint: Strings.kEmailHint,
+                errorMessage: Strings.kEmailErrorMessage,
                 isEmail: true,
                 readOnly: true,
                 textInputType: TextInputType.emailAddress,
@@ -282,29 +257,29 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               DropDown(
                 dropDownList: genderDropDown,
                 selectedValue: genderController.text,
-                label: "Select Gender",
+                label: Strings.kGenderLabel,
                 controller: genderController,
-                errorMessage: "Please select gender",
+                errorMessage: Strings.kGenderErrorMessage,
               ),
               const SizedBox(height: 10,),
               DropDown(
                 dropDownList: bloodGroupDropDown,
                 selectedValue: bloodGroupController.text,
                 controller: bloodGroupController,
-                errorMessage: "Please select Blood group",
-                label: "Select Blood Group",
+                errorMessage: Strings.kBloodGroupErrorMessage,
+                label: Strings.kBloodGroupLabel,
               ),
               DatePicker(
                 dateController: dateController,
-                lableText: "Date Of Birth",
+                lableText: Strings.kDateOfBirth,
                 firstDate: DateTime(1950),
                 lastDate: DateTime.now(),
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefYearOfExperience"),
-                label: "Year Of Experience",
-                hint: "Enter Year Of Experience",
+                key: const Key(Strings.kYearOfExperienceKey),
+                label: Strings.kYearOfExperienceLabel,
+                hint: Strings.kYearOfExperienceHint,
                 textEditingController: yearOfExperienceController,
               ),
               const SizedBox(height: 10,),
@@ -312,44 +287,44 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 controller: nextAvailabilityController,
                 dropDownList: timeSlotDropDown,
                 selectedValue:  nextAvailabilityController.text,
-                label: "Select Availability",
-                errorMessage: "Select time slot",
+                label: Strings.kSelectAvailabilityLabel,
+                errorMessage: Strings.kSelectAvailabilityErrorMessage,
               ),
               const SizedBox(height: 10,),
               DropDown(
                 controller: specialistFieldController,
                 dropDownList: departmentDropDown,
                 selectedValue:  specialistFieldController.text.isNotEmpty ? specialistFieldController.text : departmentDropDown[0],
-                label: "Select Specialist Field",
-                errorMessage: "Select Specialist Field",
+                label: Strings.kSpecialistField,
+                errorMessage: Strings.kSpecialistField,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefEducation"),
-                label: "Qualification",
-                hint: "Enter Qualification",
-                errorMessage: "Please Enter Qualification",
+                key: const Key(Strings.kEducationKey),
+                label: Strings.kEducationLabel,
+                hint: Strings.kEducationHint,
+                errorMessage: Strings.kEducationErrorMessage,
                 textEditingController: educationController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefAbout"),
-                label: "About",
-                hint: "Enter About",
+                key: const Key(Strings.kAboutKey),
+                label: Strings.kAbout,
+                hint: Strings.kAboutHint,
                 minLines: 5,
-                errorMessage: "Please Enter About",
+                errorMessage: Strings.kAboutErrorMessage,
                 textEditingController: aboutController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefClinicFees"),
-                label: "Clinic Fees",
-                hint: "Enter Clinic Fees",
-                errorMessage: "Please Enter Clinic Fees",
+                key: const Key(Strings.kClinicFeesKey),
+                label: Strings.kClinicFeesLabel,
+                hint: Strings.kClinicFeesHint,
+                errorMessage: Strings.kClinicFeesErrorMessage,
                 textEditingController: clinicFeesController,
               ),
               Button(
-                "Update Profile",
+                Strings.kUpdateProfile,
                 onPress: () {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
@@ -376,7 +351,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   } else {
                     Fluttertoast.cancel();
                     Fluttertoast.showToast(
-                        msg: 'Please fill all the details.',
+                        msg: Strings.kPleaseFillAllDetails,
                         toastLength: Toast.LENGTH_LONG,
                         fontSize: DeviceUtil.isTablet ? 20 : 12,
                         backgroundColor: CustomColors.colorDarkBlue,
@@ -417,7 +392,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   },
                 ),
                 Text(
-                  "Camera",
+                  Strings.kCamera,
                   style: CustomTextStyle.styleBold,
                 )
               ],
@@ -438,7 +413,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     },
                   ),
                   Text(
-                    "Gallery",
+                    Strings.kGallery,
                     style: CustomTextStyle.styleBold,
                   )
                 ],

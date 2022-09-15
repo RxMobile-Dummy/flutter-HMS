@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/profile/presentation/bloc/profile_state.dart';
 
@@ -62,7 +63,7 @@ showDialogForError({required BuildContext context, String? errorMessage,dynamic 
               });
             },
             child: Text(
-              "Yes",
+              Strings.kYes,
               style: CustomTextStyle.styleSemiBold
                   .copyWith(color: CustomColors.colorDarkBlue, fontSize:
               DeviceUtil.isTablet ? 18 : 16),),

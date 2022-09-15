@@ -6,6 +6,7 @@ import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/profile/data/model/get_profile_model.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
 import 'package:hospital_management_doctor/utils/device_file.dart';
+import 'package:hospital_management_doctor/utils/style.dart';
 import 'package:hospital_management_doctor/widget/expandable_text.dart';
 import 'package:hospital_management_doctor/widget/star_display_widget.dart';
 import 'package:geocoding/geocoding.dart';
@@ -41,9 +42,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          "Doctor Details",
+          Strings.kDoctorDetails,
           style: TextStyle(
-              fontSize: 20,
+              fontSize: DeviceUtil.isTablet ? 26:20,
               color: (Theme.of(context).brightness ==
                   Brightness.dark)
                   ? Colors.white
@@ -54,7 +55,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
           child: Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
-            size: 20,
+            size: DeviceUtil.isTablet ? 22:20,
           ),
           onTap: () {
             Navigator.of(context).pop();
@@ -70,17 +71,14 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // SizedBox(height: 50,),
           Card(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      // mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Stack(
                           alignment: Alignment.bottomCenter,
@@ -102,7 +100,6 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                     (widget.getProfileModel.data!.profilePic != null && widget.getProfileModel.data!.profilePic != "")
                                         ? "${Strings.baseUrl}${widget.getProfileModel.data!.profilePic}"
                                         : "",),
-                                  //AssetImage("assets/images/ii_1.png"),
                                 ),
                               ),
                             ),
@@ -115,9 +112,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "Experience",
+                                Strings.kExperience,
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 16 :14,
+                                    fontSize: DeviceUtil.isTablet ? 18 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -130,7 +127,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               Text(
                                 "${widget.getProfileModel.data!.yearsOfExperience} years",
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 18 :16,
+                                    fontSize: DeviceUtil.isTablet ? 20 :16,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -141,9 +138,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                 height: DeviceUtil.isTablet ? 80 :50,
                               ),
                               Text(
-                                "Consultancy Fees",
+                                Strings.kConsultancyFees,
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 16 :14,
+                                    fontSize: DeviceUtil.isTablet ? 18 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -156,7 +153,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               Text(
                                 "${widget.getProfileModel.data!.inClinicAppointmentFees} \$",
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 18 :16,
+                                    fontSize: DeviceUtil.isTablet ? 20 :16,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -179,7 +176,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Dr.",
+                              Strings.kDr,
                               maxLines: 3,
                               style: TextStyle(
                                   fontSize: DeviceUtil.isTablet ? 24 :22,
@@ -217,7 +214,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                             Text(
                               "${widget.getProfileModel.data!.specialistField} Department",
                               style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                                  fontSize: DeviceUtil.isTablet ? 20 :16,
                                   color: (Theme.of(context).brightness ==
                                       Brightness.dark)
                                       ? Colors.white
@@ -232,9 +229,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               (ratings > 0) ? Text(
-                                "Feedbacks",
+                                Strings.kFeedback,
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 16 :14,
+                                    fontSize: DeviceUtil.isTablet ? 18 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -250,8 +247,8 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                 children: [
                                   StarDisplayWidget(
                                     value: ratings.toInt()~/widget.getProfileModel.data!.feedbacks!.length,
-                                    filledStar:  Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 18 :15),
-                                    unfilledStar:  Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 18 :15,),
+                                    filledStar:  Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 22 :15),
+                                    unfilledStar:  Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 20 :15,),
                                   ),
                                   Text(
                                     "  (${ratings.toInt()~/widget.getProfileModel.data!.feedbacks!.length})",
@@ -259,7 +256,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                         fontWeight: FontWeight.w500,
                                         fontStyle: FontStyle.normal,
                                         fontFamily: 'Open Sans',
-                                        fontSize: DeviceUtil.isTablet ? 18 :15,
+                                        fontSize: DeviceUtil.isTablet ? 20 :15,
                                         color: Colors.orange
                                     ),
                                   )
@@ -269,9 +266,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                 height: 20,
                               ),
                               Text(
-                                "Availability",
+                                Strings.kAvailability,
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 16 :14,
+                                    fontSize: DeviceUtil.isTablet ? 18 :14,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -284,7 +281,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               Text(
                                 widget.getProfileModel.data!.nextAvailableAt ?? "",
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 18 :16,
+                                    fontSize: DeviceUtil.isTablet ? 20 :16,
                                     color: (Theme.of(context).brightness ==
                                         Brightness.dark)
                                         ? Colors.white
@@ -306,9 +303,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "About",
+                        Strings.kAbout,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 16 :14,
+                            fontSize: DeviceUtil.isTablet ? 18 :14,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
@@ -332,9 +329,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(child: Text(
-                          "Services At",
+                          Strings.kServicesAt,
                           style: TextStyle(
-                              fontSize: DeviceUtil.isTablet ? 16 :14,
+                              fontSize: DeviceUtil.isTablet ? 18 :14,
                               color: (Theme.of(context).brightness ==
                                   Brightness.dark)
                                   ? Colors.white
@@ -343,14 +340,14 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                         ),),
                         InkWell(
                           child:  Text(
-                            "View In Map",
+                            Strings.kViewInMap,
                             style: TextStyle(
-                                fontSize: DeviceUtil.isTablet ? 16 :14,
+                                fontSize: DeviceUtil.isTablet ? 18 :14,
                                 color: CustomColors.colorDarkBlue,
                                 fontWeight: FontWeight.w500),
                           ),
                           onTap: () async {
-                            List<Location> locations = await locationFromAddress("1, Tulsibaug Society, Opp. Doctor House, Nr. Parimal Garden, Ellisbridge, Ahmedabad – 380006");
+                            List<Location> locations = await locationFromAddress(Strings.kAddress);
                             navigateTo(locations.first.latitude, locations.first.longitude);
                           },
                         )
@@ -358,9 +355,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                     ),
                     SizedBox(height: DeviceUtil.isTablet ? 18 :15,),
                     Text(
-                      "Apollo Hospitals City Center",
+                      Strings.kHospitalLabel,
                       style: TextStyle(
-                          fontSize: DeviceUtil.isTablet ? 18 :16,
+                          fontSize: DeviceUtil.isTablet ? 20 :16,
                           color: (Theme.of(context).brightness ==
                               Brightness.dark)
                               ? Colors.white
@@ -368,10 +365,13 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
-                    const Text(
-                      "1, Tulsibaug Society, Opp. Doctor House, Nr. Parimal Garden, Ellisbridge, Ahmedabad – 380006",
+                     Text(
+                      Strings.kAddress,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
+                      style: CustomTextStyle.styleMedium.copyWith(
+                        fontSize: DeviceUtil.isTablet ? 20 : 16
+                      ),
                     ),
                   ],
                 )),
@@ -383,9 +383,9 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Feedbacks",
+                        Strings.kFeedback,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 16 :14,
+                            fontSize: DeviceUtil.isTablet ? 18 :14,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
@@ -416,15 +416,15 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                 style:  TextStyle(
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: DeviceUtil.isTablet ? 17 :15,
+                                    fontSize: DeviceUtil.isTablet ? 18 :15,
                                     color: Colors.black
                                 ),
                               ),
                               SizedBox(height: DeviceUtil.isTablet ? 7 :5,),
                               StarDisplayWidget(
                                 value: double.parse(widget.getProfileModel.data!.feedbacks![index].rating ?? "").toInt(),
-                                filledStar: Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 20 :15),
-                                unfilledStar: Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 20 :15,),
+                                filledStar: Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 22 :15),
+                                unfilledStar: Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 22 :15,),
                               ),
                               SizedBox(height: DeviceUtil.isTablet ? 20 :15,),
                             ],
@@ -445,20 +445,19 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
       await launch(uri.toString());
     } else {
       Fluttertoast.showToast(
-          msg: "Could not open google map",
+          msg: Strings.kCouldNotOpenInGoogleMap,
           toastLength: Toast.LENGTH_LONG,
           fontSize: DeviceUtil.isTablet ? 20 : 12,
           backgroundColor: CustomColors.colorDarkBlue,
           textColor: Colors.white
       );
-      //throw 'Could not launch ${uri.toString()}';
     }
   }
 
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+            ? Strings.kDummyPersonImage
             : imagePath);
   }
 }

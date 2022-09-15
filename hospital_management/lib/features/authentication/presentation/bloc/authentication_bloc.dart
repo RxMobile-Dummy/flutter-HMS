@@ -195,7 +195,7 @@ resetPasswordCall({String? otp, String? password}) {
         email: email ?? "",
         password: password ?? "",
         allergy: allergy ?? "",
-        profilePic: profilePic!,
+        profilePic: profilePic ?? "",
         firstName: firstName ?? "",
         lastName: lastName ?? "",
         occupation: occupation ?? "",
