@@ -11,9 +11,11 @@ import 'package:hospital_management/features/appoinment/data/repositories/appoin
 import 'package:hospital_management/features/appoinment/domain/repositories/appointment_repositories.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/book_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/delete_appointment_usecase.dart';
+import 'package:hospital_management/features/appoinment/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/get_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/update_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
+import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management/features/authentication/data/datasource/authentication_data_source.dart';
 import 'package:hospital_management/features/authentication/data/datasource/authentication_data_source_impl.dart';
 import 'package:hospital_management/features/authentication/data/repositories/authentication_repositories.dart';
@@ -87,6 +89,7 @@ Future<void> init() async {
       getPatientProfileUsecase: Sl.call(),
   updatePatientUsecase: Sl.call()));
   Sl.registerFactory(() => FeedbackBloc(sendDoctorFeedbackUsecase: Sl.call()));
+  Sl.registerFactory(() => AppointmentStatusBloc(getAppointmentStatusUsecase: Sl.call()));
 
   // Use cases
   Sl.registerLazySingleton(() => GetAllergiesUsecase(authenticationRepositories: Sl()));
@@ -107,6 +110,7 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => DeleteAppointmentUsecase(appointmentRepositories: Sl()));
   Sl.registerLazySingleton(() => UpdateAppointmentUsecase(appointmentRepositories: Sl()));
   Sl.registerLazySingleton(() => FilterDoctorUsecase(doctorRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetAppointmentStatusUsecase(appointmentRepositories: Sl()));
 
 
   // Repository

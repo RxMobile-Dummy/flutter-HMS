@@ -30,12 +30,6 @@ class _DatePickerState extends State<DatePicker> {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-       /* Text(
-          widget.lableText,
-          style: CustomTextStyle.styleBold.copyWith(
-              fontSize: DeviceUtil.isTablet ? 16 : 14
-          ),
-        ),*/
         const SizedBox(height: 5,),
         Container(
             padding: const EdgeInsets.only(top: 16),

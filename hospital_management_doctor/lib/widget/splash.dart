@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_doctor/feature/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,21 +26,18 @@ class _SplashState extends State<Splash> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var authToken = prefs.getString('access');
-      var isOnBoardingComplete = prefs.getString("isOnBoardingCompleted");
+      var authToken = prefs.getString(Strings.kAccess);
+      var isOnBoardingComplete = prefs.getString(Strings.kOnBoardingBool);
       Timer(Duration(seconds: 2), () {
         Get.off(
             MultiBlocProvider(providers: [
               BlocProvider<AuthenticationBloc>(
                 create: (context) => Sl.Sl<AuthenticationBloc>(),
               ),
-              /*BlocProvider<AppointmentBloc>(
+              BlocProvider<AppointmentBloc>(
                 create: (context) => Sl.Sl<AppointmentBloc>(),
               ),
-              BlocProvider<DoctorBloc>(
-                create: (context) => Sl.Sl<DoctorBloc>(),
-              ),*/
-            ], child: authToken == null ? (isOnBoardingComplete == "true") ? LoginScreen() : OnBoarding() : HomeScreen()
+            ], child: authToken == null ? (isOnBoardingComplete == Strings.kTrue) ? LoginScreen() : OnBoarding() : HomeScreen()
         ));
       });
     });
@@ -55,10 +54,10 @@ class _SplashState extends State<Splash> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/hospital1.png",width: imageWidth,height: imageWidth,),
+            Image.asset(Strings.kHospitalImage,width: imageWidth,height: imageWidth,),
             sized_16(),
             Text(
-              "Hospital Management",
+              Strings.kHospitalManagement,
               style: CustomTextStyle.styleBold.copyWith(fontSize: 20),
             ),
           ],

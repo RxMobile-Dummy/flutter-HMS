@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:hospital_management_doctor/utils/colors.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../core/strings/strings.dart';
@@ -30,7 +31,8 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Document"),
+        backgroundColor: CustomColors.colorDarkBlue,
+        title: Text(Strings.kDocument),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
@@ -38,11 +40,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           ),
         ],
       ),
-      body: /*SfPdfViewer.network(
-        "${Strings.baseUrl}${widget.path}",
-        key: _pdfViewerKey,
-      ),
-    );*/Stack(
+      body: Stack(
         children: <Widget>[
           (widget.path!.contains(".png") ||
               widget.path!.contains(".jpeg") ||
@@ -106,6 +104,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         builder: (context, AsyncSnapshot<PDFViewController> snapshot) {
           if (snapshot.hasData) {
             return FloatingActionButton.extended(
+              backgroundColor: CustomColors.colorDarkBlue,
               label: Text("Go to ${pages! ~/ 2}"),
               onPressed: () async {
                 await snapshot.data!.setPage(pages! ~/ 2);

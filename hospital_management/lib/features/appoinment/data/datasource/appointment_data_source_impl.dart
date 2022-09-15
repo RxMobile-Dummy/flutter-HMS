@@ -5,9 +5,11 @@ import 'package:hospital_management/features/appoinment/data/datasource/appointm
 import 'package:hospital_management/features/appoinment/data/model/book_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/delete_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
+import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/update_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/book_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/delete_appointment_usecase.dart';
+import 'package:hospital_management/features/appoinment/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/get_appointment_usecase.dart';
 import 'package:hospital_management/features/appoinment/domain/usecases/update_appointment_usecase.dart';
 
@@ -155,6 +157,21 @@ class AppointmentDataSourceImpl implements AppointmentDataSource {
     return data;
   }
 
-  
+  @override
+  Future<GetAppointmentStatusModel> getAppointmentStatusCall(GetAppointmentStatusParams params) async {
+    var map =  HashMap<String, dynamic>();
+    map["id"] = params.id;
+    final response = await _apiClient.getAppointmentStatus(map);
+    var data;
+    if (response != null) {
+      data = response;
+      return data;
+    } else {
+      print('failed');
+    }
+    return data;
+  }
+
+
 
 }

@@ -72,7 +72,6 @@ class _DropDownState extends State<DropDown> {
           borderRadius: BorderRadius.circular(5),
           hint:  Text(widget.label),
           value: widget.selectedValue,
-         // isDense: true,
           onChanged: (String? newValue) {
               widget.controller.text = newValue ?? "";
               widget.selectedValue = newValue!;

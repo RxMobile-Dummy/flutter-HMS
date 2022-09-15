@@ -13,7 +13,6 @@ class MultiSelectChip extends StatefulWidget {
 }
 
 class _MultiSelectChipState extends State<MultiSelectChip> {
-  // String selectedChoice = "";
   List<String> selectedChoices = [];
 
   _buildChoiceList() {

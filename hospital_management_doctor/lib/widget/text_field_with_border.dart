@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 
 import '../utils/colors.dart';
 import '../utils/device_file.dart';
@@ -42,18 +43,10 @@ class CustomTextFieldWithBorder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     // margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /*Text(
-            label!,
-            style: CustomTextStyle.styleBold.copyWith(
-                fontSize: DeviceUtil.isTablet ? 16 : 14
-            ),
-          ),*/
           TextFormField(
-            //initialValue: textEditingController?.text,
             controller: textEditingController,
             keyboardType: textInputType,
             minLines: minLines,
@@ -63,14 +56,14 @@ class CustomTextFieldWithBorder extends StatelessWidget {
               if (value!.isEmpty) {
                 return errorMessage;
               }else if(isEmail!){
-                bool emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$').hasMatch(value);
+                bool emailValid = RegExp(Strings.kEmailRegExp).hasMatch(value);
                 if(!emailValid){
-                  return "Please enter valid email.";
+                  return Strings.kEmailValidationMessage;
                 }
               }else if(isMobile!){
-                bool mobileValid = RegExp(r'^(?:[+0]9)?[0-9]{10}$').hasMatch(value);
+                bool mobileValid = RegExp(Strings.kMobileRegExp).hasMatch(value);
                 if(!mobileValid){
-                  return "Please enter valid mobile number.";
+                  return Strings.kMobileValidationMessage;
                 }
               }
               return null;
@@ -102,7 +95,6 @@ class CustomTextFieldWithBorder extends StatelessWidget {
               errorStyle:CustomTextStyle.styleMedium
                   .copyWith(fontSize: 12, color: Colors.red),
               suffixIcon: icon,
-              // errorText: errorMessage,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius!),
                 borderSide: const BorderSide(width: 1, color: Colors.grey),
@@ -110,7 +102,6 @@ class CustomTextFieldWithBorder extends StatelessWidget {
               alignLabelWithHint: true,
             ),
           ),
-          //const SizedBox(height: 20,)
         ],
       ),
     );

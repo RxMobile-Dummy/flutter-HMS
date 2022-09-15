@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
+import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appoinment_list_page.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appointment_details_page.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appointment_feedback_page.dart';
@@ -150,12 +151,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                                   BlocProvider<AppointmentBloc>(
                                     create: (context) => Sl.Sl<AppointmentBloc>(),
                                   ),
+                                  BlocProvider<AppointmentStatusBloc>(
+                                    create: (context) => Sl.Sl<AppointmentStatusBloc>(),
+                                  ),
                                 ],
                                 child:  AppoinmentListPage(),
                               )),
                         );
                       }).then((value) async {
-                        await _getAppointment(patientId ?? "","");
+                       // await _getAppointment(patientId ?? "","");
                       });
                     }else if(index == 1){
                       Future.delayed(Duration.zero, () {

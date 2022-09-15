@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:hospital_management/features/appoinment/data/model/book_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/delete_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
+import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/update_appointment_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_alleries_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_food_prefrence_model.dart';
@@ -26,7 +27,7 @@ import '../../features/feedback/data/model/send_patient_feedback.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://426d-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://4e79-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;
@@ -94,5 +95,9 @@ abstract class  ApiClient {
 
   @POST('doctor/get_doctor_filter')
   Future<FilterDoctorModel> filterDoctor(
+      @Body() HashMap<String, dynamic> hashMap,);
+
+  @POST('appointment/get_appointment_status')
+  Future<GetAppointmentStatusModel> getAppointmentStatus(
       @Body() HashMap<String, dynamic> hashMap,);
 }

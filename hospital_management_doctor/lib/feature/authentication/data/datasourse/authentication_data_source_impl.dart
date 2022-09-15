@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:hospital_management_doctor/core/api_call/baseClient.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/reset_password_model.dart';
@@ -17,46 +19,46 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @override
   Future<SignInDoctorModel> signInDoctorCall(SignInParams params) async{
     var map =  HashMap<String, String>();
-    map['email'] = params.email;
-    map['password'] = params.password;
+    map[CommonKeys.K_Email] = params.email;
+    map[CommonKeys.K_Password] = params.password;
     final response = await _apiClient.doctorLogIn(map);
     var data ;
     if(response != null ){
       data = response;
       return data;
     }else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
 
   @override
   Future<ForgotPasswordModel> forgotPasswordCall(ForgotPasswordParams params) async {
-    var map = new HashMap<String, String>();
-    map['email'] = params.email;
+    var map =  HashMap<String, String>();
+    map[CommonKeys.K_Email] = params.email;
     final response = await _apiClient.forgotPassword(map);
     var data ;
     if(response != null ){
       data = response;
       return data;
     }else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
 
   @override
   Future<ResetPasswardModel> resetPasswordCall(ResetPasswordParams params) async {
-    var map = new HashMap<String, String>();
-    map['new_password'] = params.password;
-    map['otp'] = params.OTP;
+    var map =  HashMap<String, String>();
+    map[CommonKeys.K_New_Password] = params.password;
+    map[CommonKeys.K_Otp] = params.OTP;
     final response = await _apiClient.resetPassword(map);
     var data ;
     if(response != null ){
       data = response;
       return data;
     }else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_state.dart';
@@ -34,22 +36,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: ErrorBlocListener<AuthenticationBloc>(
         bloc: BlocProvider.of<AuthenticationBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AuthenticationBloc, BaseState>(builder: (context, state)  {
           if(state is SignInDoctorState) {
             ProgressDialog.hideLoadingDialog(context);
             Future.delayed(Duration.zero, () {
               Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => HomeScreen()/*MultiBlocProvider(
+                  MaterialPageRoute(builder: (context) => MultiBlocProvider(
                       providers: [
                         BlocProvider<AppointmentBloc>(
                           create: (context) => Sl.Sl<AppointmentBloc>(),
                         ),
-                        BlocProvider<DoctorBloc>(
-                          create: (context) => Sl.Sl<DoctorBloc>(),
-                        ),
                       ],
-                      child: Home())*/),
+                      child: HomeScreen())),
                       (route) => false);
             });
           }
@@ -76,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 22,vertical: 20),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: DeviceUtil.isTablet ? 300: 200,
                                   decoration: const BoxDecoration(
                                       image: DecorationImage(
-                                        image: AssetImage("assets/images/patient.jpeg"),
+                                        image: AssetImage(Strings.kPatientImage),
                                         fit: BoxFit.fill,
                                       )
                                   ),
@@ -99,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children:  [
                                     Text(
-                                      "LOGIN",
+                                      Strings.kLoginLabel,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w900,
                                           fontStyle: FontStyle.normal,
@@ -109,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                     Text(
-                                      "PAGE",
+                                      Strings.kPageLabel,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w900,
                                           fontStyle: FontStyle.normal,
@@ -123,19 +121,19 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               SizedBox(height: DeviceUtil.isTablet ? 20 : 5,),
                               CustomTextFieldWithBorder(
-                                key: const Key("tefEmail"),
-                                label: "Email Address",
-                                hint: "Enter Email",
-                                errorMessage: "Please Enter Email",
+                                key: const Key(Strings.kEmailKey),
+                                label: Strings.kEmailLabel,
+                                hint: Strings.kEmailHint,
+                                errorMessage: Strings.kEmailErrorMessage,
                                 isEmail: true,
                                 textInputType: TextInputType.emailAddress,
                                 textEditingController: emailController,
                               ),
                               SizedBox(height:  DeviceUtil.isTablet ? 20 : 10,),
                               CustomTextFieldWithBorder(
-                                key: const Key("tefPassword"),
-                                label: "Password",
-                                hint: "Enter Password",
+                                key: const Key(Strings.kPasswordKey),
+                                label: Strings.kPasswordLabel,
+                                hint: Strings.kPasswordHint,
                                 isObscureText: isPasswordShow,
                                 icon: IconButton(
                                     icon: Icon(
@@ -149,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         isPasswordShow = !isPasswordShow;
                                       });
                                     }),
-                                errorMessage: "Please Enter Password",
+                                errorMessage: Strings.kPasswordErrorMessage,
                                 textEditingController: passwordController,
                               ),
                               SizedBox(height: DeviceUtil.isTablet ? 20 : 5,),
@@ -158,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   GestureDetector(
                                     child: Text(
-                                      "Forgot Password ?",
+                                      Strings.kForgotPassword,
                                       style: CustomTextStyle.styleMedium.copyWith(
                                           color: CustomColors.colorDarkBlue,
                                           fontSize: DeviceUtil.isTablet ? 16 : 14
@@ -192,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           FocusScope.of(context).unfocus();
                                           Fluttertoast.cancel();
                                           Fluttertoast.showToast(
-                                              msg: "Please fill all the details.",
+                                              msg: Strings.kPleaseFillAllDetails,
                                               toastLength: Toast.LENGTH_LONG,
                                               fontSize: DeviceUtil.isTablet ? 20 : 12,
                                               backgroundColor: CustomColors.colorDarkBlue,
@@ -205,8 +203,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         shape: StadiumBorder(),
                                       ),
                                       child:  Text(
-                                        "Log In",
-                                        style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
+                                        Strings.kLogIn,
+                                        style: CustomTextStyle.styleSemiBold.copyWith(
+                                            color: Colors.white),
                                       ),
                                     ),
                                   )

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 
 import '../utils/device_file.dart';
 
@@ -27,7 +28,7 @@ class ProgressDialog {
                     height: DeviceUtil.isTablet ? 15 : 10,
                   ),
                   Text(
-                    'Loading...',
+                    Strings.kLoading,
                     style:
                     TextStyle(color: (Theme.of(context).brightness == Brightness.dark)? Colors.white :  Colors.black,
                         fontSize: DeviceUtil.isTablet ? 20 : 15,fontWeight: FontWeight.w500),
