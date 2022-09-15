@@ -43,7 +43,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
   TextEditingController reportSuggestionController = TextEditingController();
   TextEditingController appointmentStatusController = TextEditingController();
   List<String> statusRadioList = [
-    "-- Select Status --"
+    Strings.kSelectStatus
   ];
   List<String> medicineList = [];
   String appointmentStatus = "";
@@ -80,7 +80,6 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
 
   Future<String> _getMedicineList(String id) {
     return Future.delayed(const Duration()).then((_) {
-      //ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<MedicineBloc>(context).add(
           GetMedicineEvent(id: id));
       return "";
@@ -94,24 +93,11 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Update Appointment",isBackPress: true),
+        child: CustomAppBar(title: Strings.kUpdateAppointment,isBackPress: true),
       ),
       body: ErrorBlocListener<AppointmentBloc>(
         bloc: BlocProvider.of<AppointmentBloc>(context),
         child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
-        /*   if(state is GetAppointmentStatusState){
-             statusRadioList = [];
-            ProgressDialog.hideLoadingDialog(context);
-            getAppointmentStatusModel = state.model!;
-            for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
-              statusRadioList.add(getAppointmentStatusModel.data![i].status ?? "");
-            }
-            for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
-              if(int.parse(widget.getAppointmentModel!.data![widget.index].statusId ?? "") == getAppointmentStatusModel.data![i].aId){
-                appointmentStatus = getAppointmentStatusModel.data![i].status ?? "";
-              }
-            }
-          }*/
           return  Form(
             key: _formKey,
             child: buildWidget(),
@@ -141,8 +127,8 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                     return MultiSelectionWidget(
                       controller: medicineController,
                       displayList: medicineList,
-                      label: "Select Medicine name",
-                      errorMessage: Strings.errorMessageForMedicine,
+                      label: Strings.kSelectMedicineName,
+                      errorMessage: Strings.kErrorMessageForMedicine,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -160,19 +146,12 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                   }
                 },
               ),
-             /* CustomTextField(
-                key: const Key("tefMedicine"),
-                label: "Medicine Name",
-                hint: "Enter Medicine Name",
-                errorMessage: "Please Enter Medicine name",
-                textEditingController: medicineController,
-              ),*/
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefReportSuggestion"),
-                label: "Report Suggestion Name",
-                hint: "Enter Report Suggestion Name",
-                errorMessage: "Please Enter Report Suggestion name",
+                key: const Key(Strings.kReportSuggestionKey),
+                label: Strings.kReportSuggestionName,
+                hint: Strings.kReportSuggestionHint,
+                errorMessage: Strings.kReportSuggestionErrorMessage,
                 textEditingController: reportSuggestionController,
               ),
               BlocBuilder<AppointmentStatusBloc, BaseState>(builder: (context, state)  {
@@ -196,26 +175,13 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                         ?statusRadioList[0]
                         : appointmentStatus
                         : appointmentStatusController.text,
-                    label: "Select Appointment Status",
-                    errorMessage: "Select Appointment Status",
+                    label: Strings.kSelectAppointmentStatus,
+                    errorMessage: Strings.kSelectAppointmentStatus,
                   );
                 }
                 return  const SizedBox();
 
               }),
-            /*  const SizedBox(height: 10,),
-              (getAppointmentStatusModel != null)
-              ? DropDown(
-                controller: appointmentStatusController,
-                dropDownList: statusRadioList,
-                selectedValue:  appointmentStatusController.text.isEmpty ?
-                appointmentStatus.isEmpty
-                    ?statusRadioList[0]
-                    : appointmentStatus
-                    : appointmentStatusController.text,
-                label: "Select Appointment Status",
-                errorMessage: "Select Appointment Status",
-              ) : const SizedBox(),*/
               const SizedBox(height: 20,),
               Row(
                 children: [
@@ -262,7 +228,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           FocusScope.of(context).unfocus();
                           Fluttertoast.cancel();
                           Fluttertoast.showToast(
-                              msg: "Please fill all the details.",
+                              msg: Strings.kPleaseFillAllDetails,
                               toastLength: Toast.LENGTH_LONG,
                               fontSize: DeviceUtil.isTablet ? 20 : 12,
                               backgroundColor: CustomColors.colorDarkBlue,
@@ -275,7 +241,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                         shape: StadiumBorder(),
                       ),
                       child:  Text(
-                        "Update Appointment",
+                        Strings.kUpdateAppointment,
                         style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                       ),
                     ),

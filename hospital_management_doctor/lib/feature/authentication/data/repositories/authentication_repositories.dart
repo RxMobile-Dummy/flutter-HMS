@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hospital_management_doctor/core/failure/error_object.dart';
 import 'package:hospital_management_doctor/core/failure/failure.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/reset_password_model.dart';
@@ -25,7 +26,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -40,7 +41,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -55,7 +56,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 

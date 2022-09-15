@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:hospital_management_doctor/core/api_call/baseClient.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/medicine/data/datasourse/medicine_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/medicine/data/model/get_medicine_model.dart';
 import 'package:hospital_management_doctor/feature/medicine/domain/usecases/get_medicine_usecase.dart';
@@ -13,14 +15,14 @@ class MedicineDataSourceImpl implements MedicineDataSource {
   @override
   Future<GetMedicineModel> getMedicineCall(GetMedicineParams params) async {
     var map =  HashMap<String, dynamic>();
-    map["id"] = params.id;
+    map[CommonKeys.K_Id] = params.id;
     final response = await _apiClient.getMedicine(map);
     var data;
     if (response != null) {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }

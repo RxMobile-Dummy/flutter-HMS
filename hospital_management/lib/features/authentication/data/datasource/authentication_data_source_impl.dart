@@ -103,8 +103,18 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
 
   @override
   Future<AddPatientModel> addPatientCall(AddPatientParams params) async{
-    MultipartFile multipartFile =
-    await MultipartFile.fromFile(params.profilePic ?? "", filename: pathManager.basename(params.profilePic ?? ""));
+    MultipartFile? multipartFile;
+    if(params.profilePic!.isNotEmpty) {
+      if(!params.profilePic![0].contains("patient_images")) {
+        multipartFile =
+        await MultipartFile.fromFile(
+          params.profilePic ?? "",
+          filename: pathManager.basename(params.profilePic ?? ""),
+        );
+      }
+    }
+   /* MultipartFile multipartFile =
+    await MultipartFile.fromFile(params.profilePic ?? "", filename: pathManager.basename(params.profilePic ?? ""));*/
     var map =  HashMap<String, dynamic>();
     map['first_name'] = params.firstName;
     map['last_name'] = params.lastName;
@@ -129,7 +139,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
     map['activity_level'] = params.activityLevel;
     map['food_preference'] = params.foodPreference;
     map['occupation'] = params.occupation;
-    map['profile_pic'] =  multipartFile;
+    map['profile_pic'] =   params.profilePic!.isNotEmpty ? multipartFile : params.profilePic;
     FormData formData =  FormData.fromMap(map);
     print(formData);
      final response = await _apiClient.addPatient(formData);

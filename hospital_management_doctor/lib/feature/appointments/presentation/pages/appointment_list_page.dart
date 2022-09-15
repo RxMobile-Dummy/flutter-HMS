@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
@@ -34,7 +35,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController filterDateController = TextEditingController();
   List<String> statusRadioList = [
-    "-- Select Status --"
+    Strings.kSelectStatus
   ];
   GetAppointmentStatusModel getAppointmentStatusModel = GetAppointmentStatusModel();
   String appointmentStatus = "";
@@ -43,7 +44,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      doctorId = prefs.getString('id');
+      doctorId = prefs.getString(CommonKeys.K_Id);
       await _getAppointmentStatus("");
       await _getAppointment(doctorId ?? "","");
     });
@@ -83,7 +84,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
             ProgressDialog.hideLoadingDialog(context);
             getAppointmentModel = state.model!;
           }
-          return (getAppointmentModel.data != null)
+          return buildWidget();/*(getAppointmentModel.data != null)
               ? (getAppointmentModel.data!.isNotEmpty) ? buildWidget()
               : Center(
               child: Column(
@@ -91,12 +92,12 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/images/noData.jpeg",
+                    Strings.kNoDataImage,
                     height: 150,
                   ),
                   const SizedBox(height: 20,),
                   const Text(
-                    "No Data Found",
+                    Strings.kNoDataFound,
                     style: TextStyle(
                         fontSize: 22,
                         color: Colors.black,
@@ -105,7 +106,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                 ],
               )
           )
-              :  SizedBox();
+              :  SizedBox();*/
 
         }),
       ),
@@ -117,14 +118,15 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         topBar(),
-        Padding(
+        (getAppointmentModel.data != null)
+            ? Padding(
           padding: EdgeInsets.only(right: 10, top: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children:  [
               InkWell(
                 child:  Text(
-                  "Apply filter",
+                  Strings.kApplyFilter,
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.normal,
@@ -160,8 +162,31 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
               ) : const SizedBox()
             ],
           ),
-        ),
-        appointmentList(),
+        )
+            :  SizedBox(),
+        (getAppointmentModel.data != null)
+            ? (getAppointmentModel.data!.isNotEmpty) ? appointmentList()
+            : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  Strings.kNoDataImage,
+                  height: 150,
+                ),
+                const SizedBox(height: 20,),
+                const Text(
+                  Strings.kNoDataFound,
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            )
+        )
+            :  SizedBox(),
       ],
     );
   }
@@ -189,7 +214,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Appointment Filter",
+                            Strings.kAppointmentFilter,
                             style: CustomTextStyle.styleBold.copyWith(
                                 color: CustomColors.colorDarkBlue,
                                 fontSize: DeviceUtil.isTablet ? 20 :18
@@ -202,10 +227,10 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                       ),
                       DatePicker(
                         dateController: filterDateController,
-                        lableText: "Filter Appointment Date",
+                        lableText: Strings.kFilterAppointmentDateLabel,
                         firstDate: DateTime(1950),
                         lastDate: DateTime(2023),
-                        errorMessage: "Please enter filter appointment date",
+                        errorMessage: Strings.kFilterAppointmentErrorMessage,
                       ),
                       const SizedBox(
                         height: 32,
@@ -228,7 +253,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                           }
                         },
                         child:  Text(
-                          "Apply Filter",
+                          Strings.kApplyFilter,
                           style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white,),
                         ),
                       ),),
@@ -240,7 +265,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                             await _getAppointment(doctorId,"");
                           },
                           child:  Text(
-                            "Reset Filter",
+                            Strings.kResetFilter,
                             style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                           ),
                         ),
@@ -262,9 +287,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           color: Colors.white,
-          /*image: DecorationImage(
-                  image: AssetImage("assets/images/doctors.png",),
-                )*/
         ),
         padding: const EdgeInsets.all(0),
         child: Row(
@@ -276,12 +298,11 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                 padding: const EdgeInsets.only(top: 30, left: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     InkWell(
-                        child: const Icon(
+                        child:  Icon(
                           Icons.arrow_back_ios,
-                          size: 20,
+                          size: DeviceUtil.isTablet ? 26:20,
                           color: Colors.black,
                         ),
                         onTap: () {
@@ -290,13 +311,12 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                     const SizedBox(
                       height: 30,
                     ),
-                    const Text(
-                      "Appointments",
+                     Text(
+                      Strings.kAppointments,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
-                          //fontFamily: 'Open Sans',
-                          fontSize: 22,
+                          fontSize: DeviceUtil.isTablet ? 26:20,
                           color: Colors.black),
                     )
                   ],
@@ -305,7 +325,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
             ),
             Expanded(
               child:  Image.asset(
-                "assets/images/appointment.png",
+                Strings.kAppointmentImage,
               ),
             )
           ],
@@ -314,10 +334,11 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
 
   appointmentList() {
     return Flexible(
-      child: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
         child: ListView.builder(
           shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.only(top: 0),
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
@@ -337,13 +358,13 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
           },
           itemCount:getAppointmentModel.data!.length,
         ),
-      ),
+      )
     );
   }
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+        ? Strings.kDummyPersonImage
         : imagePath);
   }
 
@@ -362,7 +383,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                         topRight: Radius.circular(10),
                       ),
                       color: Colors.grey.shade200
-                    //color: Colors.orangeAccent.shade100,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 7,vertical: 10),
@@ -370,13 +390,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                      /*  ElevatedButton(
-                            onPressed: (){},
-                          style: ElevatedButton.styleFrom(
-                            primary: CustomColors.colorDarkBlue,
-                            shape: StadiumBorder(),
-                          ),
-                            child: const Icon(Icons.edit,color: Colors.white,),),*/
                         InkWell(
                           child: const Icon(Icons.edit,color: CustomColors.colorDarkBlue,),
                           onTap: () async {
@@ -404,9 +417,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                             ).
                             then((value) async {
                                 print(value);
-                           /*  (value != null) ? BlocProvider.of<AppointmentBloc>(context).add(
-                                 GetAppointmentEvent(id: doctorId!,date: "")) : const SizedBox();*/
-
                               await _getAppointment(doctorId, "");
                             });
                           },
@@ -425,13 +435,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                         Stack(
                           alignment: Alignment.bottomCenter,
                           children: [
-                            /*  Container(
-                              height: 120,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.blue.shade100,
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),*/
                             Container(
                               height:DeviceUtil.isTablet ? 140 : 120,
                               width: DeviceUtil.isTablet ? 120 : 100,
@@ -443,7 +446,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       (getAppointmentModel.data![index].patientProfilePic != null
                                           && getAppointmentModel.data![index].patientProfilePic != "")
                                           ? "${Strings.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
-                                          : "",),//AssetImage("assets/images/ii_1.png"),
+                                          : "",),
                                     fit: BoxFit.fill
                                 ),
                               ),
@@ -454,13 +457,12 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15, top: 25),
                             child: Column(
-                              //mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
                                   "${getAppointmentModel.data![index].firstName} ${getAppointmentModel.data![index].lastName}",
                                   style: TextStyle(
-                                      fontSize: DeviceUtil.isTablet ? 18 :16,
+                                      fontSize: DeviceUtil.isTablet ? 20 :16,
                                       color: (Theme.of(context).brightness ==
                                           Brightness.dark)
                                           ? Colors.white
@@ -472,26 +474,13 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                 ),
                                 Row(
                                   children: [
-                                   /* Text(
-                                      "with",
-                                      softWrap: false,
-                                      overflow: TextOverflow.fade,
-                                      maxLines: 4,
-                                      style: TextStyle(
-                                          fontSize: DeviceUtil.isTablet ? 15 :13,
-                                          color: (Theme.of(context).brightness ==
-                                              Brightness.dark)
-                                              ? Colors.white
-                                              : Colors.grey.shade400,
-                                          fontWeight: FontWeight.w500),
-                                    ),*/
                                     Text(
-                                      getAppointmentModel.data![index].disease ?? ""/*"${getDoctorModel.data![index].specialistField} Department"*/,
+                                      getAppointmentModel.data![index].disease ?? "",
                                       softWrap: false,
                                       overflow: TextOverflow.fade,
                                       maxLines: 4,
                                   style: TextStyle(
-                                      fontSize: DeviceUtil.isTablet ? 15 :13,
+                                      fontSize: DeviceUtil.isTablet ? 18 :14,
                                       color: (Theme.of(context).brightness ==
                                           Brightness.dark)
                                           ? Colors.white
@@ -524,7 +513,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       )
                                     ],
                                     style: TextStyle(
-                                        fontSize: DeviceUtil.isTablet ? 16 :14,
+                                        fontSize: DeviceUtil.isTablet ? 18 :14,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500),
                                   ),
@@ -555,7 +544,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                               fontWeight: FontWeight.w900,
                                               fontStyle: FontStyle.normal,
                                               fontFamily: 'Open Sans',
-                                              fontSize: DeviceUtil.isTablet ? 18 :16,
+                                              fontSize: DeviceUtil.isTablet ? 20 :16,
                                               color: (getAppointmentModel.data![index].statusId == "3")
                                                   ? CustomColors.colorGrey
                                                   :(getAppointmentModel.data![index].statusId == "4")
@@ -603,7 +592,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
         print("$e");
       }
     }
-    // print("Formatted date time:  $formattedDate");
     return formattedDate.toString();
   }
 

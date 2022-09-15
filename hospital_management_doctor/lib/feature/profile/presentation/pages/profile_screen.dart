@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
@@ -18,6 +19,7 @@ import 'package:hospital_management_doctor/utils/style.dart';
 import 'package:hospital_management_doctor/widget/star_display_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hospital_management_doctor/injection_container.dart' as Sl;
+import 'package:shimmer/shimmer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -30,13 +32,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   GetProfileModel getProfileModel = GetProfileModel();
   double ratings = 0.0;
   var doctorId;
+  List<String> titleList = [
+    Strings.kPersonalInformation,
+    Strings.kUpdateProfile,
+    Strings.kLogout
+  ];
 
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      doctorId  = int.parse(prefs.getString("id") ?? "");
+      doctorId  = int.parse(prefs.getString(CommonKeys.K_Id) ?? "");
       await _getProfile(doctorId!);
     });
     super.initState();
@@ -44,7 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<String> _getProfile(int id) {
     return Future.delayed(const Duration()).then((_) {
-       ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<ProfileBloc>(context).add(
           GetProfileEvent(id: id));
       return "";
@@ -57,7 +63,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: CustomColors.colorDarkBlue,
       body: ErrorBlocListener<ProfileBloc>(
         bloc: BlocProvider.of<ProfileBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<ProfileBloc, BaseState>(builder: (context, state)  {
           if(state is GetProfileState) {
             ProgressDialog.hideLoadingDialog(context);
@@ -69,16 +74,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }
             }
           }
-          return (getProfileModel.data != null)  ? buildWidget() :
-          const Center(
-            child: CircularProgressIndicator(color: Colors.white),
-          );
+          return buildWidget();
         }),
       ),
-    ); /*Scaffold(
-        backgroundColor: CustomColors.colorDarkBlue,
-      body: buildWidget()
-    );*/
+    );
   }
 
   buildWidget(){
@@ -125,14 +124,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )
           ],
         ),
-        Positioned(
+        (getProfileModel.data != null) ? Positioned(
           top: ((MediaQuery.of(context).size.height / (DeviceUtil.isTablet ? 2.8 :3.8)) / 2) ,
-          child:   userProfilePic(radius: DeviceUtil.isTablet ?  60.0: 46.0,
+          child:   userProfilePic(radius: DeviceUtil.isTablet ?  80.0: 46.0,
             imagePath:
             (getProfileModel.data?.profilePic != null && getProfileModel.data?.profilePic != "")
                 ? "${Strings.baseUrl}${getProfileModel.data?.profilePic}"
                 : "",),
-        ),
+        ) :  Positioned(
+          top: ((MediaQuery.of(context).size.height / (DeviceUtil.isTablet ? 2.8 :3.8)) / 2) ,
+          child:   Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Card(
+              elevation: 1.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const SizedBox(
+                height: 200,
+                width: 200,
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -140,9 +155,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Padding(
       padding: EdgeInsets.only(top: 80,left: 20,right: 20),
       child: Column(
+        children: [
+          (getProfileModel.data != null) ? Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              (ratings == 0.0)
+                  ? const SizedBox()
+                  :Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.grey.shade200
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18,vertical: 8),
+                  child: StarDisplayWidget(
+                    value: ratings.toInt()~/getProfileModel.data!.feedbacks!.length,
+                    filledStar: Icon(Icons.star, color: Colors.orange, size: DeviceUtil.isTablet ? 26 :15),
+                    unfilledStar: Icon(Icons.star_border, color: Colors.grey,size: DeviceUtil.isTablet ? 26 :15,),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10,),
+              Text(
+                "Dr. ${getProfileModel.data?.firstName} ${getProfileModel.data?.lastName}",
+                style: CustomTextStyle.styleBold.copyWith(fontSize: DeviceUtil.isTablet ? 22 : 20),
+              ),
+              SizedBox(height: 10,),
+              Text(
+                getProfileModel.data?.specialistField ?? "",
+                style: CustomTextStyle.styleBold.copyWith(
+                    color: Colors.grey.shade400).copyWith(fontSize: DeviceUtil.isTablet ? 20 : 18),
+              ),
+            ],
+          ) : Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Card(
+              elevation: 1.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const SizedBox(
+                height: 80,
+                width: 200,
+              ),
+            ),
+          ),
+          Expanded(child: (getProfileModel.data != null) ?
+          ListView.builder(
+            itemBuilder: (context, index) {
+              return customCard(title: titleList[index],
+                index: index,
+              );
+            },
+            itemCount: 3,
+          )
+              :Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListView.builder(
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 1.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const SizedBox(
+                    height: 60,
+                  ),
+                );
+              },
+            ),
+          ),)
+        ],
+      )
+    );
+  }
+/*  userDetailsList(){
+    return Padding(
+      padding: EdgeInsets.only(top: 80,left: 20,right: 20),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Column(
+          (getProfileModel.data != null) ? Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               (ratings == 0.0)
@@ -173,169 +269,194 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey.shade400),
               ),
             ],
+          ) : SizedBox(
+        width: 200.0,
+        height: 100.0,
+        child: Shimmer.fromColors(
+          baseColor: Colors.red,
+          highlightColor: Colors.yellow,
+          child: Text(
+            'Shimmer',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 40.0,
+              fontWeight:
+              FontWeight.bold,
+            ),
           ),
+        ),
+      ),
           SizedBox(height: 20,),
-          customCard(title: "Personal information",
-              index: 1,
-              icon:  Icon(
-                Icons.person,
-                color: CustomColors.colorDarkBlue,
-                size: DeviceUtil.isTablet ? 30 : 25,
-              )),
+          (getProfileModel.data != null) ?  : SizedBox(
+            width: 200.0,
+            height: 100.0,
+            child: Shimmer.fromColors(
+              baseColor: Colors.red,
+              highlightColor: Colors.yellow,
+              child: Text(
+                'Shimmer',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 40.0,
+                  fontWeight:
+                  FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: DeviceUtil.isTablet ? 30 : 15,),
-          customCard(title: "Update profile",
+          (getProfileModel.data != null) ?  customCard(title: Strings.kUpdateProfile,
               index: 2,
               icon: Icon(Icons.edit, color: CustomColors.colorDarkBlue,
-                size: DeviceUtil.isTablet ? 30 : 25,)),
+                size: DeviceUtil.isTablet ? 30 : 25,)): SizedBox(
+            width: 200.0,
+            height: 100.0,
+            child: Shimmer.fromColors(
+              baseColor: Colors.red,
+              highlightColor: Colors.yellow,
+              child: Text(
+                'Shimmer',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 40.0,
+                  fontWeight:
+                  FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: DeviceUtil.isTablet ? 30 : 15,),
-          customCard(title: "Logout",
+          (getProfileModel.data != null) ?  customCard(title: Strings.kLogout,
               index: 3,
               icon: Icon(Icons.logout, color: CustomColors.colorDarkBlue,
-                size: DeviceUtil.isTablet ? 30 : 25,)),
+                size: DeviceUtil.isTablet ? 30 : 25,)): SizedBox(
+            width: 200.0,
+            height: 100.0,
+            child: Shimmer.fromColors(
+              baseColor: Colors.red,
+              highlightColor: Colors.yellow,
+              child: Text(
+                'Shimmer',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 40.0,
+                  fontWeight:
+                  FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
-  }
+  }*/
   customCard({String? title,Icon? icon,int? index}){
-    return Card(
-      //  color: Colors.grey.shade200,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
-            side: BorderSide(
-                color: Colors.grey.shade200,
-            width: 2)),
-        child: ListTile(
-          title: Text(
-            title ?? "",
-            style: CustomTextStyle.styleMedium,
-          ),
-          // leading: icon,
-          trailing: Icon(Icons.arrow_forward_ios_rounded, color: CustomColors.colorDarkBlue,
-            size: DeviceUtil.isTablet ? 26 : 20,),
-          onTap: (){
-            if(index == 1){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => DoctorDetailsPage(getProfileModel: getProfileModel)),
-              );
-            }else if(index == 2){
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MultiBlocProvider(
-                        providers: [
-                          BlocProvider<ProfileBloc>(
-                            create: (context) => Sl.Sl<ProfileBloc>(),
+    return Column(
+      children: [
+        Card(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15),
+                side: BorderSide(
+                    color: Colors.grey.shade200,
+                    width: 2)),
+            child: ListTile(
+              title: Text(
+                title ?? "",
+                style: CustomTextStyle.styleMedium.copyWith(fontSize: DeviceUtil.isTablet ? 20 : 18),
+              ),
+              // leading: icon,
+              trailing: Icon(Icons.arrow_forward_ios_rounded, color: CustomColors.colorDarkBlue,
+                size: DeviceUtil.isTablet ? 26 : 20,),
+              onTap: (){
+                if(index == 0){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DoctorDetailsPage(getProfileModel: getProfileModel)),
+                  );
+                }else if(index == 1){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider<ProfileBloc>(
+                                create: (context) => Sl.Sl<ProfileBloc>(),
+                              ),
+                            ], child: UpdateProfilePage(getProfileModel: getProfileModel,))),
+                  ).then((value) {
+                    BlocProvider.of<ProfileBloc>(context).add(
+                        GetProfileEvent(id: doctorId!));
+                  });
+                }else if(index == 2){
+                  showDialog(
+                    context: context,
+                    builder: (ctx) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child:  AlertDialog(
+                        title:  Text(
+                          Strings.kLogout,
+                          style: TextStyle(
+                              fontSize:  DeviceUtil.isTablet ? 24 : 18),
+                        ),
+                        content:  Container(
+                          child: Text(
+                            Strings.kLogoutMessage,
+                            softWrap: true,
+                            overflow: TextOverflow.fade,
+                            style:  CustomTextStyle.styleMedium.copyWith(
+                                fontSize: DeviceUtil.isTablet ? 22 : 16
+                            ),
                           ),
-                        ], child: UpdateProfilePage(getProfileModel: getProfileModel,))),
-              ).then((value) {
-                BlocProvider.of<ProfileBloc>(context).add(
-                    GetProfileEvent(id: doctorId!));
-              });
-            }else if(index == 4){
-              /*Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MultiBlocProvider(
-                      providers: [
-                        BlocProvider<PatientProfileBloc>(
-                          create: (context) => Sl.Sl<PatientProfileBloc>(),
                         ),
-                        BlocProvider<AllergiesBloc>(
-                          create: (context) => Sl.Sl<AllergiesBloc>(),
-                        ),
-                        BlocProvider<MedicationBloc>(
-                          create: (context) => Sl.Sl<MedicationBloc>(),
-                        ),
-                        BlocProvider<InjuryBloc>(
-                          create: (context) => Sl.Sl<InjuryBloc>(),
-                        ),
-                        BlocProvider<SurgeryBloc>(
-                          create: (context) => Sl.Sl<SurgeryBloc>(),
-                        ),
-                        BlocProvider<FoodPreferenceBloc>(
-                          create: (context) => Sl.Sl<FoodPreferenceBloc>(),
-                        ),
-                      ],
-                      child: UpdateProfilePage(getPatientProfileModel: getPatientProfileModel),
-                    )),
-              ).then((value) async {
-                BlocProvider.of<PatientProfileBloc>(context).add(
-                    GetPatientProfileEvent(id: patientId!));
-              });*/
-            }else if(index == 5){
-              showDialog(
-                context: context,
-                builder: (ctx) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child:  AlertDialog(
-                    title:  Text(
-                      "Logout",
-                      style: TextStyle(fontSize:  DeviceUtil.isTablet ? 18 : 14),
-                    ),
-                    content:  Container(
-                      child: Text(
-                        "Are you sure you want to logout?",
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                        style:  CustomTextStyle.styleMedium.copyWith(
-                            fontSize: DeviceUtil.isTablet ? 18 : 14
-                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () async {
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              prefs.clear();
+                              prefs.setString(Strings.kOnBoardingBool, "true");
+                              print(prefs);
+                              Future.delayed(Duration.zero, () {
+                                Navigator.pushAndRemoveUntil(
+                                  context,MaterialPageRoute(builder: (context) =>BlocProvider<AuthenticationBloc>(
+                                  create: (context) => Sl.Sl<AuthenticationBloc>(),
+                                  child: LoginScreen(),
+                                )),
+                                      (route) => false,
+                                );
+                              });
+                            },
+                            child: Text(
+                              Strings.kYes,
+                              style: CustomTextStyle.styleSemiBold
+                                  .copyWith(color: CustomColors.colorDarkBlue, fontSize:
+                              DeviceUtil.isTablet ? 22 : 18),),
+                          ),
+                        ],
                       ),
                     ),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          prefs.clear();
-                          prefs.setString("isOnBoardingCompleted", "true");
-                          print(prefs);
-                          Future.delayed(Duration.zero, () {
-                            Navigator.pushAndRemoveUntil(
-                              context,MaterialPageRoute(builder: (context) =>BlocProvider<AuthenticationBloc>(
-                              create: (context) => Sl.Sl<AuthenticationBloc>(),
-                              child: LoginScreen(),
-                            )),
-                                  (route) => false,
-                            );
-                          });
-                        },
-                        child: Text(
-                          "Yes",
-                          style: CustomTextStyle.styleSemiBold
-                              .copyWith(color: CustomColors.colorDarkBlue, fontSize:
-                          DeviceUtil.isTablet ? 18 : 16),),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-          },
-        )
+                  );
+                }
+              },
+            )
+        ),
+        SizedBox(height: DeviceUtil.isTablet ? 30 : 15,),
+      ],
     );
   }
 
   userProfilePic({radius=24.0,String? imagePath}) {
     return Container(
-      height: 200,
-      width: 200,
+      height: DeviceUtil.isTablet ? 250 :200,
+      width: DeviceUtil.isTablet ? 250 :200,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
               (imagePath == null || imagePath == "")
-                  ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+                  ? Strings.kDummyPersonImage
                   : imagePath)
         ),
         borderRadius: BorderRadius.circular(15)
       ),
-    )/*CircleAvatar(
-      radius: radius,
-      backgroundImage:  Image.network(
-          (imagePath == null || imagePath == "")
-              ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
-              : imagePath)
-          .image,
-    )*/;
+    );
   }
 }

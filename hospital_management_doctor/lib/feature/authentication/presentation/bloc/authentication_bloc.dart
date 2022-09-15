@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/reset_password_model.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/model/sign_in_doctor.dart';
@@ -48,13 +49,13 @@ class AuthenticationBloc extends Bloc<BaseEvent, BaseState> {
           emit(StateErrorGeneral(model?.error??""));
         }else{
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('access', model!.data?.authenticationToken?.access ?? "");
-          prefs.setString('refresh', model.data?.authenticationToken?.refresh ?? "");
-          prefs.setString('id', model.data?.id!.toString() ?? "");
-          String? token = prefs.getString("access");
+          prefs.setString(Strings.kAccess, model!.data?.authenticationToken?.access ?? "");
+          prefs.setString(Strings.kRefresh, model.data?.authenticationToken?.refresh ?? "");
+          prefs.setString(Strings.kId, model.data?.id!.toString() ?? "");
+          String? token = prefs.getString(Strings.kAccess);
           print(token);
           String user = jsonEncode(model.data?.toJson());
-          prefs.setString('userData', user);
+          prefs.setString(Strings.kUserData, user);
           emit(SignInDoctorState(model: model));
         }
       }else if (event is ForgotPasswordSuccessEvent){

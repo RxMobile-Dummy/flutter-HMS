@@ -55,19 +55,18 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          "Appointment Details",
+        title:  Text(
+          Strings.kAppointmentDetails,
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontStyle: FontStyle.normal,
-              //fontFamily: 'Open Sans',
-              fontSize: 22,
+              fontSize: DeviceUtil.isTablet ? 26:20,
               color: Colors.black),
         ),
         leading: InkWell(
-            child: const Icon(
+            child:  Icon(
               Icons.arrow_back_ios,
-              size: 20,
+              size: DeviceUtil.isTablet ? 26:20,
               color: Colors.black,
             ),
             onTap: () {
@@ -81,24 +80,20 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
 
   Future<File> createFileOfPdfUrl(String filePath) async {
     Completer<File> completer = Completer();
-    print("Start download file from internet!");
     try {
-      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
-      // final url = "https://pdfkit.org/docs/guide.pdf";
       final url = "${Strings.baseUrl}$filePath";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       var dir = await getApplicationDocumentsDirectory();
-      print("Download files");
       print("${dir.path}/$filename");
       File file = File("${dir.path}/$filename");
 
       await file.writeAsBytes(bytes, flush: true);
       completer.complete(file);
     } catch (e) {
-      throw Exception('Error parsing asset file!');
+      throw Exception(Strings.kErrorParsing);
     }
 
     return completer.future;
@@ -111,7 +106,6 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,13 +114,6 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                 Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
-                    /*  Container(
-                    height: 190,
-                    width: MediaQuery.of(context).size.width / 2.6,
-                    decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: BorderRadius.circular(10)),
-                  ),*/
                     Container(
                       height: DeviceUtil.isTablet ? 220 :140,
                       width: MediaQuery.of(context).size.width / (DeviceUtil.isTablet ? 3.2 :2.6),
@@ -139,7 +126,6 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                   ? "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
                                   : "",),
                             fit: BoxFit.fill
-                          //AssetImage("assets/images/ii_1.png"),
                         ),
                       ),
                     ),
@@ -154,7 +140,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                         "${widget.getAppointmentModel.data![widget.index].firstName}",
                         maxLines: 3,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 26 :22,
+                            fontSize: DeviceUtil.isTablet ? 28 :22,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
@@ -165,7 +151,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                         "${widget.getAppointmentModel.data![widget.index].lastName}",
                         maxLines: 3,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 26 :22,
+                            fontSize: DeviceUtil.isTablet ? 28 :22,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
@@ -179,9 +165,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             ),
             const SizedBox(height: 25,),
             Text(
-              "Appointment On",
+              Strings.kAppointmentOn,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -191,16 +177,14 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             SizedBox(height: DeviceUtil.isTablet ? 15 :10,),
             IntrinsicHeight(
               child: Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     getFormattedDateFromFormattedString(
                         currentFormat: "dd-MM-yyyy - HH:mm",
                         desiredFormat: "dd MMM yyyy",
                         value:  "${widget.getAppointmentModel.data![widget.index].appointmentDate} - 00:00".replaceAll("/", "-")),
-                    // DateFormat.yMMMMd().format(DateTime.parse(DateFormat('dd-MM-yyyy hh:mm:ss a').parse("30/08/2022".replaceAll("/", "-")).toString())),
                     style:  TextStyle(
-                        fontSize: DeviceUtil.isTablet ? 18 :16,
+                        fontSize: DeviceUtil.isTablet ? 22 :16,
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
@@ -214,7 +198,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   Text(
                     widget.getAppointmentModel.data![widget.index].timeSlot ?? "",
                     style:  TextStyle(
-                        fontSize: DeviceUtil.isTablet ? 18 :16,
+                        fontSize: DeviceUtil.isTablet ? 22 :16,
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
@@ -222,9 +206,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
               ),),
             const SizedBox(height: 25,),
             Text(
-              "Appointment For",
+              Strings.kAppointmentFor,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -235,16 +219,16 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             Text(
               widget.getAppointmentModel.data![widget.index].disease ?? "",
               style:  TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 22 :16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 25,),
             (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
                 ? Text(
-              "Attachment",
+              Strings.kAttachment,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -261,7 +245,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   widget.getAppointmentModel.data![widget.index].fileData!.split('/').last,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontSize: DeviceUtil.isTablet ? 18 : 16,
+                      fontSize: DeviceUtil.isTablet ? 22 : 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w500),
                 ),),
@@ -270,14 +254,14 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                     Icon(
                       Icons.remove_red_eye,
                       color: CustomColors.colorDarkBlue,
-                      size: DeviceUtil.isTablet ? 18 :16,
+                      size: DeviceUtil.isTablet ? 20 :16,
                     ),
                     SizedBox(width: 7,),
                     InkWell(
                       child: Text(
-                        "View",
+                        Strings.kView,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 18 : 16,
+                            fontSize: DeviceUtil.isTablet ? 22 : 16,
                             color: CustomColors.colorDarkBlue,
                             fontWeight: FontWeight.w500),
                       ),
@@ -292,7 +276,6 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                               builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",),
                             ),
                           )
-                          /*  NetworkImage("${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}")*/
                               : Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -309,9 +292,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             const SizedBox(height: 25,),
             (widget.getAppointmentModel.data![widget.index].patientReportData != null)
                 ? Text(
-              "Report suggestion",
+              Strings.kReportSuggestion,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -326,7 +309,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
               widget.getAppointmentModel.data![widget.index].patientReportData!.reportDescription ?? "",
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 : 16,
+                  fontSize: DeviceUtil.isTablet ? 22 : 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             )
@@ -334,9 +317,9 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
             const SizedBox(height: 25,),
             (widget.getAppointmentModel.data![widget.index].patientReportData != null)
                 ? Text(
-              "Medicine Given",
+              Strings.kMedicineGiven,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -351,7 +334,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
               medicineList.join(" , "),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 : 16,
+                  fontSize: DeviceUtil.isTablet ? 22 : 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             )
@@ -364,7 +347,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+            ? Strings.kDummyPersonImage
             : imagePath);
   }
 
@@ -381,7 +364,6 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
         print("$e");
       }
     }
-    // print("Formatted date time:  $formattedDate");
     return formattedDate.toString();
   }
 

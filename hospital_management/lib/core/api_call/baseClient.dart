@@ -27,7 +27,7 @@ import '../../features/feedback/data/model/send_patient_feedback.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://f889-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://4e79-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;

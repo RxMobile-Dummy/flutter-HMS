@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
@@ -38,26 +39,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
   var doctorId;
   GetAppointmentModel getAppointmentModel = GetAppointmentModel();
 
-  static const List<IconData> icons = const [ Icons.add_task, Icons.note_add_outlined, Icons.check_box_outlined ];
-  static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
   List<String> gridNameList = [
-    "Appointments",
-    "Patients",
-    /*"Departments",*/
-    "Profile"
-    /*"Feedbacks"*/
-  ];
-  List<String> gridNameSubTitleList = [
-    "289",
-    "23",
-    "14",
-    "Set Profile",
-    "123 people Reviewed"
+    Strings.kAppointments,
+    Strings.kPatients,
+    Strings.kProfile
   ];
   List imageList = [
-    "assets/images/appointment.png",
-    "assets/images/departments.png",
-    "assets/images/doctor_profile.png",
+    Strings.kAppointmentImage,
+    Strings.kDepartmentImage,
+    Strings.kProfileImage,
   ];
   @override
   void initState() {
@@ -68,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      doctorId = prefs.getString('id');
+      doctorId = prefs.getString(CommonKeys.K_Id);
       await _getAppointment(doctorId ?? "","");
     });
   }
@@ -122,8 +112,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                   ],
                                   child: AppoinmentListPage())),
                         );
-                      }).then((value) async {
-                        // await _getAppointment(doctorId ?? "","");
                       });
                     }else if(index == 1){
                       Future.delayed(Duration.zero, () {
@@ -139,8 +127,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                 child:  PatientListPage(),
                               )),
                         );
-                      }).then((value) async {
-                        //await _getAppointment(patientId ?? "","");
                       });
                     }else if(index == 2){
                       Future.delayed(Duration.zero, () {
@@ -156,8 +142,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                 child: ProfileScreen(),
                               )),
                         );
-                      }).then((value) async {
-                       // await _getAppointment(doctorId ?? "","");
                       });
                     }
                   },
@@ -184,16 +168,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                         color: Colors.black
                                     ),
                                   ),
-                                  /* Text(
-                                    gridNameSubTitleList[index],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontStyle: FontStyle.normal,
-                                        fontFamily: 'Open Sans',
-                                        fontSize: 12,
-                                        color: Colors.grey
-                                    ),),*/
-
                                 ],
                               )
                           ),
@@ -249,11 +223,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children:  [
               Text(
-                "Apollo Hospital",
+                Strings.kHospitalName,
                 style:  TextStyle(
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.normal,
-                    //fontFamily: 'Open Sans',
                     fontSize: DeviceUtil.isTablet ? 28 : 22,
                     color: Colors.white
                 ),
@@ -265,10 +238,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
             ],
           ),
           Text(
-            "General Hospital",
+            Strings.kGeneralHospitalName,
             style: TextStyle(
                 fontStyle: FontStyle.normal,
-                //fontFamily: 'Open Sans',
                 fontSize: DeviceUtil.isTablet ? 18: 13,
                 color: Colors.white24
             ),
@@ -312,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
 
                     const SizedBox(height: 5,),
                     Text(
-                      Strings.homeAppointmentsLabel,
+                      Strings.kHomeAppointmentsLabel,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
@@ -344,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                     }),
                     const SizedBox(height: 5,),
                     Text(
-                      "Total Appointments",
+                      Strings.kTotalAppointments,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
@@ -357,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

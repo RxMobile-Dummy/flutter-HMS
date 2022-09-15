@@ -67,35 +67,26 @@ class _MedicalInformationPageState extends State<MedicalInformationPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             customCard(title: "Blood group : ${widget.getPatientProfileModel.data!.bloodGroup ?? ""}"),
-            const SizedBox(height: 10,),
             customCard(title: "Alcohol Consumption  : ${widget.getPatientProfileModel.data!.alcholConsumption}"),
-            const SizedBox(height: 10,),
             customCard(title: "Smoking Habit : ${widget.getPatientProfileModel.data!.smokingHabits}"),
-            const SizedBox(height: 10,),
             (widget.getPatientProfileModel.data!.activityLevel!.isNotEmpty)
             ? customCard(title: "Activity Level : ${widget.getPatientProfileModel.data!.activityLevel}")
             : const SizedBox(),
-            const SizedBox(height: 10,),
             (allergiesList.isNotEmpty)
             ? customCard(title: "Allergy List : ${allergiesList.join(" , ")}")
             : const SizedBox(),
-            const SizedBox(height: 10,),
             (medicationList.isNotEmpty)
             ? customCard(title: "Medication List : ${medicationList.join(" , ")}")
             : const SizedBox(),
-            const SizedBox(height: 10,),
             (surgeryList.isNotEmpty)
             ? customCard(title: "Past Surgeries List : ${surgeryList.join(" , ")}")
             : const SizedBox(),
-            const SizedBox(height: 10,),
             (injuryList.isNotEmpty)
             ? customCard(title: "Past Injuries List : ${injuryList.join(" , ")}")
             : const SizedBox(),
-            const SizedBox(height: 10,),
             (foodList.isNotEmpty)
             ? customCard(title: "Food Consumption List : ${foodList.join(" , ")}")
             : const SizedBox(),
-            const SizedBox(height: 10,),
           ],
         ),
       ),
@@ -103,16 +94,19 @@ class _MedicalInformationPageState extends State<MedicalInformationPage> {
   }
 
   customCard({String? title}){
-    return (title != null || title != "") ? Card(
-        color: Colors.grey.shade200,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10,vertical:  15),
-          child: Text(
+    return (title != null || title != "") ? Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Card(
+          color: Colors.grey.shade200,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10,vertical:  15),
+            child: Text(
               title ?? "",
-            style: CustomTextStyle.styleMedium,
-          ),
-        )
+              style: CustomTextStyle.styleMedium,
+            ),
+          )
+      ),
     ) : const SizedBox();
   }
 }

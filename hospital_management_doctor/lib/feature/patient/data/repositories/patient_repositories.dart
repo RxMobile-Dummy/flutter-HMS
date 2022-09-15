@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hospital_management_doctor/core/failure/error_object.dart';
 import 'package:hospital_management_doctor/core/failure/failure.dart';
+import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/patient/data/datasourse/patient_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/patient/data/model/get_patient_model.dart';
 import 'package:hospital_management_doctor/feature/patient/domain/repositories/patient_repositories.dart';
@@ -21,7 +22,7 @@ class PatientRepositoriesImpl extends PatientRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 

@@ -20,14 +20,6 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   @override
   void initState() {
     super.initState();
-   /* if(widget.getPatientModel.data![widget.index].fileData != null
-        && widget.getPatientModel.data![widget.index].fileData!.isNotEmpty){
-      createFileOfPdfUrl(widget.getPatientModel.data![widget.index].fileData ?? "").then((f) {
-        setState(() {
-          remotePDFpath = f.path;
-        });
-      });
-    }*/
     if(widget.getPatientModel.data![widget.index].patientReportData != null &&
         widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails!.isNotEmpty){
       for(int i=0;i<widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails!.length;i++){
@@ -43,19 +35,18 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          "Appointment Details",
+        title:  Text(
+          Strings.kPatientDetails,
           style: TextStyle(
               fontWeight: FontWeight.w500,
               fontStyle: FontStyle.normal,
-              //fontFamily: 'Open Sans',
-              fontSize: 22,
+              fontSize: DeviceUtil.isTablet ? 26:20,
               color: Colors.black),
         ),
         leading: InkWell(
-            child: const Icon(
+            child:  Icon(
               Icons.arrow_back_ios,
-              size: 20,
+              size: DeviceUtil.isTablet ? 26:20,
               color: Colors.black,
             ),
             onTap: () {
@@ -72,7 +63,6 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,13 +71,6 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                 Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
-                    /*  Container(
-                    height: 190,
-                    width: MediaQuery.of(context).size.width / 2.6,
-                    decoration: BoxDecoration(
-                        color: Colors.blue.shade100,
-                        borderRadius: BorderRadius.circular(10)),
-                  ),*/
                     Container(
                       height: DeviceUtil.isTablet ? 220 :140,
                       width: MediaQuery.of(context).size.width / (DeviceUtil.isTablet ? 3.2 :2.6),
@@ -100,7 +83,6 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                   ? "${Strings.baseUrl}${widget.getPatientModel.data![widget.index].profilePic}"
                                   : "",),
                             fit: BoxFit.fill
-                          //AssetImage("assets/images/ii_1.png"),
                         ),
                       ),
                     ),
@@ -115,7 +97,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                         "${widget.getPatientModel.data![widget.index].firstName}",
                         maxLines: 3,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 26 :22,
+                            fontSize: DeviceUtil.isTablet ? 28 :22,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
@@ -126,7 +108,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                         "${widget.getPatientModel.data![widget.index].lastName}",
                         maxLines: 3,
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 26 :22,
+                            fontSize: DeviceUtil.isTablet ? 28 :22,
                             color: (Theme.of(context).brightness ==
                                 Brightness.dark)
                                 ? Colors.white
@@ -142,9 +124,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             (widget.getPatientModel.data![widget.index].dateOfBirth != null &&
                 widget.getPatientModel.data![widget.index].dateOfBirth != "")
                 ? Text(
-              "Date of Birth",
+              Strings.kDateOfBirth,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -158,33 +140,24 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                 widget.getPatientModel.data![widget.index].dateOfBirth != "")
                 ? IntrinsicHeight(
               child: Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     getFormattedDateFromFormattedString(
                         currentFormat: "dd-MM-yyyy - HH:mm",
                         desiredFormat: "dd MMM yyyy",
                         value:  "${widget.getPatientModel.data![widget.index].dateOfBirth} - 00:00".replaceAll("/", "-")),
-                    // DateFormat.yMMMMd().format(DateTime.parse(DateFormat('dd-MM-yyyy hh:mm:ss a').parse("30/08/2022".replaceAll("/", "-")).toString())),
-                    style:  TextStyle(
-                        fontSize: DeviceUtil.isTablet ? 18 :16,
+                   style:  TextStyle(
+                        fontSize: DeviceUtil.isTablet ? 22 :16,
                         color: Colors.black,
                         fontWeight: FontWeight.w500),
                   ),
-                  /*Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2),
-                  child: VerticalDivider(
-                    color: Colors.grey.shade400,
-                    thickness: 2,
-                  ),
-                ),*/
                 ],
               ),) : const SizedBox(),
             const SizedBox(height: 25,),
             Text(
-              "Blood Group",
+              Strings.kBloodGroup,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -195,15 +168,15 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             Text(
               widget.getPatientModel.data![widget.index].bloodGroup ?? "",
               style:  TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 22 :16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 25,),
             Text(
-              "Mobile Number",
+              Strings.kMobileNumber,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -214,15 +187,15 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             Text(
               widget.getPatientModel.data![widget.index].contactNumber.toString().substring(3),
               style:  TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 22 :16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 25,),
             Text(
-              "Email",
+              Strings.kEmail,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -233,83 +206,16 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             Text(
               widget.getPatientModel.data![widget.index].email ?? "",
               style:  TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 22 :16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             ),
-            /*  const SizedBox(height: 25,),
-          (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
-              ? Text(
-            "Attachment",
-            style: TextStyle(
-                fontSize: DeviceUtil.isTablet ? 18 :16,
-                color: (Theme.of(context).brightness ==
-                    Brightness.dark)
-                    ? Colors.white
-                    : Colors.grey.shade400,
-                fontWeight: FontWeight.w500),
-          ) : const SizedBox(),
-          (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
-              ? const SizedBox(height: 10,) : const SizedBox(),
-          (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
-              ?  Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(child: Text(
-                widget.getAppointmentModel.data![widget.index].fileData!.split('/').last,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: DeviceUtil.isTablet ? 18 : 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500),
-              ),),
-              Row(
-                children:  [
-                  Icon(
-                    Icons.remove_red_eye,
-                    color: CustomColors.colorDarkBlue,
-                    size: DeviceUtil.isTablet ? 18 :16,
-                  ),
-                  SizedBox(width: 7,),
-                  InkWell(
-                    child: Text(
-                      "View",
-                      style: TextStyle(
-                          fontSize: DeviceUtil.isTablet ? 18 : 16,
-                          color: CustomColors.colorDarkBlue,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    onTap: (){
-                      if (remotePDFpath.isNotEmpty) {
-                        (remotePDFpath.contains(".jpeg") ||
-                            remotePDFpath.contains(".jpg") ||
-                            remotePDFpath.contains(".png"))
-                            ? Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",),
-                          ),
-                        )
-                        *//*  NetworkImage("${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}")*//*
-                            : Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PDFScreen(path: remotePDFpath),
-                          ),
-                        );
-                      }
-                    },
-                  )
-                ],
-              )
-            ],
-          ) : const SizedBox(),*/
             const SizedBox(height: 25,),
             (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ? Text(
-              "Report suggestion",
+              Strings.kReportSuggestion,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -324,7 +230,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
               widget.getPatientModel.data![widget.index].patientReportData!.reportDescription ?? "",
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 : 16,
+                  fontSize: DeviceUtil.isTablet ? 22 : 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             )
@@ -332,9 +238,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             const SizedBox(height: 25,),
             (widget.getPatientModel.data![widget.index].patientReportData != null)
                 ? Text(
-              "Medicine Given",
+              Strings.kMedicineGiven,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 :16,
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
                   color: (Theme.of(context).brightness ==
                       Brightness.dark)
                       ? Colors.white
@@ -349,7 +255,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
               medicineList.join(" , "),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: DeviceUtil.isTablet ? 18 : 16,
+                  fontSize: DeviceUtil.isTablet ? 22 : 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             )
@@ -362,7 +268,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+            ? Strings.kDummyPersonImage
             : imagePath);
   }
 
@@ -379,7 +285,6 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
         print("$e");
       }
     }
-    // print("Formatted date time:  $formattedDate");
     return formattedDate.toString();
   }
 
