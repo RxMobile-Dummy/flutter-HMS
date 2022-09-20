@@ -60,6 +60,11 @@ Future<void> init() async {
       resetPasswordUsecase: Sl.call()
   ));
 
+  Sl.registerFactory(() => ProfileBloc(
+      getProfileUsecase:  Sl.call(),
+      updateProfileUsecase: Sl.call()
+  ));
+
 
 
   // Use cases
@@ -67,6 +72,8 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => SignInDoctorUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => ForgotPasswordUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => ResetPasswordUsecase(authenticationRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetProfileUsecase(profileRepositories: Sl()));
+  Sl.registerLazySingleton(() => UpdateProfileUsecase(profileRepositories: Sl()));
 
 
   // Repository
@@ -75,12 +82,20 @@ Future<void> init() async {
         () => AuthenticationRepositoriesImpl(authenticationDataSource: Sl()),
   );
 
+  Sl.registerLazySingleton<ProfileRepositories>(
+        () => ProfileRepositoriesImpl(profileDataSource: Sl()),
+  );
+
 
 
   // Local Data sources
 
   Sl.registerLazySingleton<AuthenticationDataSource>(
         () => AuthenticationDataSourceImpl(Sl.get()),
+  );
+
+  Sl.registerLazySingleton<ProfileDataSource>(
+        () => ProfileDataSourceImpl(Sl.get()),
   );
 
 
