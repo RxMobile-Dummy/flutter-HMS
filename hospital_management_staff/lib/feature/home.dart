@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
+import 'package:hospital_management_staff/feature/profile/presentation/pages/profile_screen.dart';
 import 'package:hospital_management_staff/utils/colors.dart';
 import 'package:hospital_management_staff/utils/device_file.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'profile/presentation/bloc/profile_bloc.dart';
+import 'package:hospital_management_staff/injection_container.dart' as Sl;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -119,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         );
                       });*/
                     }else if(index == 2){
-                     /* Future.delayed(Duration.zero, () {
+                      Future.delayed(Duration.zero, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -132,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                 child: ProfileScreen(),
                               )),
                         );
-                      });*/
+                      });
                     }else if(index == 3){
                      /* Future.delayed(Duration.zero, () {
                         Navigator.push(
