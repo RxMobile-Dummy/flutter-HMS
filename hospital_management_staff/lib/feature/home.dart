@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
+import 'package:hospital_management_staff/feature/patient/presentation/bloc/patient_bloc.dart';
+import 'package:hospital_management_staff/feature/patient/presentation/pages/patient_list_page.dart';
 import 'package:hospital_management_staff/feature/profile/presentation/pages/profile_screen.dart';
 import 'package:hospital_management_staff/utils/colors.dart';
 import 'package:hospital_management_staff/utils/device_file.dart';
@@ -109,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                         );
                       });*/
                     }else if(index == 1){
-                      /*Future.delayed(Duration.zero, () {
+                      Future.delayed(Duration.zero, () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -122,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                 child:  PatientListPage(),
                               )),
                         );
-                      });*/
+                      });
                     }else if(index == 2){
                       Future.delayed(Duration.zero, () {
                         Navigator.push(

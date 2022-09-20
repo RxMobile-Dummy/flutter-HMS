@@ -65,6 +65,10 @@ Future<void> init() async {
       updateProfileUsecase: Sl.call()
   ));
 
+  Sl.registerFactory(() => PatientBloc(
+    getPatientUsecase:  Sl.call(),
+  ));
+
 
 
   // Use cases
@@ -74,6 +78,7 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => ResetPasswordUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => GetProfileUsecase(profileRepositories: Sl()));
   Sl.registerLazySingleton(() => UpdateProfileUsecase(profileRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetPatientUsecase(patientRepositories: Sl()));
 
 
   // Repository
@@ -84,6 +89,10 @@ Future<void> init() async {
 
   Sl.registerLazySingleton<ProfileRepositories>(
         () => ProfileRepositoriesImpl(profileDataSource: Sl()),
+  );
+
+  Sl.registerLazySingleton<PatientRepositories>(
+        () => PatientRepositoriesImpl(patientDataSource: Sl()),
   );
 
 
@@ -98,6 +107,10 @@ Future<void> init() async {
         () => ProfileDataSourceImpl(Sl.get()),
   );
 
+
+  Sl.registerLazySingleton<PatientDataSource>(
+        () => PatientDataSourceImpl(Sl.get()),
+  );
 
 
 }
