@@ -12,7 +12,7 @@ import 'package:retrofit/retrofit.dart';
 
 
 
-part 'baseClient.g.dart';
+part 'base_client.g.dart';
 
 @RestApi(baseUrl: 'https://3408-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {

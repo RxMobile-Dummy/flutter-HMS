@@ -9,7 +9,7 @@ import 'package:hospital_management_staff/feature/profile/data/model/update_prof
 import 'package:hospital_management_staff/feature/profile/domain/usecases/get_profile_usecase.dart';
 import 'package:hospital_management_staff/feature/profile/domain/usecases/update_profile_usecase.dart';
 
-import '../../../../core/api_call/baseClient.dart';
+import '../../../../core/api_call/base_client.dart';
 import 'package:path/path.dart' as pathManager;
 
 class ProfileDataSourceImpl implements ProfileDataSource {
