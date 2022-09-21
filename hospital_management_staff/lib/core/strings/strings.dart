@@ -4,7 +4,7 @@ class Strings{
   static const kCacheFailureMessage = 'Cache Failure';
   static const kInternalServerError = "Internal Server Error";
   static const kNoRecordsFound = "No Records Found";
-  static const baseUrl = "https://3408-180-211-112-179.in.ngrok.io/";
+  static const baseUrl = "https://6b4a-180-211-112-179.in.ngrok.io/";
   static const kErrorMessageForMedicine = "Please enter medicine name.";
   static const kHomeAppointmentsLabel = "Today's Appointments";
   static const kYes = "Yes";
@@ -87,6 +87,9 @@ class Strings{
   static const kSuccessfulChangePassword= "You have successfully change password.\nPlease use your new password when\nlogging in.";
   static const kDateOfBirth= "Date of Birth";
   static const kBloodGroup= "Blood Group";
+  static const kMaritalStatus= "Marital Status";
+  static const kAlcoholConsumption= "Alcohol Consumption";
+  static const kSmokingHabit= "Smoking Habit";
   static const kBloodGroupLabel= "Select Blood Group";
   static const kBloodGroupErrorMessage= "Please select Blood group";
   static const kMobileNumber= "Mobile Number";
@@ -224,4 +227,9 @@ class Strings{
   static const kMedicineDescriptionLabel = "Medicine Description";
   static const kMedicineDescriptionHint = "Enter Medicine Description";
   static const kMedicineDescriptionErrorMessage = "Please Enter Medicine Description";
+  static const kAllergies = "Allergies";
+  static const kPastInjuries = "Past Injuries";
+  static const kPastSurgeries = "Past Surgeries";
+  static const kFoodPreference = "Food Preference";
+  static const kMedication = "Medication";
 }
