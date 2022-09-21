@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
+import 'package:hospital_management_staff/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_staff/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_staff/feature/authentication/presentation/pages/login_screen.dart';
 import 'package:hospital_management_staff/feature/home.dart';
@@ -33,9 +34,9 @@ class _SplashState extends State<Splash> {
               BlocProvider<AuthenticationBloc>(
                 create: (context) => Sl.Sl<AuthenticationBloc>(),
               ),
-              /*BlocProvider<AppointmentBloc>(
+              BlocProvider<AppointmentBloc>(
                 create: (context) => Sl.Sl<AppointmentBloc>(),
-              ),*/
+              ),
             ], child: authToken == null ? (isOnBoardingComplete == Strings.kTrue) ? LoginScreen() : OnBoarding() : HomeScreen()
         ));
       });

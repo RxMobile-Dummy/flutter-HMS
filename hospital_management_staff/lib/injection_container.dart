@@ -69,6 +69,14 @@ Future<void> init() async {
     getPatientUsecase:  Sl.call(),
   ));
 
+  Sl.registerFactory(() => AppointmentBloc(
+    getAppointmentUsecase:  Sl.call(),
+  ));
+
+  Sl.registerFactory(() => AppointmentStatusBloc(
+    getAppointmentStatusUsecase:  Sl.call(),
+  ));
+
 
 
   // Use cases
@@ -79,6 +87,8 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => GetProfileUsecase(profileRepositories: Sl()));
   Sl.registerLazySingleton(() => UpdateProfileUsecase(profileRepositories: Sl()));
   Sl.registerLazySingleton(() => GetPatientUsecase(patientRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetAppointmentUsecase(appointmentRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetAppointmentStatusUsecase(appointmentRepositories: Sl()));
 
 
   // Repository
@@ -93,6 +103,10 @@ Future<void> init() async {
 
   Sl.registerLazySingleton<PatientRepositories>(
         () => PatientRepositoriesImpl(patientDataSource: Sl()),
+  );
+
+  Sl.registerLazySingleton<AppointmentRepositories>(
+        () => AppointmentRepositoriesImpl(appointmentDataSource: Sl()),
   );
 
 
@@ -110,6 +124,10 @@ Future<void> init() async {
 
   Sl.registerLazySingleton<PatientDataSource>(
         () => PatientDataSourceImpl(Sl.get()),
+  );
+
+  Sl.registerLazySingleton<AppointmentDataSource>(
+        () => AppointmentDataSourceImpl(Sl.get()),
   );
 
 
