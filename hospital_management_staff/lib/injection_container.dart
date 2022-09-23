@@ -22,6 +22,15 @@ import 'package:hospital_management_staff/feature/authentication/domain/usecases
 import 'package:hospital_management_staff/feature/authentication/domain/usecases/reset_password_usecase.dart';
 import 'package:hospital_management_staff/feature/authentication/domain/usecases/sign_in_doctor_usecase.dart';
 import 'package:hospital_management_staff/feature/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:hospital_management_staff/feature/medicine/data/datasourse/medicine_data_sourse.dart';
+import 'package:hospital_management_staff/feature/medicine/data/datasourse/medicine_data_sourse_impl.dart';
+import 'package:hospital_management_staff/feature/medicine/data/repositories/medicine_repositories.dart';
+import 'package:hospital_management_staff/feature/medicine/domain/repositories/medicine_repositories.dart';
+import 'package:hospital_management_staff/feature/medicine/domain/usecases/add_medicine_usecase.dart';
+import 'package:hospital_management_staff/feature/medicine/domain/usecases/delete_medicine_usecase.dart';
+import 'package:hospital_management_staff/feature/medicine/domain/usecases/get_medicine_usecase.dart';
+import 'package:hospital_management_staff/feature/medicine/domain/usecases/update_medicine_usecase.dart';
+import 'package:hospital_management_staff/feature/medicine/presentation/bloc/medicine_bloc.dart';
 import 'package:hospital_management_staff/feature/patient/data/datasourse/patient_data_sourse.dart';
 import 'package:hospital_management_staff/feature/patient/data/datasourse/patient_data_sourse_impl.dart';
 import 'package:hospital_management_staff/feature/patient/data/repositories/patient_repositories.dart';
@@ -77,6 +86,13 @@ Future<void> init() async {
     getAppointmentStatusUsecase:  Sl.call(),
   ));
 
+  Sl.registerFactory(() => MedicineBloc(
+    addMedicineUsecase:  Sl.call(),
+    getMedicineUsecase: Sl.call(),
+    updateMedicineUsecase: Sl.call(),
+    deleteMedicineUsecase: Sl.call()
+  ));
+
 
 
   // Use cases
@@ -89,6 +105,10 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => GetPatientUsecase(patientRepositories: Sl()));
   Sl.registerLazySingleton(() => GetAppointmentUsecase(appointmentRepositories: Sl()));
   Sl.registerLazySingleton(() => GetAppointmentStatusUsecase(appointmentRepositories: Sl()));
+  Sl.registerLazySingleton(() => AddMedicineUsecase(medicineRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetMedicineUsecase(medicineRepositories: Sl()));
+  Sl.registerLazySingleton(() => UpdateMedicineUsecase(medicineRepositories: Sl()));
+  Sl.registerLazySingleton(() => DeleteMedicineUsecase(medicineRepositories: Sl()));
 
 
   // Repository
@@ -107,6 +127,10 @@ Future<void> init() async {
 
   Sl.registerLazySingleton<AppointmentRepositories>(
         () => AppointmentRepositoriesImpl(appointmentDataSource: Sl()),
+  );
+
+  Sl.registerLazySingleton<MedicineRepositories>(
+        () => MedicineRepositoriesImpl(medicineDataSource: Sl()),
   );
 
 
@@ -128,6 +152,10 @@ Future<void> init() async {
 
   Sl.registerLazySingleton<AppointmentDataSource>(
         () => AppointmentDataSourceImpl(Sl.get()),
+  );
+
+  Sl.registerLazySingleton<MedicineDataSource>(
+        () => MedicineDataSourceImpl(Sl.get()),
   );
 
 

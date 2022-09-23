@@ -4,7 +4,7 @@ class Strings{
   static const kCacheFailureMessage = 'Cache Failure';
   static const kInternalServerError = "Internal Server Error";
   static const kNoRecordsFound = "No Records Found";
-  static const baseUrl = "https://6b4a-180-211-112-179.in.ngrok.io/";
+  static const baseUrl = "https://067c-180-211-112-179.in.ngrok.io/";
   static const kErrorMessageForMedicine = "Please enter medicine name.";
   static const kHomeAppointmentsLabel = "Today's Appointments";
   static const kYes = "Yes";
@@ -96,8 +96,10 @@ class Strings{
   static const kEmail= "Email";
   static const kSearch= "Search";
   static const kPatients= "Patients";
+  static const kPatientsList= "Patients List";
   static const kDoctorImageStoredPath= "doctor/app/doctor_images";
   static const kStaffImageStoredPath= "staff/app/staff_profile_pics";
+  static const kMedicineImageStoredPath= "medicine/app/medicine_photos";
   static const kDoctorDetails= "Doctor Details";
   static const kStaffDetails= "Staff Details";
   static const kExperience= "Experience";
@@ -203,6 +205,7 @@ class Strings{
   static const kMedicineQuantityHint = "Enter Medicine Quantity";
   static const kMedicineQuantityErrorMessage = "Please Enter Medicine Quantity";
   static const kPrescriptionLabel = "Prescription Required";
+  static const kPrescriptionErrorMessage = "Please Select Prescription Required";
   static const kStockItemKey = "tefStockItem";
   static const kStockItemLabel = "Stock Count";
   static const kStockItemHint = "Enter Stock Count";
@@ -232,4 +235,8 @@ class Strings{
   static const kPastSurgeries = "Past Surgeries";
   static const kFoodPreference = "Food Preference";
   static const kMedication = "Medication";
+  static const kMedicineManufactureLabel = "Medicine Manufacture Date";
+  static const kMedicineExpiryLabel = "Medicine Expiry Date";
+  static const kMedicineManufactureErrorMessage = "Please Enter Medicine Manufacture Date";
+  static const kMedicineExpiryErrorMessage = "Please Enter Medicine Expiry Date";
 }
