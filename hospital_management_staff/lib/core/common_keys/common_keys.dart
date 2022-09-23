@@ -7,6 +7,7 @@ class CommonKeys{
   static const String K_Hospital_Id = "hospital_id";
   static const String K_Status_Id = "status_id";
   static const String K_Id = "id";
+  static const String K_Name = "name";
   static const String K_Email= "email";
   static const String K_Password= "password";
   static const String K_Report_Description= "report_description";
