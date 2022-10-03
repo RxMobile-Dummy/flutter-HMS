@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/profile/data/model/get_patient_profile_model.dart';
 
 import '../../../../utils/colors.dart';
@@ -20,7 +21,7 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Patient Personal Information", isBackPress: true),
+        child: CustomAppBar(title: Strings.kPatientPersonalInformation, isBackPress: true),
       ),
       body: buildWidget(),
     );
@@ -32,30 +33,30 @@ class _PersonalInformationPageState extends State<PersonalInformationPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            customCard(title: "Name : ${widget.getPatientProfileModel.data!.firstName ?? ""} ${widget.getPatientProfileModel.data!.lastName ?? ""}"),
-            customCard(title: "Contact Number : ${widget.getPatientProfileModel.data!.contactNumber.toString().substring(3)}"),
-            customCard(title: "Email : ${widget.getPatientProfileModel.data!.email}"),
+            customCard(title: "${Strings.kName} : ${widget.getPatientProfileModel.data!.firstName ?? ""} ${widget.getPatientProfileModel.data!.lastName ?? ""}"),
+            customCard(title: "${Strings.kContactNumber} : ${widget.getPatientProfileModel.data!.contactNumber.toString().substring(3)}"),
+            customCard(title: "${Strings.kEmail} : ${widget.getPatientProfileModel.data!.email}"),
             (widget.getPatientProfileModel.data!.dateOfBirth!.isNotEmpty)
-                ? customCard(title: "Date Of Birth : ${widget.getPatientProfileModel.data!.dateOfBirth}")
+                ? customCard(title: "${Strings.kDateOfBirth} : ${widget.getPatientProfileModel.data!.dateOfBirth}")
             : const SizedBox(),
-            customCard(title: "Gender : ${widget.getPatientProfileModel.data!.gender}"),
+            customCard(title: "${Strings.kGender} : ${widget.getPatientProfileModel.data!.gender}"),
             (widget.getPatientProfileModel.data!.height!.isNotEmpty)
-                ?customCard(title: "Height : ${widget.getPatientProfileModel.data!.height}")
+                ?customCard(title: "${Strings.kHeightLabel} : ${widget.getPatientProfileModel.data!.height}")
             : const SizedBox(),
             (widget.getPatientProfileModel.data!.weight!.isNotEmpty)
-            ? customCard(title: "Weight : ${widget.getPatientProfileModel.data!.weight}")
+            ? customCard(title: "${Strings.kWeightLabel} : ${widget.getPatientProfileModel.data!.weight}")
             : const SizedBox(),
             (widget.getPatientProfileModel.data!.maritalStatus!.isNotEmpty)
-            ? customCard(title: "Marital Status : ${widget.getPatientProfileModel.data!.maritalStatus}")
+            ? customCard(title: "${Strings.kMaritalStatus} : ${widget.getPatientProfileModel.data!.maritalStatus}")
             : const SizedBox(),
             (widget.getPatientProfileModel.data!.emergencyContactNumber!.isNotEmpty)
-            ? customCard(title: "Emergency Contact number : ${widget.getPatientProfileModel.data!.emergencyContactNumber}")
+            ? customCard(title: "${Strings.kEmergencyContactNumber} : ${widget.getPatientProfileModel.data!.emergencyContactNumber}")
             : const SizedBox(),
             (widget.getPatientProfileModel.data!.occupation!.isNotEmpty)
-            ? customCard(title: "Occupation : ${widget.getPatientProfileModel.data!.occupation}")
+            ? customCard(title: "${Strings.kOccupationLabel} : ${widget.getPatientProfileModel.data!.occupation}")
             : const SizedBox(),
             (widget.getPatientProfileModel.data!.city!.isNotEmpty)
-            ? customCard(title: "City : ${widget.getPatientProfileModel.data!.city}")
+            ? customCard(title: "${Strings.kCityLabel} : ${widget.getPatientProfileModel.data!.city}")
             : const SizedBox(),
           ],
         ),

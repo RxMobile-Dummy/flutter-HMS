@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../core/strings/strings.dart';
@@ -26,6 +28,14 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   int? currentPage = 0;
   bool isReady = false;
   String errorMessage = '';
+  void _onShare({BuildContext? context,String? path}) async {
+    final box = context!.findRenderObject() as RenderBox?;
+
+    if (path!.isNotEmpty) {
+      await Share.share(path,
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,12 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: () {},
+            onPressed: () {
+              _onShare(
+                path: widget.path,
+                context: context
+              );
+            },
           ),
         ],
       ),
@@ -45,7 +60,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           (widget.path!.contains(".png") ||
               widget.path!.contains(".jpeg") ||
               widget.path!.contains(".jpg"))
-              ? Image.network("${Strings.baseUrl}${widget.path}")
+              ? Image.network("${CommonKeys.baseUrl}${widget.path}")
               : PDFView(
             filePath: widget.path,
             enableSwipe: true,

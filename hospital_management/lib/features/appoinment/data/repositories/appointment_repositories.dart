@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:hospital_management/core/failure/failure.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/appoinment/data/datasource/appointment_data_source.dart';
 import 'package:hospital_management/features/appoinment/data/model/book_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/delete_appointment_model.dart';
@@ -30,7 +31,7 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -45,7 +46,7 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -60,7 +61,7 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -75,7 +76,7 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -90,7 +91,7 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 

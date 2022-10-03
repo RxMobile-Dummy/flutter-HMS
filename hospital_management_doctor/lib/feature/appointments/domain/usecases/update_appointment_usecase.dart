@@ -24,7 +24,7 @@ class UpdateAppointmentParams extends Equatable {
   String medicineId;
   String statusId;
   String hospitalId;
-  String reportDescription;
+  List reportDescription;
 
   UpdateAppointmentParams({
     required this.doctorId,

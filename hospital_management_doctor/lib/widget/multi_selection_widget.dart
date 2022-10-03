@@ -97,15 +97,21 @@ class _MultiSelectionWidgetState extends State<MultiSelectionWidget> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(widget.label),
-            content: MultiSelectChip(
-              widget.displayList,
-              onSelectionChanged: (selectedList) {
-                setState(() {
-                  selectionList = selectedList;
-                  widget.controller.text = selectionList.join(" , ");
-                });
-              },
-              maxSelection: widget.displayList.length,
+            content: SingleChildScrollView(
+              child: Column(
+                children: [
+                  MultiSelectChip(
+                    widget.displayList,
+                    onSelectionChanged: (selectedList) {
+                      setState(() {
+                        selectionList = selectedList;
+                        widget.controller.text = selectionList.join(" , ");
+                      });
+                    },
+                    maxSelection: widget.displayList.length,
+                  )
+                ],
+              ),
             ),
             actions: <Widget>[
               FlatButton(

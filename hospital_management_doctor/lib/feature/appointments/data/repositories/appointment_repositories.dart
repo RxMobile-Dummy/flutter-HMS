@@ -5,10 +5,12 @@ import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/datasourse/appointment_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_report_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/update_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/repositories/appointment_repositories.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_usecase.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_report_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/update_appointment_usecase.dart';
 
 class AppointmentRepositoriesImpl extends AppointmentRepositories{
@@ -50,6 +52,21 @@ class AppointmentRepositoriesImpl extends AppointmentRepositories{
   Stream<Either<Failure, UpdateAppointmentModel>> updateAppointmentCall(UpdateAppointmentParams params) async* {
     try{
       var response = await appointmentDataSource!.updateAppointmentCall(params);
+      if (response != null) {
+        yield Right(response);
+      }
+    }catch(e,s){
+      Failure error = await ErrorObject.checkErrorState(e);
+      yield Left(FailureMessage(error.message.toString()));
+      print(e);
+      print(Strings.kFail);
+    }
+  }
+
+  @override
+  Stream<Either<Failure, GetReportListModel>> getReportListCall(GetReportListParams params)async* {
+    try{
+      var response = await appointmentDataSource!.getReportListCall(params);
       if (response != null) {
         yield Right(response);
       }

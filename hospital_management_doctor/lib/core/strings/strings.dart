@@ -4,7 +4,6 @@ class Strings{
   static const kCacheFailureMessage = 'Cache Failure';
   static const kInternalServerError = "Internal Server Error";
   static const kNoRecordsFound = "No Records Found";
-  static const baseUrl = "https://6f24-180-211-112-179.in.ngrok.io/";
   static const kErrorMessageForMedicine = "Please enter medicine name.";
   static const kHomeAppointmentsLabel = "Today's Appointments";
   static const kYes = "Yes";
@@ -19,19 +18,10 @@ class Strings{
   static const kAppointmentFor = "Appointment For";
   static const kAttachment = "Attachment";
   static const kView = "View";
+  static const kCall = "Call";
   static const kReportSuggestion = "Report suggestion";
   static const kMedicineGiven = "Medicine Given";
-  static const kDummyPersonImage = "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg";
   static const kSelectStatus= "-- Select Status --";
-  static const kNoDataImage= "assets/images/noData.jpeg";
-  static const kAppointmentImage= "assets/images/appointment.png";
-  static const kForgotPasswordImage= "assets/images/forgot.png";
-  static const kPatientImage= "assets/images/patient.jpeg";
-  static const kResetImage= "assets/images/reset.png";
-  static const kResetSuccessImage= "assets/images/reset_successfully.png";
-  static const kDepartmentImage= "assets/images/departments.png";
-  static const kPersonImage= "assets/images/person_image.jpeg";
-  static const kProfileImage= "assets/images/doctor_profile.png";
   static const kNoDataFound= "No Data Found";
   static const kApplyFilter= "Apply filter";
   static const kResetFilter= "Reset filter";
@@ -91,7 +81,6 @@ class Strings{
   static const kEmail= "Email";
   static const kSearch= "Search";
   static const kPatients= "Patients";
-  static const kDoctorImageStoredPath= "doctor/app/doctor_images";
   static const kDoctorDetails= "Doctor Details";
   static const kExperience= "Experience";
   static const kConsultancyFees = "Consultancy Fees";
@@ -154,9 +143,6 @@ class Strings{
   static const kOnBoardingDescription1= "HomeCare's doctor at home service provides expert care for you and your family that encompasses day-to-day healthcare needs as well as long term assistance.";
   static const kOnBoardingDescription2= "Everyday Health inspires and empowers people to live their healthiest lives, every day, through trusted, medically reviewed information and expert";
   static const kOnBoardingDescription3= "We provide low cost ambulance services with complete ICU Backup, advance life support. Fully Medical Equipped 100% sanitised Ambulance Available at Your Doorstep!";
-  static const kOnBoardingImage1 = "assets/images/need_a_doctor.jpeg";
-  static const kOnBoardingImage2 = "assets/images/health_advice.jpeg";
-  static const kOnBoardingImage3 = "assets/images/ambulance.jpeg";
   static const kGetStarted = "Get Started";
   static const kTrue = "true";
   static const kPhone = "phone";
@@ -167,7 +153,6 @@ class Strings{
   static const kImage = "Image ";
   static const kDocument = "Document";
   static const kHospitalManagement = "Hospital Management";
-  static const kHospitalImage= "assets/images/hospital1.png";
   static const kEmailRegExp= r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$';
   static const kMobileRegExp= r'^(?:[+0]9)?[0-9]{10}$';
   static const kEmailValidationMessage= "Please enter valid email.";

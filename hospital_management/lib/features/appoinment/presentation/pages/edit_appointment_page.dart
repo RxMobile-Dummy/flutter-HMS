@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_state.dart';
@@ -46,9 +48,9 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
   File? fileForProfilePic;
   File? fileForReport;
   List<String> timeSlotDropDown = [
-    "-- Select time slot --",
-    "10:00 AM to 02:00 PM",
-    "4:00 PM to 7:30 PM"
+    Strings.kSelectTimeSlot,
+    Strings.kTimeSlot1,
+    Strings.kTimeSlot2
   ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -72,23 +74,11 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Update Appointment",isBackPress: true),
+        child: CustomAppBar(title: Strings.kUpdateAppointment,isBackPress: true),
       ),
-      body: /*Form(
-        key: _formKey,
-        child: buildWidget(),
-      )*/ErrorBlocListener<AppointmentBloc>(
+      body: ErrorBlocListener<AppointmentBloc>(
         bloc: BlocProvider.of<AppointmentBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
-         /* if(state is UpdateAppointmentState){
-            ProgressDialog.hideLoadingDialog(context);
-            Future.delayed(Duration.zero, () {
-              Navigator.of(context).pop();
-            });
-            BlocProvider.of<AppointmentBloc>(context).add(
-                GetAppointmentEvent(id: widget.patientId,date: ""));
-          }*/
           return  Form(
             key: _formKey,
             child: buildWidget(),
@@ -116,11 +106,11 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           backgroundColor: Colors.transparent,
                           backgroundImage: (fileForProfilePic!.path == null || fileForProfilePic!.path == "")
                               ? const AssetImage(
-                            'assets/images/person_image.jpeg',
+                            ImagesName.kPersonImage,
                           )
-                              : fileForProfilePic.toString().contains("patient_profile_pic_files")
+                              : fileForProfilePic.toString().contains(CommonKeys.K_Patient_Profile_Pic_Files)
                               ? NetworkImage(
-                            "${Strings.baseUrl}${fileForProfilePic?.path}",
+                            "${CommonKeys.baseUrl}${fileForProfilePic?.path}",
                           )
                               : FileImage(
                             fileForProfilePic!,
@@ -140,7 +130,6 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                                             Colors.grey)),
                                     child: showSheetForImage()),
                               ));
-                          print("OPEN");
                         },
                       ),
                       Positioned(
@@ -158,13 +147,6 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                               ),
                             ),
                             color: CustomColors.colorDarkBlue,
-                            /*boxShadow: [
-                              BoxShadow(
-                                offset: Offset(2, 4),
-                                color: Colors.transparent,
-                                blurRadius: 3,
-                              ),
-                            ]*/
                           ),
                           child: InkWell(
                             child: Padding(
@@ -190,7 +172,6 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                                                 Colors.grey)),
                                         child: showSheetForImage()),
                                   ));
-                              print("OPEN");
                             },
                           ),
                         ),
@@ -199,36 +180,36 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                   )),
               const SizedBox(height: 20,),
               CustomTextField(
-                key: const Key("tefFirstname"),
-                label: "First Name",
-                hint: "Enter First Name",
-                errorMessage: "Please Enter First name",
+                key: const Key(Strings.kFirstNameKey),
+                label: Strings.kFirstNameLabel,
+                hint: Strings.kFirstNameHint,
+                errorMessage: Strings.kFirstNameErrorMessage,
                 textEditingController: firstNameController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefLastName"),
-                label: "Last Name",
-                hint: "Enter Last Name",
-                errorMessage: "Please Enter Last name",
+                key: const Key(Strings.kLastNameKey),
+                label: Strings.kLastNameLabel,
+                hint: Strings.kLastNameHint,
+                errorMessage: Strings.kLastNameErrorMessage,
                 textEditingController: lastNameController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefMobilenumber"),
-                label: "Mobile number",
-                hint: "Enter mobile number",
-                errorMessage: "Please Enter mobile number",
+                key: const Key(Strings.kMobileKey),
+                label: Strings.kMobileLabel,
+                hint: Strings.kMobileHint,
+                errorMessage: Strings.kMobileErrorMessage,
                 isMobile: true,
                 textInputType: TextInputType.phone,
                 textEditingController: mobileNumberController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefDisease"),
-                label: "Enter Disease",
-                hint: "Enter Disease",
-                errorMessage: "Please Enter Disease",
+                key: const Key(Strings.kDiseaseKey),
+                label: Strings.kDiseaseLabel,
+                hint: Strings.kDiseaseHint,
+                errorMessage: Strings.kDiseaseErrorMessage,
                 textEditingController: diseaseController,
               ),
               const SizedBox(height: 10,),
@@ -236,16 +217,16 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 controller: timeSlotController,
                 dropDownList: timeSlotDropDown,
                 selectedValue:  timeSlotController.text,
-                label: "Select time slot",
-                errorMessage: "Select time slot",
+                label: Strings.kSelectTimeSlotLabel,
+                errorMessage: Strings.kSelectTimeSlotLabel,
               ),
               const SizedBox(height: 10,),
               DatePicker(
                 dateController: appointmentDateController,
-                lableText: "Appointment Date",
+                lableText: Strings.kAppointmentDate,
                 firstDate: DateTime.now(),
                 lastDate: DateTime(2024),
-                errorMessage: "Select appointment date",
+                errorMessage: Strings.kAppointmentDateErrorMessage,
               ),
               const SizedBox(height: 20,),
               Row(
@@ -281,7 +262,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                       getFromGalleryForReport();
                     },
                     child:  Text(
-                      "Upload PDF",
+                      Strings.kUploadFile,
                       style: CustomTextStyle.styleMedium.copyWith(color: CustomColors.colorDarkBlue),
                     ),
                   ),
@@ -297,7 +278,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           _formKey.currentState?.save();
                           FocusScope.of(context).unfocus();
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          var patientId = prefs.getString('id');
+                          var patientId = prefs.getString(CommonKeys.K_Id);
                           _updateAppointment(
                               doctorId: widget.getAppointmentModel!.data![widget.index].doctorData!.id.toString() ,
                               firstName: firstNameController.text,
@@ -320,7 +301,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           print(getFormatedDate(DateTime.now().toString()));
                           Fluttertoast.cancel();
                           Fluttertoast.showToast(
-                              msg: "Please fill all the details.",
+                              msg: Strings.kFillAllDetails,
                               toastLength: Toast.LENGTH_LONG,
                               fontSize: DeviceUtil.isTablet ? 20 : 12,
                               backgroundColor: CustomColors.colorDarkBlue,
@@ -333,7 +314,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                         shape: StadiumBorder(),
                       ),
                       child:  Text(
-                        "Update Appointment",
+                        Strings.kUpdateAppointment,
                         style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                       ),
                     ),
@@ -396,7 +377,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                   },
                 ),
                 Text(
-                  "Camera",
+                  Strings.kCamera,
                   style: CustomTextStyle.styleBold,
                 )
               ],
@@ -417,7 +398,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                     },
                   ),
                   Text(
-                    "Gallery",
+                    Strings.kGallery,
                     style: CustomTextStyle.styleBold,
                   )
                 ],
@@ -462,7 +443,6 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
     var inputDate = inputFormat.parse(date);
     var outputFormat = DateFormat('dd/MM/yyyy');
     print(outputFormat.format(inputDate));
-    //date1 = outputFormat.format(inputDate).toString();
     return outputFormat.format(inputDate);
   }
 

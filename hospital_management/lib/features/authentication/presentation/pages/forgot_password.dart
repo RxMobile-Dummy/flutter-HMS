@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_state.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/reset_password_screen.dart';
@@ -33,7 +35,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
       body: ErrorBlocListener<AuthenticationBloc>(
         bloc: BlocProvider.of<AuthenticationBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AuthenticationBloc, BaseState>(builder: (context, state)  {
           if(state is ForgotPasswordState) {
             ProgressDialog.hideLoadingDialog(context);
@@ -90,7 +91,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           width: DeviceUtil.isTablet ? 300:200,
                           decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage("assets/images/forgot.png"),
+                                image: AssetImage(ImagesName.kForgotPasswordImage),
                                 fit: BoxFit.fill,
                               )
                           ),
@@ -101,7 +102,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children:  [
                             Text(
-                              "FORGOT",
+                              Strings.kForgot,
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
@@ -111,7 +112,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               ),
                             ),
                             Text(
-                              "PASSWORD",
+                              Strings.kPassword,
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
@@ -125,10 +126,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                        SizedBox(height: DeviceUtil.isTablet ? 25:10,),
                       CustomTextFieldWithBorder(
-                        key: const Key("tefEmail"),
-                        label: "Email Address",
-                        hint: "Enter Email",
-                        errorMessage: "Please Enter Email",
+                        key: const Key(Strings.kEmailKey),
+                        label: Strings.kEmailLabel,
+                        hint: Strings.kEmailHint,
+                        errorMessage: Strings.kEmailErrorMessage,
                         isEmail: true,
                         textInputType: TextInputType.emailAddress,
                         textEditingController: emailController,
@@ -146,7 +147,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 }else{
                                   Fluttertoast.cancel();
                                   Fluttertoast.showToast(
-                                      msg: "Please fill all the details.",
+                                      msg: Strings.kFillAllDetails,
                                       toastLength: Toast.LENGTH_LONG,
                                       fontSize: DeviceUtil.isTablet ? 20 : 12,
                                       backgroundColor: CustomColors.colorDarkBlue,
@@ -159,7 +160,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 shape: StadiumBorder(),
                               ),
                               child:  Text(
-                                "Send Email",
+                                Strings.kSendEmail,
                                 style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                               ),
                             ),
@@ -169,7 +170,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       Center(
                         child: TextButton(
                          child: Text(
-                           "Login",
+                           Strings.kLogin,
                            style: CustomTextStyle.styleSemiBold.copyWith(color: CustomColors.colorDarkBlue),
                          ),
                           onPressed: (){

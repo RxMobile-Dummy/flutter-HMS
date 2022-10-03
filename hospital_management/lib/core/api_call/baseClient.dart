@@ -27,24 +27,24 @@ import '../../features/feedback/data/model/send_patient_feedback.dart';
 
 part 'baseClient.g.dart';
 
-@RestApi(baseUrl: 'https://4e79-180-211-112-179.in.ngrok.io/')
+@RestApi(baseUrl: 'https://a0ef-180-211-112-179.in.ngrok.io/')
 abstract class  ApiClient {
 
   factory ApiClient(Dio dio) = _ApiClient;
   //
-  @GET('patient/get_allergies/')
+  @GET('patient/get_allergies')
   Future<GetAllergiesModel> getAllergies();
 
-  @GET('patient/get_current_medications/')
+  @GET('patient/get_current_medications')
   Future<GetMedicationModel> getMedication();
 
-  @GET('patient/get_past_injuries/')
+  @GET('patient/get_past_injuries')
   Future<GetInjuriesModel> getInjuries();
 
-  @GET('patient/get_past_surgeries/')
+  @GET('patient/get_past_surgeries')
   Future<GetSurgeryModel> getSurgery();
 
-  @GET('patient/get_food_preferences/')
+  @GET('patient/get_food_preferences')
   Future<GetFoodPreferenceModel> getFoodPreference();
 
   @POST('patient/add_patient')

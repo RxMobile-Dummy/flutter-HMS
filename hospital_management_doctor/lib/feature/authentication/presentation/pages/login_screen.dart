@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
@@ -85,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: DeviceUtil.isTablet ? 300: 200,
                                   decoration: const BoxDecoration(
                                       image: DecorationImage(
-                                        image: AssetImage(Strings.kPatientImage),
+                                        image: AssetImage(ImagesName.kPatientImage),
                                         fit: BoxFit.fill,
                                       )
                                   ),

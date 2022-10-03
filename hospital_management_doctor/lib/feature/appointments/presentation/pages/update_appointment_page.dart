@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/custom/progress_bar.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_report_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/report_list_bloc.dart';
 import 'package:hospital_management_doctor/feature/medicine/data/model/get_medicine_model.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_bloc.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_event.dart';
@@ -21,7 +24,6 @@ import 'package:hospital_management_doctor/utils/style.dart';
 import 'package:hospital_management_doctor/widget/custom_appbar.dart';
 import 'package:hospital_management_doctor/widget/drop_down.dart';
 import 'package:hospital_management_doctor/widget/multi_selection_widget.dart';
-import 'package:hospital_management_doctor/widget/text_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateAppointmentPage extends StatefulWidget {
@@ -42,28 +44,35 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
   TextEditingController medicineController = TextEditingController();
   TextEditingController reportSuggestionController = TextEditingController();
   TextEditingController appointmentStatusController = TextEditingController();
+  GetReportListModel getReportListModel = GetReportListModel();
   List<String> statusRadioList = [
     Strings.kSelectStatus
   ];
   List<String> medicineList = [];
+  List<String> reportList = [];
   String appointmentStatus = "";
 
 
   @override
   void initState() {
     List medicineList1 = [];
-    if(widget.getAppointmentModel!.data![widget.index].patientReportData != null){
-      for(int i=0;i< widget.getAppointmentModel!.data![widget.index].patientReportData!.medicineDetails!.length;i++){
-        medicineList1.add(widget.getAppointmentModel!.data![widget.index].patientReportData!.medicineDetails![i].medicineName);
+    if(widget.getAppointmentModel!.data![widget.index].patientData != null){
+      for(int i=0;i< widget.getAppointmentModel!.data![widget.index].patientData!.patientMedicineReportDetails!.length;i++){
+        medicineList1.add(widget.getAppointmentModel!.data![widget.index].patientData!.patientMedicineReportDetails![i].medicineName);
       }
     }
     medicineController.text = medicineList1.join(" , ");
-    if(widget.getAppointmentModel!.data![widget.index].patientReportData != null){
-      reportSuggestionController.text = widget.getAppointmentModel!.data![widget.index].patientReportData!.reportDescription ?? "";
+    List reportList1 = [];
+    if(widget.getAppointmentModel!.data![widget.index].patientData != null){
+      for(int i=0;i< widget.getAppointmentModel!.data![widget.index].patientData!.patientReportData!.length;i++){
+        reportList1.add(widget.getAppointmentModel!.data![widget.index].patientData!.patientReportData![i].reportName);
+      }
+      reportSuggestionController.text = reportList1.join(" , ");
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _getAppointmentStatus("");
       await _getMedicineList("");
+      await _getReportList();
     });
     super.initState();
   }
@@ -77,6 +86,16 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
       return "";
     });
   }
+
+  Future<String> _getReportList() {
+    return Future.delayed(const Duration()).then((_) {
+     // ProgressDialog.showLoadingDialog(context);
+      BlocProvider.of<ReportListBloc>(context).add(
+          GetReportListEvent());
+      return "";
+    });
+  }
+
 
   Future<String> _getMedicineList(String id) {
     return Future.delayed(const Duration()).then((_) {
@@ -128,7 +147,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                       controller: medicineController,
                       displayList: medicineList,
                       label: Strings.kSelectMedicineName,
-                      errorMessage: Strings.kErrorMessageForMedicine,
+                      //errorMessage: Strings.kErrorMessageForMedicine,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -147,13 +166,52 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                 },
               ),
               const SizedBox(height: 10,),
-              CustomTextField(
+              BlocBuilder<ReportListBloc, BaseState>(
+                builder: (context, state) {
+                  if (state is GetReportListState) {
+                    ProgressDialog.hideLoadingDialog(context);
+                    reportList = [];
+                    getReportListModel = state.model!;
+                    for(int i=0;i<getReportListModel.data!.length;i++){
+                      reportList.add(getReportListModel.data![i].reportData ?? "");
+                    }
+                    print(reportList);
+                    return MultiSelectionWidget(
+                      controller: reportSuggestionController,
+                      displayList: reportList,
+                      label: Strings.kReportSuggestionName,
+                      //errorMessage: Strings.kReportSuggestionErrorMessage,
+                    );
+                  }else if (state is StateErrorGeneral) {
+                    ProgressDialog.hideLoadingDialog(context);
+                    Fluttertoast.cancel();
+                    Fluttertoast.showToast(
+                        msg: state.message,
+                        toastLength: Toast.LENGTH_LONG,
+                        fontSize: DeviceUtil.isTablet ? 20 : 12,
+                        backgroundColor: CustomColors.colorDarkBlue,
+                        textColor: Colors.white
+                    );
+                    return const SizedBox();
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+              const SizedBox(height: 10,),
+            /*MultiSelectionWidget(
+              controller: reportSuggestionController,
+              displayList: reportList,
+              label: Strings.kReportSuggestionName,
+              errorMessage: Strings.kReportSuggestionErrorMessage,
+            ),*/
+            /*  CustomTextField(
                 key: const Key(Strings.kReportSuggestionKey),
                 label: Strings.kReportSuggestionName,
                 hint: Strings.kReportSuggestionHint,
                 errorMessage: Strings.kReportSuggestionErrorMessage,
                 textEditingController: reportSuggestionController,
-              ),
+              ),*/
               BlocBuilder<AppointmentStatusBloc, BaseState>(builder: (context, state)  {
                 if(state is GetAppointmentStatusState){
                   statusRadioList = [];
@@ -165,6 +223,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                   for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
                     if(int.parse(widget.getAppointmentModel!.data![widget.index].statusId ?? "") == getAppointmentStatusModel.data![i].aId){
                       appointmentStatus = getAppointmentStatusModel.data![i].status ?? "";
+                      appointmentStatusController.text = appointmentStatus;
                     }
                   }
                   return DropDown(
@@ -192,7 +251,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           _formKey.currentState?.save();
                           FocusScope.of(context).unfocus();
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          var doctorId = prefs.getString('id');
+                          var doctorId = prefs.getString(CommonKeys.K_Id);
                           String? statusIdForUpdateAppointment;
                           for(int i=0;i<getAppointmentStatusModel.data!.length;i++){
                             if(appointmentStatusController.text == getAppointmentStatusModel.data![i].status){
@@ -215,8 +274,27 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           print(medicineIdList);
                           String medicineIdString = medicineIdList.join(",");
                           print(medicineIdString);
+                          List<String> reportList = reportSuggestionController.text.split(" , ");
+                          List<dynamic> reportIdList = [];
+                          Map<String,dynamic> reportMap = Map();
+                          print(medicineList);
+                          if(reportSuggestionController.text.isNotEmpty){
+                            for(int j=0;j<reportList.length;j++){
+                              for(int i=0;i<getReportListModel.data!.length;i++){
+                                if(getReportListModel.data![i].reportData == reportList[j]){
+                                  reportMap = Map();
+                                  reportMap[CommonKeys.K_Report_Id] = getReportListModel.data![i].id.toString();
+                                  reportMap[CommonKeys.K_File_Data] = "";
+                                  reportIdList.add(reportMap);
+                                }
+                              }
+                            }
+                          }
+                          print(reportIdList);
+                          String reportIdString = reportIdList.join(",");
+                          print(reportIdString);
                           _updateAppointment(
-                            reportDescription: reportSuggestionController.text,
+                            reportDescription: reportIdList,
                             medicineId: medicineController.text.isEmpty ? "" : medicineIdString,
                             statusId: statusIdForUpdateAppointment,
                             patientId: widget.getAppointmentModel!.data![widget.index].patientId,
@@ -255,7 +333,8 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
   }
 
   Future<String> _updateAppointment({ String? doctorId, patientId, appointmentId,
-    medicineId, statusId, hospitalId, reportDescription,}) {
+    medicineId, statusId, hospitalId,
+    List? reportDescription,}) {
     return Future.delayed(const Duration()).then((_) {
       ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<AppointmentBloc>(context).add(
@@ -266,7 +345,7 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
           patientId: patientId,
           statusId: statusId,
           medicineId: medicineId,
-          reportDescription: reportDescription));
+          reportDescription: reportDescription ?? []));
       return "";
     });
   }

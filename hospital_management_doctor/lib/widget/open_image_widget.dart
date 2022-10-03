@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
+import 'package:share_plus/share_plus.dart';
 
 class OpenImageWidget extends StatefulWidget {
   String path;
@@ -11,6 +12,17 @@ class OpenImageWidget extends StatefulWidget {
 }
 
 class _OpenImageWidgetState extends State<OpenImageWidget> {
+
+  void _onShare({BuildContext? context,String? path}) async {
+    final box = context!.findRenderObject() as RenderBox?;
+
+    if (path!.isNotEmpty) {
+      await Share.share(path,
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +32,12 @@ class _OpenImageWidgetState extends State<OpenImageWidget> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: () {},
+            onPressed: () {
+              _onShare(
+                context: context,
+                path: widget.path
+              );
+            },
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_report_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/update_appointment_model.dart';
 
 class GetAppointmentEvent extends BaseEvent {
@@ -40,7 +41,7 @@ class UpdateAppointmentEvent extends BaseEvent {
   String medicineId;
   String statusId;
   String hospitalId;
-  String reportDescription;
+  List reportDescription;
 
   UpdateAppointmentEvent({
     required this.statusId,
@@ -57,4 +58,15 @@ class UpdateAppointmentSuccessEvent extends BaseEvent {
   UpdateAppointmentModel? model;
 
   UpdateAppointmentSuccessEvent({this.model});
+}
+
+class GetReportListEvent extends BaseEvent {
+
+  GetReportListEvent();
+}
+
+class GetReportListSuccessEvent extends BaseEvent {
+  GetReportListModel? model;
+
+  GetReportListSuccessEvent({this.model});
 }

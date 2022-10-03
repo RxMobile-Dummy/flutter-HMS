@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hospital_management/core/error_bloc_builder/error_builder_listener.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/data/model/get_alleries_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_food_prefrence_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_injuries_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_medication_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_surgery_model.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_state.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/food_preference_bloc.dart';
@@ -51,9 +51,9 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
   List<String> injuryList = [];
   List<String> surgeryList = [];
   List<String> foodPreferenceList = [];
-  List<String> smokingHabitList = ["Yes", "No"];
+  List<String> smokingHabitList = [Strings.kYes, Strings.kNo];
   List<String> activityLevelList = [
-    "-- Select Activity Level --",
+    Strings.kSelectActivityLevel,
     "1",
     "2",
     "3",
@@ -88,7 +88,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
 
   Future<String> _getAllergiesList() {
     return Future.delayed(const Duration()).then((_) {
-     // ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<AllergiesBloc>(context).add(
           GetAllergiesEvent());
       return "";
@@ -97,7 +96,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
 
   Future<String> _getFoodPreferenceList() {
     return Future.delayed(const Duration()).then((_) {
-      // ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<FoodPreferenceBloc>(context).add(
           GetFoodPreferenceEvent());
       return "";
@@ -106,7 +104,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
 
   Future<String> _getSurgeryList() {
     return Future.delayed(const Duration()).then((_) {
-      //ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<SurgeryBloc>(context).add(
           GetSurgeryEvent());
       return "";
@@ -136,63 +133,12 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Fill Medical Details", isBackPress: true),
+        child: CustomAppBar(title: Strings.kFillMedicineDetails, isBackPress: true),
       ),
       body:  Form(
         key: _formKey,
         child: buildWidget(),
-      )/*ErrorBlocListener<AuthenticationBloc>(
-        bloc: BlocProvider.of<AuthenticationBloc>(context),
-        child: BlocBuilder<AuthenticationBloc,BaseState>(
-          builder: (context, state) {
-            if(state is GetAllergiesState){
-              ProgressDialog.hideLoadingDialog(context);
-              allergyList = [];
-              GetAllergiesModel? model = state.model;
-              for(int i=0;i<model!.data!.length;i++){
-                allergyList.add(model.data![i].allergy ?? "");
-              }
-              print(allergyList);
-            }else if(state is GetMedicationState){
-              ProgressDialog.hideLoadingDialog(context);
-              medicationList = [];
-              GetMedicationModel? model = state.model;
-              for(int i=0;i<model!.data!.length;i++){
-                medicationList.add(model.data![i].currentMedication ?? "");
-              }
-              print(medicationList);
-            }else if(state is GetInjuriesState){
-              ProgressDialog.hideLoadingDialog(context);
-              injuryList = [];
-              GetInjuriesModel? model = state.model;
-              for(int i=0;i<model!.data!.length;i++){
-                injuryList.add(model.data![i].pastInjury ?? "");
-              }
-              print(injuryList);
-            }else if(state is GetSurgeryState){
-              ProgressDialog.hideLoadingDialog(context);
-              surgeryList = [];
-              GetSurgeryModel? model = state.model;
-              for(int i=0;i<model!.data!.length;i++){
-                surgeryList.add(model.data![i].pastSurgery ?? "");
-              }
-              print(surgeryList);
-            }else if(state is GetFoodPreferenceState){
-              ProgressDialog.hideLoadingDialog(context);
-              foodPreferenceList = [];
-              GetFoodPreferenceModel? model = state.model;
-              for(int i=0;i<model!.data!.length;i++){
-                foodPreferenceList.add(model.data![i].foodPreference ?? "");
-              }
-              print(foodPreferenceList);
-            }
-            return Form(
-              key: _formKey,
-              child: buildWidget(),
-            );
-          }
-        ),
-      ),*/
+      )
     );
   }
 
@@ -217,7 +163,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                     return MultiSelectionWidget(
                       controller: allergyController,
                       displayList: allergyList,
-                      label: "Select Allergy",
+                      label: Strings.kSelectAllergy,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -235,11 +181,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   }
                 },
               ),
-            /*MultiSelectionWidget(
-            controller: allergyController,
-            displayList: allergyList,
-            label: "Select Allergy",
-          ),*/
               const SizedBox(height: 15,),
               BlocBuilder<MedicationBloc, BaseState>(
                 builder: (context, state) {
@@ -254,7 +195,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                     return  MultiSelectionWidget(
                       controller: medicationController,
                       displayList: medicationList,
-                      label: "Select Medication",
+                      label: Strings.kSelectMedication,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -272,11 +213,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   }
                 },
               ),
-             /* MultiSelectionWidget(
-                controller: medicationController,
-                displayList: medicationList,
-                label: "Select Medication",
-              ),*/
               const SizedBox(height: 15,),
               BlocBuilder<InjuryBloc, BaseState>(
                 builder: (context, state) {
@@ -291,7 +227,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                     return   MultiSelectionWidget(
                       controller: injuryController,
                       displayList: injuryList,
-                      label: "Select Past Injury",
+                      label: Strings.kSelectPastInjury,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -309,11 +245,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   }
                 },
               ),
-             /* MultiSelectionWidget(
-                controller: injuryController,
-                displayList: injuryList,
-                label: "Select Past Injury",
-              ),*/
               const SizedBox(height: 15,),
               BlocBuilder<SurgeryBloc, BaseState>(
                 builder: (context, state) {
@@ -328,7 +259,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                     return  MultiSelectionWidget(
                       controller: surgeryController,
                       displayList: surgeryList,
-                      label: "Select Past Surgery",
+                      label: Strings.kSelectPastSurgery,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -346,11 +277,6 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   }
                 },
               ),
-              /*MultiSelectionWidget(
-                controller: surgeryController,
-                displayList: surgeryList,
-                label: "Select Past Surgery",
-              ),*/
               const SizedBox(height: 15,),
               BlocBuilder<FoodPreferenceBloc, BaseState>(
                 builder: (context, state) {
@@ -365,7 +291,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                     return MultiSelectionWidget(
                       controller: foodController,
                       displayList: foodPreferenceList,
-                      label: "Select Food Preference",
+                      label: Strings.kSelectFoodPreference,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -383,28 +309,23 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                   }
                 },
               ),
-             /* MultiSelectionWidget(
-                controller: foodController,
-                displayList: foodPreferenceList,
-                label: "Select Food Preference",
-              ),*/
               const SizedBox(height: 15,),
               DropDown(
                 dropDownList: activityLevelList,
                 selectedValue: activityLevelList[0],
                 controller: activityController,
-                label: "Select Activity Level",
+                label: Strings.kSelectActivityLevelLabel,
               ),
               const SizedBox(height: 15,),
               RadioWidget(
-                label: "Smoking Habit",
+                label: Strings.kSmokingHabit,
                 selectedRadio: selectedRadioForSmoking,
                 radioList: smokingHabitList,
                 controller: smokingController,
               ),
               const SizedBox(height: 15,),
               RadioWidget(
-                label: "Alcohol Consumption",
+                label: Strings.kAlcoholConsumption,
                 selectedRadio: selectedRadioForAlcohol,
                 radioList: smokingHabitList,
                 controller: alcoholController,
@@ -412,10 +333,9 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
               const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextButton(
-                    child:  Text("<< Previous",style: CustomTextStyle.styleBold
+                    child:  Text(Strings.kPrevious,style: CustomTextStyle.styleBold
                         .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       widget.pageController.previousPage(
@@ -423,7 +343,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
                     },
                   ),
                   TextButton(
-                    child:  Text("NEXT >>",style: CustomTextStyle.styleBold
+                    child:  Text(Strings.kNext,style: CustomTextStyle.styleBold
                         .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       function();
@@ -453,7 +373,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     print(allergyIdList);
     String allergyIdString = allergyIdList.join(",");
     print(allergyIdString);
-    map["allergy"] = allergyController.text.isEmpty ? "" : allergyIdString;
+    map[CommonKeys.K_Allergy] = allergyController.text.isEmpty ? "" : allergyIdString;
     List<String> medicationList = medicationController.text.split(" , ");
     List<String> medicationIdList = [];
     print(medicationList);
@@ -469,7 +389,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     print(medicationIdList);
     String medicationIdString = medicationIdList.join(",");
     print(medicationIdString);
-    map["current_medication"] = medicationController.text.isEmpty ? "" : medicationIdString;
+    map[CommonKeys.K_Current_Medication] = medicationController.text.isEmpty ? "" : medicationIdString;
     List<String> injuryList = injuryController.text.split(" , ");
     List<String> injuryIdList = [];
     print(injuryList);
@@ -485,7 +405,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     print(injuryIdList);
     String injuryIdString = injuryIdList.join(",");
     print(injuryIdString);
-    map["past_injury"] = injuryController.text.isEmpty ? "" : injuryIdString;
+    map[CommonKeys.K_Past_Injury] = injuryController.text.isEmpty ? "" : injuryIdString;
     List<String> surgeryList = surgeryController.text.split(" , ");
     List<String> surgeryIdList = [];
     print(surgeryList);
@@ -501,10 +421,10 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     print(surgeryIdList);
     String surgeryIdString = surgeryIdList.join(",");
     print(surgeryIdString);
-    map["past_surgery"] = surgeryController.text.isEmpty ? "": surgeryIdString;
-    map["smoking_habits"] = smokingController.text.isEmpty ? "No" : smokingController.text;
-    map["alchol_consumption"] = alcoholController.text.isEmpty ? "No" : alcoholController.text;
-    map["activity_level"] = activityController.text;
+    map[CommonKeys.K_Past_Surgery] = surgeryController.text.isEmpty ? "": surgeryIdString;
+    map[CommonKeys.K_Smoking_Habit] = smokingController.text.isEmpty ? Strings.kNo : smokingController.text;
+    map[CommonKeys.K_Alcohol_Consumption] = alcoholController.text.isEmpty ? Strings.kNo : alcoholController.text;
+    map[CommonKeys.K_Activity_Level] = activityController.text == activityLevelList[0] ? "" : activityController.text;
     List<String> foodList = foodController.text.split(" , ");
     List<String> foodIdList = [];
     print(foodList);
@@ -520,7 +440,7 @@ class _SignUpScreen3State extends State<SignUpScreen3> {
     print(foodIdList);
     String foodIdString = foodIdList.join(",");
     print(foodIdString);
-    map["food_preference"] = foodController.text.isEmpty ? "" : foodIdString;
+    map[CommonKeys.K_Food_Preference] = foodController.text.isEmpty ? "" : foodIdString;
     print(map);
     return widget.nextClick(map);
   }

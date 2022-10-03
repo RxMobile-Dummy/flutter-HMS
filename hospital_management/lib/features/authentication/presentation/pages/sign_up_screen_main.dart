@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/authentication/data/model/sign_up_model.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_state.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/keep_alive_data_page.dart';
@@ -45,29 +46,29 @@ class _SignUpScreenMainState extends State<SignUpScreenMain>  {
       KeepAlivePage(child:  SignUpScreen2(pageController: pageviewController,nextClick: (value){
         registrationDataMap.addAll(value);
         _signUpUser(
-          height: registrationDataMap["height"],
-          email: registrationDataMap['email'],
-          profilePic: registrationDataMap['profile_pic'],
-          lastName: registrationDataMap['last_name'],
-          firstName: registrationDataMap['first_name'],
-          password: registrationDataMap['password'],
-          occupation: registrationDataMap['occupation'],
-          activityLevel: registrationDataMap['activity_level'],
-          alcoholConsumption: registrationDataMap['alchol_consumption'],
-          allergy: registrationDataMap['allergy'],
-          bloodGroup: registrationDataMap['blood_group'],
-          city: registrationDataMap['city'],
-          contactNumber: registrationDataMap['contact_number'],
-          currentMedication: registrationDataMap['current_medication'],
-           dateOfBirth: registrationDataMap['date_of_birth'],
-           emergencyContactNumber: registrationDataMap['emergency_contact_number'],
-          foodPreference: registrationDataMap['food_preference'],
-           gender: registrationDataMap['gender'],
-          maritalStatus: registrationDataMap['marital_status'],
-          pastInjury: registrationDataMap['past_injury'],
-          pastSurgery: registrationDataMap['past_surgery'],
-          smokingHabits: registrationDataMap['smoking_habits'],
-          weight: registrationDataMap['weight']
+          height: registrationDataMap[CommonKeys.K_Height],
+          email: registrationDataMap[CommonKeys.K_Email],
+          profilePic: registrationDataMap[CommonKeys.K_Profile_Pic],
+          lastName: registrationDataMap[CommonKeys.K_Last_Name],
+          firstName: registrationDataMap[CommonKeys.K_First_Name],
+          password: registrationDataMap[CommonKeys.K_Password],
+          occupation: registrationDataMap[CommonKeys.K_Occupation],
+          activityLevel: registrationDataMap[CommonKeys.K_Activity_Level],
+          alcoholConsumption: registrationDataMap[CommonKeys.K_Alcohol_Consumption],
+          allergy: registrationDataMap[CommonKeys.K_Allergy],
+          bloodGroup: registrationDataMap[CommonKeys.K_Blood_Group],
+          city: registrationDataMap[CommonKeys.K_City],
+          contactNumber: registrationDataMap[CommonKeys.K_Contact_Number],
+          currentMedication: registrationDataMap[CommonKeys.K_Current_Medication],
+           dateOfBirth: registrationDataMap[CommonKeys.K_Date_Of_Birth],
+           emergencyContactNumber: registrationDataMap[CommonKeys.K_Emergency_Contact_Number],
+          foodPreference: registrationDataMap[CommonKeys.K_Food_Preference],
+           gender: registrationDataMap[CommonKeys.K_Gender],
+          maritalStatus: registrationDataMap[CommonKeys.K_Marital_Status],
+          pastInjury: registrationDataMap[CommonKeys.K_Past_Injury],
+          pastSurgery: registrationDataMap[CommonKeys.K_Past_Surgery],
+          smokingHabits: registrationDataMap[CommonKeys.K_Smoking_Habit],
+          weight: registrationDataMap[CommonKeys.K_Weight]
         );
         print(registrationDataMap);
       }),),

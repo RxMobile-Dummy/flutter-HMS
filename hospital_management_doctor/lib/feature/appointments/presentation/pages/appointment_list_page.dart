@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
@@ -11,6 +12,7 @@ import 'package:hospital_management_doctor/feature/appointments/presentation/blo
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/report_list_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_detail_page.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/update_appointment_page.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_bloc.dart';
@@ -78,7 +80,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
       backgroundColor: Colors.white,
       body:ErrorBlocListener<AppointmentBloc>(
         bloc: BlocProvider.of<AppointmentBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
           if(state is GetAppointmentState) {
             ProgressDialog.hideLoadingDialog(context);
@@ -172,7 +173,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
-                  Strings.kNoDataImage,
+                  ImagesName.kNoDataImage,
                   height: 150,
                 ),
                 const SizedBox(height: 20,),
@@ -325,7 +326,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
             ),
             Expanded(
               child:  Image.asset(
-                Strings.kAppointmentImage,
+                ImagesName.kAppointmentImage,
               ),
             )
           ],
@@ -364,7 +365,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 
@@ -407,6 +408,9 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       BlocProvider<MedicineBloc>(
                                         create: (context) => Sl.Sl<MedicineBloc>(),
                                       ),
+                                      BlocProvider<ReportListBloc>(
+                                        create: (context) => Sl.Sl<ReportListBloc>(),
+                                      ),
                                     ],
                                     child:  UpdateAppointmentPage(
                                       doctorId: doctorId,
@@ -445,7 +449,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       imagePath:
                                       (getAppointmentModel.data![index].patientProfilePic != null
                                           && getAppointmentModel.data![index].patientProfilePic != "")
-                                          ? "${Strings.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
+                                          ? "${CommonKeys.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
                                           : "",),
                                     fit: BoxFit.fill
                                 ),
