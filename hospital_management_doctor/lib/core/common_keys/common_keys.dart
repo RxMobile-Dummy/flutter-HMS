@@ -26,4 +26,7 @@ class CommonKeys{
   static const String K_Education= "education";
   static const String K_About= "about";
   static const String K_Appointment_Fees= "in_clinic_appointment_fees";
+  static const String K_Report_Id= "report_id";
+  static const String K_File_Data= "file_data";
+  static const String K_Report_Ids= "report_ids";
 }

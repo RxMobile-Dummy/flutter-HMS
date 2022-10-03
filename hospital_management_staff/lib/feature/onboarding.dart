@@ -6,8 +6,6 @@ import 'package:hospital_management_staff/feature/authentication/presentation/bl
 import 'package:hospital_management_staff/feature/authentication/presentation/pages/login_screen.dart';
 import 'package:hospital_management_staff/utils/device_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../custom/curve_painter.dart';
 import '../../utils/colors.dart';
 import '../../utils/style.dart';
 import 'package:hospital_management_staff/injection_container.dart' as Sl;
@@ -148,13 +146,13 @@ class _OnBoardingState extends State<OnBoarding> {
           margin: const EdgeInsets.all(16),
           child: Image.asset(
               listImage[index],
-              height: DeviceUtil.isTablet ? 350:280),
+              height: DeviceUtil.isTablet ? 400:280),
         ),),
         const SizedBox(height: 20,),
         Text(
           listTitle[index],
           style: CustomTextStyle.styleBold.copyWith(
-              fontSize: DeviceUtil.isTablet ? 26:22),
+              fontSize: DeviceUtil.isTablet ? 30:22),
         ),
         const SizedBox(height: 20,),
         Padding(
@@ -164,7 +162,7 @@ class _OnBoardingState extends State<OnBoarding> {
               listDescription[index],
               textAlign: TextAlign.center,
               style: CustomTextStyle.styleRegular.copyWith(
-                  fontSize: DeviceUtil.isTablet ? 22:20),
+                  fontSize: DeviceUtil.isTablet ? 26:20),
             ),
           ),
         )

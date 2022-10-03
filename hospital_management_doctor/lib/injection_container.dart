@@ -12,9 +12,11 @@ import 'package:hospital_management_doctor/feature/appointments/data/repositorie
 import 'package:hospital_management_doctor/feature/appointments/domain/repositories/appointment_repositories.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_usecase.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_report_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/update_appointment_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/report_list_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/datasourse/authentication_data_source_impl.dart';
 import 'package:hospital_management_doctor/feature/authentication/data/repositories/authentication_repositories.dart';
@@ -83,6 +85,10 @@ Future<void> init() async {
     getPatientUsecase:  Sl.call(),
   ));
 
+  Sl.registerFactory(() => ReportListBloc(
+    getReportListUsecase:  Sl.call(),
+  ));
+
   // Use cases
   Sl.registerLazySingleton(() => SignInDoctorUsecase(authenticationRepositories: Sl()));
   Sl.registerLazySingleton(() => ForgotPasswordUsecase(authenticationRepositories: Sl()));
@@ -94,6 +100,7 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => GetMedicineUsecase(medicineRepositories: Sl()));
   Sl.registerLazySingleton(() => UpdateAppointmentUsecase(appointmentRepositories: Sl()));
   Sl.registerLazySingleton(() => GetPatientUsecase(patientRepositories: Sl()));
+  Sl.registerLazySingleton(() => GetReportListUsecase(appointmentRepositories: Sl()));
 
   // Repository
   Sl.registerLazySingleton<AuthenticationRepositories>(

@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hospital_management/features/doctor/data/model/filter_doctor_model.dart';
 import 'package:hospital_management/features/doctor/data/model/get_doctor_model.dart';
 import 'package:hospital_management/features/doctor/presentation/bloc/doctor_bloc.dart';
@@ -17,7 +16,6 @@ import '../../../../custom/progress_bar.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/device_file.dart';
 import '../../../../utils/style.dart';
-import '../../../../widget/custom_appbar.dart';
 import '../../../../widget/drop_down.dart';
 import '../../../../widget/star_display_widget.dart';
 import '../../../appoinment/presentation/bloc/appointment_bloc.dart';
@@ -98,7 +96,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
     return Scaffold(
       body: ErrorBlocListener<DoctorBloc>(
         bloc: BlocProvider.of<DoctorBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child: BlocBuilder<DoctorBloc, BaseState>(builder: (context, state) {
           if (state is GetDoctorState) {
             ProgressDialog.hideLoadingDialog(context);
@@ -114,12 +111,12 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    "assets/images/noData.jpeg",
+                    Strings.kNoDataImage,
                     height: 150,
                   ),
                   const SizedBox(height: 20,),
                   const Text(
-                    "No Data Found",
+                    Strings.kNoDataFound,
                     style: TextStyle(
                         fontSize: 22,
                         color: Colors.black,
@@ -128,7 +125,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 ],
               )
           )
-              : Center(
+              : const Center(
                   child: CircularProgressIndicator(color: Colors.black),
                 );
         }),
@@ -148,7 +145,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
             children:  [
               InkWell(
                 child:  Text(
-                  "Apply filter",
+                  Strings.kApplyFilter,
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.normal,
@@ -214,7 +211,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Doctor Filter",
+                            Strings.kDoctorFilter,
                             style: CustomTextStyle.styleBold.copyWith(
                               color: CustomColors.colorDarkBlue,
                               fontSize: DeviceUtil.isTablet ? 20 : 18
@@ -229,8 +226,8 @@ class _DoctorListPageState extends State<DoctorListPage> {
                         controller: departmentController,
                         dropDownList: departmentDropDown,
                         selectedValue:  departmentController.text.isNotEmpty ? departmentController.text : departmentDropDown[0],
-                        label: "Select Department",
-                        errorMessage: "Select Department",
+                        label: Strings.kSelectDepartment,
+                        errorMessage: Strings.kSelectDepartment,
                       ),
                       const SizedBox(
                         height: 32,
@@ -250,18 +247,10 @@ class _DoctorListPageState extends State<DoctorListPage> {
                             FocusScope.of(context).unfocus();
                             Navigator.of(context).pop();
                            await _getDoctor(departmentController.text);
-                            /*_sendFeedback(
-                              ratings: ratings,
-                              comment: commentController.text,
-                              doctorId: widget.doctorId,
-                              hospitalId: widget.hospitalId,
-                              patientId: widget.patientId,
-                              staffId: widget.staffId,
-                            );*/
                           }
                         },
                         child:  Text(
-                          "Apply Filter",
+                          Strings.kApplyFilter,
                           style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white,),
                         ),
                       ),),
@@ -273,7 +262,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                            await _getDoctor("");
                          },
                          child:  Text(
-                           "Reset Filter",
+                           Strings.kResetFilter,
                            style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                          ),
                        ),
@@ -294,9 +283,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           color: Colors.white,
-          /*image: DecorationImage(
-                  image: AssetImage("assets/images/doctors.png",),
-                )*/
         ),
         padding: EdgeInsets.all(0),
         child: Row(
@@ -307,7 +293,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
               padding: EdgeInsets.only(top: 30, left: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   InkWell(
                       child: Icon(
@@ -322,7 +307,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                     height: 30,
                   ),
                   const Text(
-                    "Doctors",
+                    Strings.kDoctors,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.normal,
@@ -334,7 +319,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
               ),
             ),
             Image.asset(
-              "assets/images/doctors.png",
+              Strings.kDoctorImage,
             ),
           ],
         ));
@@ -346,7 +331,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
         child: Container(
             child: ListView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
@@ -374,18 +359,11 @@ class _DoctorListPageState extends State<DoctorListPage> {
   }
 
 
-/*  Future<String> _filterDoctor(String specialistField) {
-    return Future.delayed(const Duration()).then((_) {
-      ProgressDialog.showLoadingDialog(context);
-      BlocProvider.of<DoctorBloc>(context).add(FilterDoctorEvent(specialistField: specialistField));
-      return "";
-    });
-  }*/
 
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+        ? Strings.kDummyPersonImage
         : imagePath);
   }
 
@@ -412,17 +390,16 @@ class _DoctorListPageState extends State<DoctorListPage> {
                       topRight: Radius.circular(10),
                     ),
                     color: Colors.grey.shade200
-                    //color: Colors.orangeAccent.shade100,
                     ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 7, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       InkWell(
                         child: Text(
-                          "Book Appointment",
+                          Strings.kBookAppointment,
                           style: CustomTextStyle.styleMedium
                               .copyWith(color: Colors.black),
                         ),
@@ -443,20 +420,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                               .toString()),
                                     )),
                           );
-                          /* Future.delayed(Duration.zero, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MultiBlocProvider(
-                                  providers: [
-                                    BlocProvider<DoctorBloc>(
-                                      create: (context) => Sl.Sl<DoctorBloc>(),
-                                    ),
-                                  ],
-                                  child:  BookAppointmentPage(doctorId: getDoctorModel.data![index].id.toString()),
-                                )),
-                          );
-                        });*/
                         },
                       )
                     ],
@@ -502,7 +465,6 @@ class _DoctorListPageState extends State<DoctorListPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 15, top: 25),
                         child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
@@ -519,7 +481,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                               height: DeviceUtil.isTablet ? 12 : 7,
                             ),
                             Text(
-                              "${getDoctorModel.data![index].specialistField} Department",
+                              "${getDoctorModel.data![index].specialistField} ${Strings.kDepartment}",
                               softWrap: false,
                               overflow: TextOverflow.fade,
                               maxLines: 4,
@@ -540,7 +502,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      "Exp : ",
+                                     Strings.kExp,
                                       style: TextStyle(
                                           fontSize: DeviceUtil.isTablet ? 16 : 14,
                                           color:
@@ -551,7 +513,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      " ${getDoctorModel.data![index].yearsOfExperience} years",
+                                      " ${getDoctorModel.data![index].yearsOfExperience} ${Strings.kYears}",
                                       style: TextStyle(
                                           fontSize: DeviceUtil.isTablet ? 14 :12,
                                           color:
@@ -568,7 +530,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "Fees: ",
+                                        Strings.kFees,
                                         style: TextStyle(
                                             fontSize: DeviceUtil.isTablet ? 16 :14,
                                             color:

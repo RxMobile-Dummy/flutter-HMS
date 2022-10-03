@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/login.dart';
-import 'package:hospital_management/features/authentication/presentation/pages/sign_up_screen1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../custom/curve_painter.dart';
 import '../../utils/colors.dart';
 import '../../utils/style.dart';
-import 'authentication/presentation/pages/sign_up_screen_main.dart';
 import 'package:hospital_management/injection_container.dart' as Sl;
-import 'home.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -27,19 +25,19 @@ class _OnBoardingState extends State<OnBoarding> {
     CustomColors.colorPowerBlue
   ];
   List<String> listTitle = [
-    "Welcome to Hospital Management",
-    "Book your appointment",
-    "Staff and environment that is given to you"
+    Strings.kOnBoardingTitle1,
+    Strings.kOnBoardingTitle2,
+    Strings.kOnBoardingTitle3
   ];
   List<String> listDescription = [
-    "Whats happen with you?",
-    "Best treatment provide here.",
-    "Are very friendly and best."
+    Strings.kOnBoardingSubTitle1,
+    Strings.kOnBoardingSubTitle2,
+    Strings.kOnBoardingSubTitle3
   ];
   List<String> listImage = [
-    "assets/images/h1.png",
-    "assets/images/vv5.png",
-    "assets/images/vv8.png"
+    Strings.kOnBoardingImage1,
+    Strings.kOnBoardingImage2,
+    Strings.kOnBoardingImage3
   ];
   int currentPage = 0;
 
@@ -55,16 +53,6 @@ class _OnBoardingState extends State<OnBoarding> {
               painter: CurvePainter(color: listColors[currentPage]),
               child: Container(),
             ),
-           /* CustomPaint(
-              painter: CurvePainter1(
-                  color: listColors[currentPage].withOpacity(0.2)),
-              child: Container(),
-            ),
-            CustomPaint(
-              painter: CurvePainter2(
-                  color: listColors[currentPage].withOpacity(0.2)),
-              child: Container(),
-            ),*/
             Column(
               children: [
                 Expanded(
@@ -125,7 +113,7 @@ class _OnBoardingState extends State<OnBoarding> {
                         padding: const EdgeInsets.only(top: 12, bottom: 12),
                         onPressed: () async {
                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                          prefs.setString("isOnBoardingCompleted", "true");
+                          prefs.setString(Strings.kOnBoardingString, "true");
                           Future.delayed(Duration.zero, () {
                             Navigator.push(
                               context,
@@ -139,7 +127,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
                           // Get.off(Login());
                         },
-                        child: Text("Get Started",
+                        child: Text(Strings.kGetStarted,
                             style: CustomTextStyle.styleBold
                                 .copyWith(color: Colors.black, fontSize: 14)),
                       ),

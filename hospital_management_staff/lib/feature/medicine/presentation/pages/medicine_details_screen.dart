@@ -64,7 +64,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                       Text(
                           "℞",
                         style: TextStyle(
-                            fontSize: DeviceUtil.isTablet ? 16 : 22,
+                            fontSize: DeviceUtil.isTablet ? 28 : 22,
                             color: Colors.blue,
                             fontWeight: FontWeight.w500),
                       ),
@@ -75,8 +75,8 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                         && widget.getMedicineModel.data![widget.index].medicinePhoto != "")
                         ? "${Strings.baseUrl}${widget.getMedicineModel.data![widget.index].medicinePhoto}"
                         : "",
-                    height: 200,
-                    width: 200,
+                    height: DeviceUtil.isTablet ? 250 :200,
+                    width: DeviceUtil.isTablet ? 250 :200,
                   ),
                   const SizedBox(
                     height: 20,
@@ -92,7 +92,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FontStyle.normal,
                                 fontFamily: 'Open Sans',
-                                fontSize: DeviceUtil.isTablet ? 20 : 18,
+                                fontSize: DeviceUtil.isTablet ? 22 : 18,
                                 color: Colors.black87),
                           ),
                           const SizedBox(
@@ -104,7 +104,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FontStyle.normal,
                                 fontFamily: 'Open Sans',
-                                fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                fontSize: DeviceUtil.isTablet ? 20 : 16,
                                 color: Colors.grey),
                           ),
                         ],
@@ -128,7 +128,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'Open Sans',
-                          fontSize: DeviceUtil.isTablet ? 18 : 16,
+                          fontSize: DeviceUtil.isTablet ? 20 : 16,
                           color: Colors.grey),
                     ),
                     SizedBox(height: 10,),
@@ -142,7 +142,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                               fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.normal,
                               fontFamily: 'Open Sans',
-                              fontSize: DeviceUtil.isTablet ? 18 : 16,
+                              fontSize: DeviceUtil.isTablet ? 20 : 16,
                               color: Colors.black),
                         ),
                       )
@@ -154,7 +154,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
                           fontFamily: 'Open Sans',
-                          fontSize: DeviceUtil.isTablet ? 18 : 16,
+                          fontSize: DeviceUtil.isTablet ? 20 : 16,
                           color: Colors.grey),
                     ),
                     SizedBox(height: 10,),
@@ -168,7 +168,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                 fontWeight: FontWeight.w500,
                                 fontStyle: FontStyle.normal,
                                 fontFamily: 'Open Sans',
-                                fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                fontSize: DeviceUtil.isTablet ? 20 : 16,
                                 color: Colors.black),
                           ),
                         )
@@ -187,7 +187,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                         Text(
                           Strings.kDescription,
                           style: TextStyle(
-                              fontSize: DeviceUtil.isTablet ? 18 : 16,
+                              fontSize: DeviceUtil.isTablet ? 20 : 16,
                               color: (Theme.of(context).brightness ==
                                       Brightness.dark)
                                   ? Colors.white
@@ -215,7 +215,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                             Text(
                               "℞",
                               style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 16 : 18,
+                                  fontSize: DeviceUtil.isTablet ? 24 : 18,
                                   color: (Theme.of(context).brightness ==
                                           Brightness.dark)
                                       ? Colors.white
@@ -227,7 +227,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                               child: Text(
                                 Strings.kPrescriptionRequired,
                                 style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 16 : 18,
+                                    fontSize: DeviceUtil.isTablet ? 22 : 18,
                                     color: (Theme.of(context).brightness ==
                                             Brightness.dark)
                                         ? Colors.white
@@ -273,7 +273,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                  fontSize: DeviceUtil.isTablet ? 20 : 16,
                                   color: Colors.grey),
                             ),
                             Text(
@@ -282,7 +282,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FontStyle.normal,
                                   fontFamily: 'Open Sans',
-                                  fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                  fontSize: DeviceUtil.isTablet ? 20 : 16,
                                   color: Colors.grey),
                             ),
                           ],
@@ -303,7 +303,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                            fontWeight: FontWeight.w500,
                                            fontStyle: FontStyle.normal,
                                            fontFamily: 'Open Sans',
-                                           fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                           fontSize: DeviceUtil.isTablet ? 20 : 16,
                                            color: Colors.black),
                                      ),
                                    )
@@ -323,7 +323,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                                             fontWeight: FontWeight.w500,
                                             fontStyle: FontStyle.normal,
                                             fontFamily: 'Open Sans',
-                                            fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                            fontSize: DeviceUtil.isTablet ? 20 : 16,
                                             color: Colors.black),
                                       ),
                                     )

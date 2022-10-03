@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/reset_success_screen.dart';
 
@@ -71,7 +70,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return Scaffold(
       body: ErrorBlocListener<AuthenticationBloc>(
         bloc: BlocProvider.of<AuthenticationBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AuthenticationBloc, BaseState>(builder: (context, state)  {
           if(state is ResetPasswordState){
             ProgressDialog.hideLoadingDialog(context);
@@ -116,7 +114,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           width: DeviceUtil.isTablet ? 300:200,
                           decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage("assets/images/reset.png"),
+                                image: AssetImage(Strings.kResetImage),
                                 fit: BoxFit.fill,
                               )
                           ),
@@ -127,7 +125,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children:  [
                             Text(
-                              "RESET",
+                              Strings.kResetUppercase,
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
@@ -137,7 +135,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               ),
                             ),
                             Text(
-                              "PASSWORD",
+                              Strings.kPassword,
                               style: TextStyle(
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.normal,
@@ -151,28 +149,28 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       ),
                       SizedBox(height: DeviceUtil.isTablet ? 20 : 10,),
                       CustomTextFieldWithBorder(
-                        key: const Key("tefOtp"),
-                        label: "OTP",
-                        hint: "Enter OTP",
-                        errorMessage: "Please Enter 6 digit OTP",
+                        key: const Key(Strings.kOTPKey),
+                        label: Strings.kOTPLabel,
+                        hint: Strings.kOTPHint,
+                        errorMessage: Strings.kOTPErrorMessage,
                         textInputType: TextInputType.number,
                         lengthLimit: 6,
                         textEditingController: otpController,
                       ),
                       SizedBox(height: DeviceUtil.isTablet ? 20 :10,),
                       CustomTextFieldWithBorder(
-                        key: const Key("tefPassword"),
-                        label: "Password",
-                        hint: "Enter Password",
-                        errorMessage: "Please Enter Password",
+                        key: const Key(Strings.kPasswordKey),
+                        label: Strings.kPasswordLabel,
+                        hint: Strings.kPasswordHint,
+                        errorMessage: Strings.kPasswordErrorMessage,
                         textEditingController: passwordController,
                       ),
                       SizedBox(height: DeviceUtil.isTablet ? 20 : 10,),
                       CustomTextFieldWithBorder(
-                        key: const Key("tefConfirmPassword"),
-                        label: "Confirm Password",
-                        hint: "Enter Confirm Password",
-                        errorMessage: "Please Enter Confirm Password",
+                        key: const Key(Strings.kConfirmPasswordKey),
+                        label: Strings.kConfirmPasswordLabel,
+                        hint: Strings.kConfirmPasswordHint,
+                        errorMessage: Strings.kConfirmPasswordErrorMessage,
                         textEditingController: confirmPasswordController,
                       ),
                       SizedBox(height: DeviceUtil.isTablet ? 30 :20,),
@@ -189,7 +187,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                   }else{
                                     Fluttertoast.cancel();
                                     Fluttertoast.showToast(
-                                        msg: "Password does not same.",
+                                        msg: Strings.kPasswordDoesNotMatch,
                                         toastLength: Toast.LENGTH_LONG,
                                         fontSize: DeviceUtil.isTablet ? 20 : 12,
                                         backgroundColor: CustomColors.colorDarkBlue,
@@ -199,7 +197,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 }else{
                                   Fluttertoast.cancel();
                                   Fluttertoast.showToast(
-                                      msg: "Please fill all the details.",
+                                      msg: Strings.kFillAllDetails,
                                       toastLength: Toast.LENGTH_LONG,
                                       fontSize: DeviceUtil.isTablet ? 20 : 12,
                                       backgroundColor: CustomColors.colorDarkBlue,
@@ -212,7 +210,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 shape: StadiumBorder(),
                               ),
                               child:  Text(
-                                "Reset Password",
+                                Strings.kResetPassword,
                                 style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                               ),
                             ),
@@ -222,7 +220,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       const SizedBox(height: 20),
                       Center(
                         child:  Text(
-                          'after $secondsRemaining seconds',
+                          '${Strings.kAfter} $secondsRemaining ${Strings.kSeconds}',
                           style: CustomTextStyle.styleBold.copyWith(
                               fontSize: DeviceUtil.isTablet ? 22 :18,color: Colors.black),
                         ),
@@ -231,7 +229,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         child: FlatButton(
                           onPressed: enableResend ? _resendCode : null,
                           child: Text(
-                            'Resend Code',
+                            Strings.kResendCode,
                             style: CustomTextStyle.styleBold.copyWith(
                                 fontSize: DeviceUtil.isTablet ? 22 :18,color: CustomColors.colorDarkBlue),
                           ),

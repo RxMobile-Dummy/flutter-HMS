@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:hospital_management/core/failure/failure.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/feedback/data/datasource/feedback_data_source.dart';
 import 'package:hospital_management/features/feedback/data/model/send_patient_feedback.dart';
 import 'package:hospital_management/features/feedback/domain/repositories/feedback_repositories.dart';
@@ -22,7 +23,7 @@ class FeedbackRepositoriesImpl extends FeedbackRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 

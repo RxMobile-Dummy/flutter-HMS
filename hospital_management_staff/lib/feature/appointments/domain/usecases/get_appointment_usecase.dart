@@ -20,10 +20,12 @@ class GetAppointmentUsecase extends UseCase<GetAppointmentModel, GetAppointmentP
 class GetAppointmentParams extends Equatable {
   String id;
   String date;
+  String? search;
 
   GetAppointmentParams({
     required this.id,
     required this.date,
+    this.search
   });
 
   @override
@@ -34,6 +36,7 @@ class GetAppointmentParams extends Equatable {
 
     data['id'] = this.id;
     data['date'] = this.date;
+    data['search'] = this.search;
 
     return data;
   }

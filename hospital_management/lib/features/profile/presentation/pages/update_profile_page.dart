@@ -162,7 +162,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           ? widget.getPatientProfileModel.data?.maritalStatus?? maritalList[0] : maritalList[0];
   heightController.text = widget.getPatientProfileModel.data?.height ?? "";
   weightController.text = widget.getPatientProfileModel.data?.weight ?? "";
-  emergenyContactController.text = widget.getPatientProfileModel.data?.emergencyContactNumber.toString().substring(3) ?? "";
+  emergenyContactController.text = (widget.getPatientProfileModel.data?.emergencyContactNumber != null && widget.getPatientProfileModel.data?.emergencyContactNumber != "")
+      ? widget.getPatientProfileModel.data?.emergencyContactNumber.toString().substring(3) ?? "" : "";
   cityController.text = widget.getPatientProfileModel.data?.city ?? "";
   occupationController.text = widget.getPatientProfileModel.data?.occupation ?? "";
   patientId = widget.getPatientProfileModel.data?.id.toString() ?? "";
@@ -225,7 +226,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Update Patient Profile", isBackPress: true),
+        child: CustomAppBar(title: Strings.kUpdatePatientProfile, isBackPress: true),
       ),
       body: ErrorBlocListener<PatientProfileBloc>(
         bloc: BlocProvider.of<PatientProfileBloc>(context),
@@ -251,7 +252,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           child: Column(
             children: [
                Text(
-                "Personal Information",
+                Strings.kPersonalInformation,
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.normal,
@@ -271,8 +272,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           radius: DeviceUtil.isTablet ? 75 : 48,
                           backgroundColor: Colors.transparent,
                           backgroundImage: (imageFile!.path == null || imageFile!.path == "")
-                              ? AssetImage('assets/images/person_image.jpeg')
-                              :  imageFile.toString().contains("patient/app/patient_images")
+                              ? AssetImage(Strings.kPersonImage)
+                              :  imageFile.toString().contains(Strings.kPatientImagePath)
                               ? NetworkImage( "${Strings.baseUrl}${imageFile?.path}")
                               : FileImage(imageFile!) as ImageProvider, /*(imageFile == null || imageFile == "")
                               ? const AssetImage(
@@ -300,7 +301,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                             Colors.grey)),
                                     child: showSheetForImage()),
                               ));
-                          print("OPEN");
                         },
                       ),
                       Positioned(
@@ -350,7 +350,6 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                                                 Colors.grey)),
                                         child: showSheetForImage()),
                                   ));
-                              print("OPEN");
                             },
                           ),
                         ),
@@ -359,26 +358,26 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   )),
               const SizedBox(height: 20,),
               CustomTextField(
-                key: const Key("tefFirstname"),
-                label: "First Name",
-                hint: "Enter First Name",
-                errorMessage: "Please Enter First name",
+                key: const Key(Strings.kFirstNameKey),
+                label: Strings.kFirstNameLabel,
+                hint: Strings.kFirstNameHint,
+                errorMessage: Strings.kFirstNameErrorMessage,
                 textEditingController: firstNameController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefLastName"),
-                label: "Last Name",
-                hint: "Enter Last Name",
-                errorMessage: "Please Enter Last name",
+                key: const Key(Strings.kLastNameKey),
+                label: Strings.kLastNameLabel,
+                hint: Strings.kLastNameHint,
+                errorMessage: Strings.kLastNameErrorMessage,
                 textEditingController: lastNameController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefMobilenumber"),
-                label: "Mobile number",
-                hint: "Enter mobile number",
-                errorMessage: "Please Enter mobile number",
+                key: const Key(Strings.kMobileKey),
+                label: Strings.kMobileLabel,
+                hint: Strings.kMobileHint,
+                errorMessage: Strings.kMobileErrorMessage,
                 isMobile: true,
                 readOnly: true,
                 textInputType: TextInputType.phone,
@@ -386,10 +385,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefEmail"),
-                label: "Email",
-                hint: "Enter email",
-                errorMessage: "Please Enter email",
+                key: const Key(Strings.kEmailKey),
+                label: Strings.kEmail,
+                hint: Strings.kEmailHint,
+                errorMessage: Strings.kEmailErrorMessage,
                 isEmail: true,
                 readOnly: true,
                 textInputType: TextInputType.emailAddress,
@@ -399,21 +398,21 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               DropDown(
                 dropDownList: genderDropDown,
                 selectedValue: genderController.text,
-                label: "Select Gender",
+                label: Strings.kSelectGenderLabel,
                 controller: genderController,
-                errorMessage: "Please select gender",
+                errorMessage: Strings.kSelectGenderErrorMessage,
               ),
               const SizedBox(height: 10,),
               DropDown(
                 dropDownList: bloodGroupDropDown,
                 selectedValue: bloodGroupController.text,
                 controller: bloodGroupController,
-                errorMessage: "Please select Blood group",
-                label: "Select Blood Group",
+                errorMessage: Strings.kSelectBloodGroupErrorMessage,
+                label: Strings.kBloodGroupLabel,
               ),
               const SizedBox(height: 20,),
                Text(
-                "Medical Information",
+                Strings.kMedicalInformation,
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.normal,
@@ -436,7 +435,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     return MultiSelectionWidget(
                       controller: allergyController,
                       displayList: allergyList,
-                      label: "Select Allergy",
+                      label: Strings.kSelectAllergy,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -468,7 +467,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     return  MultiSelectionWidget(
                       controller: medicationController,
                       displayList: medicationList,
-                      label: "Select Medication",
+                      label: Strings.kSelectMedication,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -500,7 +499,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     return   MultiSelectionWidget(
                       controller: injuryController,
                       displayList: injuryList,
-                      label: "Select Past Injury",
+                      label: Strings.kSelectPastInjury,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -532,7 +531,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     return  MultiSelectionWidget(
                       controller: surgeryController,
                       displayList: surgeryList,
-                      label: "Select Past Surgery",
+                      label: Strings.kSelectPastSurgery,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -564,7 +563,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     return MultiSelectionWidget(
                       controller: foodController,
                       displayList: foodPreferenceList,
-                      label: "Select Food Preference",
+                      label: Strings.kSelectFoodPreference,
                     );
                   }else if (state is StateErrorGeneral) {
                     ProgressDialog.hideLoadingDialog(context);
@@ -587,25 +586,25 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                 dropDownList: activityLevelList,
                 selectedValue: activityController.text,
                 controller: activityController,
-                label: "Select Activity Level",
+                label: Strings.kSelectActivityLevelLabel,
               ),
               const SizedBox(height: 10,),
               RadioWidget(
-                label: "Smoking Habit",
+                label: Strings.kSmokingHabit,
                 selectedRadio: selectedRadioForSmoking,
                 radioList: smokingHabitList,
                 controller: smokingController,
               ),
               const SizedBox(height: 10,),
               RadioWidget(
-                label: "Alcohol Consumption",
+                label: Strings.kAlcoholConsumption,
                 selectedRadio: selectedRadioForAlcohol,
                 radioList: smokingHabitList,
                 controller: alcoholController,
               ),
               const SizedBox(height: 20,),
                Text(
-                "Other Information",
+                Strings.kOtherInformation,
                 style: TextStyle(
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.normal,
@@ -617,59 +616,60 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               const SizedBox(height: 20,),
               DatePicker(
                   dateController: dateController,
-                lableText: "Date Of Birth",
+                lableText: Strings.kDateOfBirth,
                 firstDate: DateTime(1950),
                 lastDate: DateTime.now(),
+                errorMessage: Strings.kBirthDateErrorMessage,
               ),
               const SizedBox(height: 10,),
               DropDown(
                 dropDownList: maritalList,
                 selectedValue: meritalStatusController.text,
                 controller: meritalStatusController,
-                label: "Select Marital status",
+                label: Strings.kSelectMaritalStatusLabel,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefHeight"),
-                label: "Height",
-                hint: "Enter Height",
+                key: const Key(Strings.kHeightKey),
+                label: Strings.kHeightLabel,
+                hint: Strings.kHeightHint,
                 textEditingController: heightController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefWeight"),
-                label: "Weight",
-                hint: "Enter Weight",
+                key: const Key(Strings.kWeightKey),
+                label: Strings.kWeightLabel,
+                hint: Strings.kWeightHint,
                 textEditingController: weightController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefEmergencynumber"),
-                label: "Emergency Contact number",
-                hint: "Enter Emergency Contact number",
-                errorMessage: "Please Enter Emergency Contact number",
+                key: const Key(Strings.kEmergencyContactNumberKey),
+                label: Strings.kEmergencyContactNumberLabel,
+                hint: Strings.kEmergencyContactNumberHint,
+                //errorMessage: "Please Enter Emergency Contact number",
                 isMobile: true,
                 textInputType: TextInputType.phone,
                 textEditingController: emergenyContactController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefCity"),
-                label: "City",
-                hint: "Enter City name",
-                errorMessage: "Please Enter City name",
+                key: const Key(Strings.kCityKey),
+                label: Strings.kCityLabel,
+                hint: Strings.kCityHint,
+                //errorMessage: "Please Enter City name",
                 textEditingController: cityController,
               ),
               const SizedBox(height: 10,),
               CustomTextField(
-                key: const Key("tefOccupation"),
-                label: "Occupation",
-                hint: "Enter your occupation",
+                key: const Key(Strings.kOccupationKey),
+                label: Strings.kOccupationLabel,
+                hint: Strings.kOccupationHint,
                 textEditingController: occupationController,
               ),
               const SizedBox(height: 10,),
               Button(
-                "Update Profile",
+                Strings.kUpdateProfile,
                 onPress: () {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
@@ -747,7 +747,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         last_name: lastNameController.text,
                         first_name: firstNameController.text,
                         occupation: occupationController.text,
-                        activity_level: activityController.text,
+                        activity_level: activityController.text == activityLevelList[0] ? "" : activityController.text,
                         alchol_consumption: alcoholController.text,
                         allergy: allergyController.text.isEmpty ? "" :allergyIdString,
                         blood_group: bloodGroupController.text,
@@ -755,10 +755,10 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                         contact_number: "+91${mobileNumberController.text}",
                         current_medication: medicationController.text.isEmpty ? "" : medicationIdString,
                         date_of_birth: dateController.text,
-                        emergency_contact_number: "+91${emergenyContactController.text}",
+                        emergency_contact_number: emergenyContactController.text.isNotEmpty ? "+91${emergenyContactController.text}" : "",
                         food_preference:foodController.text.isEmpty ? "" : foodIdString,
                         gender: genderController.text,
-                        marital_status: meritalStatusController.text,
+                        marital_status: meritalStatusController.text == maritalList[0] ? "" : meritalStatusController.text,
                         past_injury: injuryController.text.isEmpty ? "" : injuryIdString,
                         past_surgery: surgeryController.text.isEmpty ? "" :surgeryIdString,
                         smoking_habits: smokingController.text,
@@ -767,7 +767,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   } else {
                     Fluttertoast.cancel();
                     Fluttertoast.showToast(
-                        msg: 'Please fill all the details.',
+                        msg: Strings.kFillAllDetails,
                         toastLength: Toast.LENGTH_LONG,
                         fontSize: DeviceUtil.isTablet ? 20 : 12,
                         backgroundColor: CustomColors.colorDarkBlue,
@@ -861,7 +861,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                   },
                 ),
                 Text(
-                  "Camera",
+                  Strings.kCamera,
                   style: CustomTextStyle.styleBold,
                 )
               ],
@@ -882,7 +882,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                     },
                   ),
                   Text(
-                    "Gallery",
+                    Strings.kGallery,
                     style: CustomTextStyle.styleBold,
                   )
                 ],

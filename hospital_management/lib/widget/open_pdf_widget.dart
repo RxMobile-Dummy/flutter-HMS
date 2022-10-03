@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:hospital_management/utils/colors.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../core/strings/strings.dart';
@@ -24,25 +25,34 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
   int? currentPage = 0;
   bool isReady = false;
   String errorMessage = '';
+  void _onShare({BuildContext? context,String? path}) async {
+    final box = context!.findRenderObject() as RenderBox?;
+
+    if (path!.isNotEmpty) {
+      await Share.share(path,
+          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: CustomColors.colorDarkBlue,
-        title: Text("Document"),
+        title: const Text(Strings.kDocument),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share),
-            onPressed: () {},
+            icon: const Icon(Icons.share),
+            onPressed: () {
+              _onShare(
+                context: context,
+                path: widget.path
+              );
+            },
           ),
         ],
       ),
-      body: /*SfPdfViewer.network(
-        "${Strings.baseUrl}${widget.path}",
-        key: _pdfViewerKey,
-      ),
-    );*/Stack(
+      body: Stack(
         children: <Widget>[
           (widget.path!.contains(".png") ||
               widget.path!.contains(".jpeg") ||
@@ -92,7 +102,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           ),
           errorMessage.isEmpty
               ? !isReady
-              ? Center(
+              ? const Center(
             child: CircularProgressIndicator(),
           )
               : Container()

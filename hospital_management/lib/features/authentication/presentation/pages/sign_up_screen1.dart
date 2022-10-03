@@ -1,26 +1,18 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/allergies_bloc.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/widget/custom_appbar.dart';
 import 'package:hospital_management/widget/drop_down.dart';
-import 'package:hospital_management/widget/multi_selection_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../utils/colors.dart';
 import '../../../../utils/device_file.dart';
 import '../../../../utils/style.dart';
-import '../../../../widget/date_picker.dart';
-import '../../../../widget/multi_select_chip.dart';
-import '../../../../widget/radio_widget.dart';
 import '../../../../widget/text_field.dart';
 
 class SignUpScreen1 extends StatefulWidget {
@@ -43,35 +35,26 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
   TextEditingController genderController = TextEditingController();
   TextEditingController bloodGroupController = TextEditingController();
   List<String> genderDropDown = [
-    "-- Select Gender --",
-    "Female",
-    "Male",
-    "Other"
+    Strings.kSelectGender,
+    Strings.kFemale,
+    Strings.kMale,
+    Strings.kOther
   ];
   List<String> bloodGroupDropDown = [
-    "-- Select Blood Group --",
-    "O+",
-    "O-",
-    "A-",
-    "A+",
-    "B-",
-    "B+",
-    "AB-",
-    "AB+",
+    Strings.kSelectBloodGroup,
+    Strings.kOPositive,
+    Strings.kONegative,
+    Strings.kANegative,
+    Strings.kAPositive,
+    Strings.kBNegative,
+    Strings.kBPositive,
+    Strings.kABNegative,
+    Strings.kABPositive,
   ];
-  List<String> maritalList = ["-- Select Marital Status --", "Yes", "No"];
+  List<String> maritalList = [Strings.kSelectMaritalStatus,Strings.kYes , Strings.kNo];
   String? selectedGender;
   File? imageFile;
-  List<String> allergyList = [
-    "Drug Allergy",
-    "Food Allergy",
-    "Insect Allergy",
-    "Latex Allergy",
-    "Mold Allergy",
-    "Pet Allergy",
-    "Pollen Allergy"
-  ];
-  List<String> smokingHabitList = ["Yes", "No"];
+  List<String> smokingHabitList = [Strings.kYes, Strings.kNo];
 
   List<String> selectedAllergyList = [];
   var selectedRadioForSmoking;
@@ -92,7 +75,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Register Patient", isBackPress: true),
+        child: CustomAppBar(title: Strings.kRegisterPatient, isBackPress: true),
       ),
       body: Form(
         key: _formKey,
@@ -110,47 +93,47 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
             children: [
               const SizedBox(height: 30,),
               CustomTextField(
-                key: const Key("tefFirstname"),
-                label: "First Name",
-                hint: "Enter First Name",
-                errorMessage: "Please Enter First name",
+                key: const Key(Strings.kFirstNameKey),
+                label: Strings.kFirstNameLabel,
+                hint: Strings.kFirstNameHint,
+                errorMessage: Strings.kFirstNameErrorMessage,
                 textEditingController: firstNameController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefLastName"),
-                label: "Last Name",
-                hint: "Enter Last Name",
-                errorMessage: "Please Enter Last name",
+                key: const Key(Strings.kLastNameKey),
+                label: Strings.kLastNameLabel,
+                hint: Strings.kLastNameHint,
+                errorMessage: Strings.kLastNameErrorMessage,
                 textEditingController: lastNameController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefMobilenumber"),
-                label: "Mobile number",
-                hint: "Enter mobile number",
-                errorMessage: "Please Enter mobile number",
+                key: const Key(Strings.kMobileKey),
+                label: Strings.kMobileLabel,
+                hint: Strings.kMobileHint,
+                errorMessage: Strings.kMobileErrorMessage,
                 isMobile: true,
                 textInputType: TextInputType.phone,
                 textEditingController: mobileNumberController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefEmail"),
-                label: "Email",
-                hint: "Enter email",
-                errorMessage: "Please Enter email",
+                key: const Key(Strings.kEmailKey),
+                label: Strings.kEmail,
+                hint: Strings.kEmailHint,
+                errorMessage: Strings.kEmailErrorMessage,
                 isEmail: true,
                 textInputType: TextInputType.emailAddress,
                 textEditingController: emailController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefPassword"),
-                label: "Password",
-                hint: "Enter password",
+                key: const Key(Strings.kPasswordKey),
+                label: Strings.kPasswordLabel,
+                hint: Strings.kPasswordHint,
                 isObscureText: isPasswordShow,
-                errorMessage: "Please Enter password",
+                errorMessage: Strings.kPasswordErrorMessage,
                 icon: IconButton(
                     icon: Icon(
                       isPasswordShow
@@ -169,17 +152,17 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
               DropDown(
                 dropDownList: genderDropDown,
                 selectedValue: genderDropDown[0],
-                label: "Select Gender",
+                label: Strings.kSelectGenderLabel,
                 controller: genderController,
-                errorMessage: "Please select gender",
+                errorMessage: Strings.kSelectGenderErrorMessage,
               ),
               const SizedBox(height: 20,),
              DropDown(
                 dropDownList: bloodGroupDropDown,
                 selectedValue: bloodGroupDropDown[0],
                 controller: bloodGroupController,
-                errorMessage: "Please select Blood group",
-                label: "Select Blood Group",
+                errorMessage: Strings.kSelectBloodGroupErrorMessage,
+                label: Strings.kBloodGroupLabel,
               ),
               const SizedBox(height: 30,),
               Row(
@@ -187,14 +170,14 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                    TextButton(
-                       child:  Text("NEXT >>",style: CustomTextStyle.styleBold
+                       child:  Text(Strings.kNext,style: CustomTextStyle.styleBold
                            .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                        onPressed: ()async {
                          FocusScope.of(context).unfocus();
                          if(_formKey.currentState!.validate()){
                            if(genderController.text == ""){
                              Fluttertoast.showToast(
-                                 msg: "Please select gender.",
+                                 msg: Strings.kSelectGenderErrorMessage,
                                  toastLength: Toast.LENGTH_LONG,
                                  fontSize: DeviceUtil.isTablet ? 20 : 12,
                                  backgroundColor: CustomColors.colorDarkBlue,
@@ -202,7 +185,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                              );
                            }else if(bloodGroupController.text == ""){
                              Fluttertoast.showToast(
-                                 msg: "Please select blood group.",
+                                 msg: Strings.kSelectBloodGroupErrorMessage,
                                  toastLength: Toast.LENGTH_LONG,
                                  fontSize: DeviceUtil.isTablet ? 20 : 12,
                                  backgroundColor: CustomColors.colorDarkBlue,
@@ -214,16 +197,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                              widget.pageController.nextPage(
                                  duration: Duration(seconds: 1), curve: Curves.ease);
                            }
-                         }/*else{
-                           Fluttertoast.cancel();
-                           Fluttertoast.showToast(
-                               msg: "Please fill all the details.",
-                               toastLength: Toast.LENGTH_LONG,
-                               fontSize: DeviceUtil.isTablet ? 20 : 12,
-                               backgroundColor: CustomColors.colorBlue,
-                               textColor: Colors.white
-                           );
-                         }*/
+                         }
                        },
                      ),
                 ],
@@ -235,13 +209,13 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
 
 
    function(){
-    map["first_name"] = firstNameController.text;
-    map["last_name"] = lastNameController.text;
-    map["contact_number"] = "+91${mobileNumberController.text}";
-    map["password"] = passwordController.text;
-    map["email"] = emailController.text;
-    map["gender"] = genderController.text;
-    map["blood_group"] = bloodGroupController.text;
+    map[CommonKeys.K_First_Name] = firstNameController.text;
+    map[CommonKeys.K_Last_Name] = lastNameController.text;
+    map[CommonKeys.K_Contact_Number] = "+91${mobileNumberController.text}";
+    map[CommonKeys.K_Password] = passwordController.text;
+    map[CommonKeys.K_Email] = emailController.text;
+    map[CommonKeys.K_Gender] = genderController.text;
+    map[CommonKeys.K_Blood_Group] = bloodGroupController.text;
     print(map);
     return widget.nextClick(map);
   }
@@ -251,32 +225,6 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
     return UnderlineInputBorder(borderSide: BorderSide(color: color, width: 1));
   }
 
-  /* _showReportDialog() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          //Here we will build the content of the dialog
-          return AlertDialog(
-            title: Text("Select Allergies"),
-            content: MultiSelectChip(
-              allergyList,
-              onSelectionChanged: (selectedList) {
-                setState(() {
-                  selectedAllergyList = selectedList;
-                  allergyController.text = selectedAllergyList.join(" , ");
-                });
-              },
-              maxSelection: allergyList.length,
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Add"),
-                onPressed: () => Navigator.of(context).pop(),
-              )
-            ],
-          );
-        });
-  }*/
 
   showSheetForImage() {
     return Material(
@@ -303,7 +251,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                   },
                 ),
                 Text(
-                  "Camera",
+                  Strings.kCamera,
                   style: CustomTextStyle.styleBold,
                 )
               ],
@@ -324,7 +272,7 @@ class _SignUpScreen1State extends State<SignUpScreen1> {
                     },
                   ),
                   Text(
-                    "Gallery",
+                    Strings.kGallery,
                     style: CustomTextStyle.styleBold,
                   )
                 ],

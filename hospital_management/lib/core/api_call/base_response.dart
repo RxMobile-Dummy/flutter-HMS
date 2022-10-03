@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 
 
 BaseResponse baseResponseFromJson(String str) =>
@@ -70,7 +71,7 @@ class ApiResponse {
         return ApiResponse(status: Status.error, errMessage: errorMsg);
       } else {
         return ApiResponse(
-            status: Status.error, errMessage: 'Something went wrong!');
+            status: Status.error, errMessage: Strings.kSomethingWentWrong);
       }
     } catch (e) {
       print(e);

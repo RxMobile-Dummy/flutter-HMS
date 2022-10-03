@@ -3,18 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/allergies_bloc.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/food_preference_bloc.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/injuries_bloc.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/medication_bloc.dart';
-import 'package:hospital_management/features/authentication/presentation/bloc/surgery_bloc.dart';
 import 'package:hospital_management/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../features/authentication/presentation/pages/login.dart';
-import '../features/authentication/presentation/pages/sign_up_screen1.dart';
-import '../features/authentication/presentation/pages/sign_up_screen_main.dart';
 import '../features/onboarding.dart';
 import '../utils/style.dart';
 import '../widget/size.dart';
@@ -33,8 +28,8 @@ class _SplashState extends State<Splash> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var authToken = prefs.getString('access');
-      var isOnBoardingComplete = prefs.getString("isOnBoardingCompleted");
+      var authToken = prefs.getString(CommonKeys.K_Access);
+      var isOnBoardingComplete = prefs.getString(Strings.kOnBoardingString);
       Timer(Duration(seconds: 2), () {
         Get.off(
             MultiBlocProvider(providers: [

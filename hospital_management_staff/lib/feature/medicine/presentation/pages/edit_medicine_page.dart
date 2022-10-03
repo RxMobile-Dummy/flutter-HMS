@@ -16,6 +16,7 @@ import 'package:hospital_management_staff/utils/colors.dart';
 import 'package:hospital_management_staff/utils/device_file.dart';
 import 'package:hospital_management_staff/utils/style.dart';
 import 'package:hospital_management_staff/widget/custom_appbar.dart';
+import 'package:hospital_management_staff/widget/date_picker.dart';
 import 'package:hospital_management_staff/widget/drop_down.dart';
 import 'package:hospital_management_staff/widget/text_field.dart';
 import 'package:hospital_management_staff/widget/text_field_with_border.dart';
@@ -47,7 +48,7 @@ class _EditMedicinePageState extends State<EditMedicinePage> {
   TextEditingController soldOutMedicineController = TextEditingController();
   TextEditingController medicineManufactureDateController = TextEditingController();
   TextEditingController medicineExpiryDateController = TextEditingController();
-  List<String> prescriptionList = ["-- Select Prescription Status --", "Yes", "No"];
+  List<String> prescriptionList = ["-- Select Prescription Status --", "yes", "no"];
 
 @override
   void initState() {
@@ -220,6 +221,20 @@ class _EditMedicinePageState extends State<EditMedicinePage> {
               errorMessage: Strings.kMedicineQuantityErrorMessage,
               textEditingController: medicineQuantityController,
             ),
+            DatePicker(
+              dateController: medicineManufactureDateController,
+              lableText: Strings.kMedicineManufactureLabel,
+              firstDate: DateTime(1950),
+              lastDate: DateTime.now(),
+              errorMessage: Strings.kMedicineManufactureErrorMessage,
+            ),
+            DatePicker(
+              dateController: medicineExpiryDateController,
+              lableText: Strings.kMedicineExpiryLabel,
+              firstDate: DateTime.now(),
+              lastDate: DateTime(2023),
+              errorMessage: Strings.kMedicineExpiryErrorMessage,
+            ),
             const SizedBox(height: 10,),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -229,7 +244,7 @@ class _EditMedicinePageState extends State<EditMedicinePage> {
                 hint: Strings.kMedicineDescriptionHint,
                 borderRadius: 7,
                 minLines: 7,
-                lengthLimit: 120,
+                //lengthLimit: 120,
                 maxLines: 7,
                 errorMessage: Strings.kMedicineDescriptionErrorMessage,
                 textEditingController: medicineDescriptionController,

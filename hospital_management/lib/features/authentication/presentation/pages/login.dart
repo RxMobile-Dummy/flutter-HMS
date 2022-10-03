@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_state.dart';
@@ -45,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: ErrorBlocListener<AuthenticationBloc>(
           bloc: BlocProvider.of<AuthenticationBloc>(context),
-          // callback:  _loginUser(userName.text,tiePassword.text),
           child:  BlocBuilder<AuthenticationBloc, BaseState>(builder: (context, state)  {
             if(state is SignInPatientState) {
               ProgressDialog.hideLoadingDialog(context);
@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   buildWidget(){
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 80,horizontal: 40),
+      padding: const EdgeInsets.symmetric(vertical: 80,horizontal: 40),
       child: Container(
         child: Center(
           child: SingleChildScrollView(
@@ -96,9 +96,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Container(
                                 height: DeviceUtil.isTablet ? 300: 200,
                                 width: DeviceUtil.isTablet ? 300: 200,
-                                decoration: const BoxDecoration(
+                                decoration:  const BoxDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage("assets/images/patient.jpeg"),
+                                      image: AssetImage(Strings.kPatientImage),
                                       fit: BoxFit.fill,
                                     )
                                 ),
@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children:  [
                                   Text(
-                                    "LOGIN",
+                                    Strings.kLoginUppercase,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   Text(
-                                    "PAGE",
+                                    Strings.kPage,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w900,
                                         fontStyle: FontStyle.normal,
@@ -134,19 +134,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                              SizedBox(height: DeviceUtil.isTablet ? 20 : 5,),
                             CustomTextFieldWithBorder(
-                              key: const Key("tefEmail"),
-                              label: "Email Address",
-                              hint: "Enter Email",
-                              errorMessage: "Please Enter Email",
+                              key: const Key(Strings.kEmailKey),
+                              label: Strings.kEmailLabel,
+                              hint: Strings.kEmailHint,
+                              errorMessage: Strings.kEmailErrorMessage,
                               isEmail: true,
                               textInputType: TextInputType.emailAddress,
                               textEditingController: emailController,
                             ),
                              SizedBox(height:  DeviceUtil.isTablet ? 20 : 10,),
                             CustomTextFieldWithBorder(
-                              key: const Key("tefPassword"),
-                              label: "Password",
-                              hint: "Enter Password",
+                              key: const Key(Strings.kPasswordKey),
+                              label: Strings.kPasswordLabel,
+                              hint: Strings.kPasswordHint,
                               isObscureText: isPasswordShow,
                               icon: IconButton(
                                   icon: Icon(
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       isPasswordShow = !isPasswordShow;
                                     });
                                   }),
-                              errorMessage: "Please Enter Password",
+                              errorMessage: Strings.kPasswordErrorMessage,
                               textEditingController: passwordController,
                             ),
                             SizedBox(height: DeviceUtil.isTablet ? 20 : 5,),
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 GestureDetector(
                                 child: Text(
-                            "Forgot Password ?",
+                            Strings.kForgotPassword,
                               style: CustomTextStyle.styleMedium.copyWith(
                                   color: CustomColors.colorDarkBlue,
                                   fontSize: DeviceUtil.isTablet ? 16 : 14
@@ -203,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         FocusScope.of(context).unfocus();
                                         Fluttertoast.cancel();
                                         Fluttertoast.showToast(
-                                            msg: "Please fill all the details.",
+                                            msg: Strings.kFillAllDetails,
                                             toastLength: Toast.LENGTH_LONG,
                                             fontSize: DeviceUtil.isTablet ? 20 : 12,
                                             backgroundColor: CustomColors.colorDarkBlue,
@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       shape: StadiumBorder(),
                                     ),
                                     child:  Text(
-                                      "Log In",
+                                      Strings.kLogIn,
                                       style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                                     ),
                                   ),
@@ -235,12 +235,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Don't have an account?",
+                        Strings.kDoNotHaveAccount,
                         style: CustomTextStyle.styleMedium,
                       ),
                       TextButton(
                         child: Text(
-                          "Sign up here",
+                          Strings.kSignUpHere,
                           style: CustomTextStyle.styleMedium.copyWith(
                             color: CustomColors.colorDarkBlue,),
                         ),
@@ -271,15 +271,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ], child: SignUpScreenMain())),
                             );
                           });
-                          /* Future.delayed(Duration.zero, () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>BlocProvider<AuthenticationBloc>(
-                              create: (context) => Sl.Sl<AuthenticationBloc>(),
-                              child: SignUpScreenMain(),
-                            )),
-                          );
-                        });*/
                         },
                       )
                     ],

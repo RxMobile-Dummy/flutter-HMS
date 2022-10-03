@@ -2,14 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/failure/error_object.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
-import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/update_appointment_model.dart';
-import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/update_appointment_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
-import 'package:hospital_management_doctor/feature/profile/domain/usecases/update_profile_usecase.dart';
 
 class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
   GetAppointmentUsecase? getAppointmentUsecase;
@@ -73,7 +70,8 @@ class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
   }
 
   updateAppointmentCall({
-    String? doctorId, patientId, appointmentId, medicineId, statusId, hospitalId, reportDescription,
+    String? doctorId, patientId, appointmentId, medicineId, statusId, hospitalId,
+    List? reportDescription,
   }) {
     updateAppointmentUsecase!
         .call(UpdateAppointmentParams(
@@ -83,7 +81,7 @@ class AppointmentBloc extends Bloc<BaseEvent, BaseState> {
     patientId: patientId,
     statusId: statusId,
     medicineId: medicineId,
-    reportDescription: reportDescription))
+    reportDescription: reportDescription ?? []))
         .listen((data) {
       data.fold((onError) {
         add(EventErrorGeneral(ErrorObject.mapFailureToMessage(onError) ?? ""));

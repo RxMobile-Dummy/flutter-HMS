@@ -12,6 +12,7 @@ import 'package:hospital_management_staff/feature/appointments/data/repositories
 import 'package:hospital_management_staff/feature/appointments/domain/repositories/appointment_repositories.dart';
 import 'package:hospital_management_staff/feature/appointments/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management_staff/feature/appointments/domain/usecases/get_appointment_usecase.dart';
+import 'package:hospital_management_staff/feature/appointments/domain/usecases/update_appointment_usecase.dart';
 import 'package:hospital_management_staff/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_staff/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_staff/feature/authentication/data/datasourse/authentication_data_source.dart';
@@ -80,6 +81,7 @@ Future<void> init() async {
 
   Sl.registerFactory(() => AppointmentBloc(
     getAppointmentUsecase:  Sl.call(),
+    updateAppointmentUsecase: Sl.call()
   ));
 
   Sl.registerFactory(() => AppointmentStatusBloc(
@@ -109,6 +111,7 @@ Future<void> init() async {
   Sl.registerLazySingleton(() => GetMedicineUsecase(medicineRepositories: Sl()));
   Sl.registerLazySingleton(() => UpdateMedicineUsecase(medicineRepositories: Sl()));
   Sl.registerLazySingleton(() => DeleteMedicineUsecase(medicineRepositories: Sl()));
+  Sl.registerLazySingleton(() => UpdateAppointmentUsecase(appointmentRepositories: Sl()));
 
 
   // Repository

@@ -11,6 +11,7 @@ import 'package:hospital_management_doctor/widget/open_image_widget.dart';
 import 'package:hospital_management_doctor/widget/open_pdf_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class AppointmentDetailsPage extends StatefulWidget {
   GetAppointmentModel getAppointmentModel;
@@ -24,6 +25,7 @@ class AppointmentDetailsPage extends StatefulWidget {
 class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   String remotePDFpath = "";
   List<String> medicineList = [];
+  List<String> reportList = [];
 
 
   @override
@@ -37,10 +39,22 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
         });
       });
     }
-    if(widget.getAppointmentModel.data![widget.index].patientReportData != null &&
-        widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails!.isNotEmpty){
-      for(int i=0;i<widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails!.length;i++){
-        medicineList.add(widget.getAppointmentModel.data![widget.index].patientReportData!.medicineDetails![i].medicineName ?? "");
+    if(widget.getAppointmentModel.data![widget.index].patientData != null &&
+        widget.getAppointmentModel.data![widget.index].patientData != ""){
+      if(widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails != null &&
+          widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails!.isNotEmpty){
+        for(int i=0;i<widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails!.length;i++){
+          medicineList.add(widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails![i].medicineName ?? "");
+        }
+      }
+    }
+    if(widget.getAppointmentModel.data![widget.index].patientData != null &&
+        widget.getAppointmentModel.data![widget.index].patientData != ""){
+      if(widget.getAppointmentModel.data![widget.index].patientData!.patientReportData != null &&
+          widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.isNotEmpty){
+        for(int i=0;i<widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.length;i++){
+          reportList.add(widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![i].reportName ?? "");
+        }
       }
     }
   }
@@ -224,6 +238,53 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 25,),
+            Text(
+              Strings.kMobileNumber,
+              style: TextStyle(
+                  fontSize: DeviceUtil.isTablet ? 20 :16,
+                  color: (Theme.of(context).brightness ==
+                      Brightness.dark)
+                      ? Colors.white
+                      : Colors.grey.shade400,
+                  fontWeight: FontWeight.w500),
+            ),
+            const SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(child: Text(
+                  widget.getAppointmentModel.data![widget.index].mobileNumber.toString().substring(3),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: DeviceUtil.isTablet ? 22 : 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                ),),
+                Row(
+                  children:  [
+                    Icon(
+                      Icons.call,
+                      color: CustomColors.colorDarkBlue,
+                      size: DeviceUtil.isTablet ? 20 :16,
+                    ),
+                    SizedBox(width: 7,),
+                    InkWell(
+                      child: Text(
+                        Strings.kCall,
+                        style: TextStyle(
+                            fontSize: DeviceUtil.isTablet ? 22 : 16,
+                            color: CustomColors.colorDarkBlue,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      onTap: (){
+                        UrlLauncher.launch('tel:+${widget.getAppointmentModel.data![widget.index].mobileNumber.toString().substring(3).toString()}');
+                      },
+                    )
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 25,),
             (widget.getAppointmentModel.data![widget.index].fileData != null && widget.getAppointmentModel.data![widget.index].fileData!.isNotEmpty)
                 ? Text(
               Strings.kAttachment,
@@ -289,8 +350,13 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                 )
               ],
             ) : const SizedBox(),
-            const SizedBox(height: 25,),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ?(widget.getAppointmentModel.data![widget.index].patientData!.patientReportData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.isNotEmpty)
+                ? const SizedBox(height: 25,) : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ? (widget.getAppointmentModel.data![widget.index].patientData!.patientReportData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.isNotEmpty)
                 ? Text(
               Strings.kReportSuggestion,
               style: TextStyle(
@@ -301,21 +367,94 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                       : Colors.grey.shade400,
                   fontWeight: FontWeight.w500),
             )
-                : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
-                ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
-                ?Text(
-              widget.getAppointmentModel.data![widget.index].patientReportData!.reportDescription ?? "",
+                : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ? (widget.getAppointmentModel.data![widget.index].patientData!.patientReportData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.isNotEmpty)
+                ? const SizedBox(height: 10,) : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ? (widget.getAppointmentModel.data![widget.index].patientData!.patientReportData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.isNotEmpty)
+                ?
+            ListView.builder(
+              shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                      return  Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(child: Text(
+                            widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportName ?? "",
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: DeviceUtil.isTablet ? 22 : 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500),
+                          ),),
+                          widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile!.isNotEmpty ? Row(
+                            children:  [
+                              Icon(
+                                Icons.remove_red_eye,
+                                color: CustomColors.colorDarkBlue,
+                                size: DeviceUtil.isTablet ? 20 :16,
+                              ),
+                              SizedBox(width: 7,),
+                              InkWell(
+                                child: Text(
+                                  Strings.kView,
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 22 : 16,
+                                      color: CustomColors.colorDarkBlue,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                onTap: () async {
+                                  String path = "";
+                                 await  createFileOfPdfUrl(widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile ?? "").then((f) {
+                                    setState(() {
+                                      path = f.path;
+                                    });
+                                  });
+                                  if (path.isNotEmpty) {
+                                    (path.contains(".jpeg") ||
+                                        path.contains(".jpg") ||
+                                        path.contains(".png"))
+                                        ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile}",),
+                                      ),
+                                    )
+                                        : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => PDFScreen(path: path),
+                                      ),
+                                    );
+                                  }
+                                },
+                              )
+                            ],
+                          ) : const SizedBox()
+                        ],
+                      );
+                },
+              itemCount: widget.getAppointmentModel.data![widget.index].patientData!.patientReportData!.length,
+            )/*Text(
+              reportList.join(" , "),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 22 : 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
-            )
-                : const SizedBox(),
-            const SizedBox(height: 25,),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+            )*/
+                : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ?(widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails!.isNotEmpty)
+                ? const SizedBox(height: 25,) : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ? (widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails!.isNotEmpty)
                 ? Text(
               Strings.kMedicineGiven,
               style: TextStyle(
@@ -326,10 +465,14 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                       : Colors.grey.shade400,
                   fontWeight: FontWeight.w500),
             )
-                : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
-                ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getAppointmentModel.data![widget.index].patientReportData != null)
+                : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ? (widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails!.isNotEmpty)
+                ? const SizedBox(height: 10,) : const SizedBox() : const SizedBox(),
+            (widget.getAppointmentModel.data![widget.index].patientData != null &&
+                widget.getAppointmentModel.data![widget.index].patientData != "") ? (widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails != null &&
+                widget.getAppointmentModel.data![widget.index].patientData!.patientMedicineReportDetails!.isNotEmpty)
                 ?Text(
               medicineList.join(" , "),
               overflow: TextOverflow.ellipsis,
@@ -338,7 +481,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             )
-                : const SizedBox(),
+                : const SizedBox() : const SizedBox(),
           ],
         ),
       ),

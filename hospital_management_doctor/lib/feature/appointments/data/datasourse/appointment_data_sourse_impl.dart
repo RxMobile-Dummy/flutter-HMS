@@ -7,9 +7,11 @@ import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/datasourse/appointment_data_sourse.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_report_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/update_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_status_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_appointment_usecase.dart';
+import 'package:hospital_management_doctor/feature/appointments/domain/usecases/get_report_usecase.dart';
 import 'package:hospital_management_doctor/feature/appointments/domain/usecases/update_appointment_usecase.dart';
 
 class AppointmentDataSourceImpl implements AppointmentDataSource {
@@ -51,7 +53,18 @@ class AppointmentDataSourceImpl implements AppointmentDataSource {
   @override
   Future<UpdateAppointmentModel> updateAppointmentCall(UpdateAppointmentParams params) async {
     var map =  HashMap<String, dynamic>();
-    map[CommonKeys.K_Report_Description] = params.reportDescription;
+    List listOfFile = [];
+    List listOfIds = [];
+    if(params.reportDescription != []){
+      for(int i=0;i<params.reportDescription.length;i++){
+        listOfIds.add(params.reportDescription[i][CommonKeys.K_Report_Id]);
+        listOfFile.add(params.reportDescription[i][CommonKeys.K_File_Data]);
+      }
+    }
+
+    //map["report_file"] = listOfFile;
+    map[CommonKeys.K_Report_Ids] = (listOfIds == []) ? "" : listOfIds.join(' , ');
+    //map[CommonKeys.K_Report_Description] = params.reportDescription;
     map[CommonKeys.K_Doctor_Id] = params.doctorId;
     map[CommonKeys.K_Patient_Id] = params.patientId;
     map[CommonKeys.K_Appointment_Id] = params.appointmentId;
@@ -60,6 +73,19 @@ class AppointmentDataSourceImpl implements AppointmentDataSource {
     map[CommonKeys.K_Status_Id] = params.statusId;
     FormData formData =  FormData.fromMap(map);
     final response = await _apiClient.updateAppointment(formData);
+    var data;
+    if (response != null) {
+      data = response;
+      return data;
+    } else {
+      print(Strings.kFailed);
+    }
+    return data;
+  }
+
+  @override
+  Future<GetReportListModel> getReportListCall(GetReportListParams params)  async {
+    final response = await _apiClient.getReportList();
     var data;
     if (response != null) {
       data = response;

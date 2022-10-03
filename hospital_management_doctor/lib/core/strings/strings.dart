@@ -4,7 +4,7 @@ class Strings{
   static const kCacheFailureMessage = 'Cache Failure';
   static const kInternalServerError = "Internal Server Error";
   static const kNoRecordsFound = "No Records Found";
-  static const baseUrl = "https://6f24-180-211-112-179.in.ngrok.io/";
+  static const baseUrl = "https://a0ef-180-211-112-179.in.ngrok.io/";
   static const kErrorMessageForMedicine = "Please enter medicine name.";
   static const kHomeAppointmentsLabel = "Today's Appointments";
   static const kYes = "Yes";
@@ -19,6 +19,7 @@ class Strings{
   static const kAppointmentFor = "Appointment For";
   static const kAttachment = "Attachment";
   static const kView = "View";
+  static const kCall = "Call";
   static const kReportSuggestion = "Report suggestion";
   static const kMedicineGiven = "Medicine Given";
   static const kDummyPersonImage = "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg";

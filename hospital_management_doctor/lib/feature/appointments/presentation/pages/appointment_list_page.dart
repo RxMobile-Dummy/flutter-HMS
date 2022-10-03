@@ -11,6 +11,7 @@ import 'package:hospital_management_doctor/feature/appointments/presentation/blo
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/report_list_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_detail_page.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/update_appointment_page.dart';
 import 'package:hospital_management_doctor/feature/medicine/presentation/bloc/medicine_bloc.dart';
@@ -78,7 +79,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
       backgroundColor: Colors.white,
       body:ErrorBlocListener<AppointmentBloc>(
         bloc: BlocProvider.of<AppointmentBloc>(context),
-        // callback:  _loginUser(userName.text,tiePassword.text),
         child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
           if(state is GetAppointmentState) {
             ProgressDialog.hideLoadingDialog(context);
@@ -406,6 +406,9 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       ),
                                       BlocProvider<MedicineBloc>(
                                         create: (context) => Sl.Sl<MedicineBloc>(),
+                                      ),
+                                      BlocProvider<ReportListBloc>(
+                                        create: (context) => Sl.Sl<ReportListBloc>(),
                                       ),
                                     ],
                                     child:  UpdateAppointmentPage(

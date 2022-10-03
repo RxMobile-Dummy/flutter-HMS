@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../utils/colors.dart';
@@ -32,7 +34,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
   TextEditingController occupationController = TextEditingController();
   TextEditingController meritalStatusController = TextEditingController();
   File? imageFile;
-  List<String> maritalList = ["-- Select Marital Status --", "Yes", "No"];
+  List<String> maritalList = [Strings.kSelectMaritalStatus, Strings.kYes, Strings.kNo];
   Map<String,dynamic> map = Map();
 
 
@@ -41,7 +43,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
     return Scaffold(
       appBar:PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Fill other details",isBackPress: true),
+        child: CustomAppBar(title: Strings.kFillOtherDetails,isBackPress: true),
       ),
       body: Form(
         key: _formKey,
@@ -61,7 +63,6 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
               Center(
                   child: Stack(
                     clipBehavior: Clip.none,
-                    //fit: StackFit.expand,
                     children: [
                       GestureDetector(
                         child: CircleAvatar(
@@ -69,9 +70,9 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                           backgroundColor: Colors.transparent,
                           backgroundImage: (imageFile == null || imageFile == "")
                               ? const AssetImage(
-                            'assets/images/person_image.jpeg',
+                            Strings.kPersonImage,
                           )
-                              : imageFile.toString().contains("static")
+                              : imageFile.toString().contains(Strings.kStatic)
                               ? NetworkImage(
                             "${imageFile?.path}",
                           )
@@ -93,7 +94,6 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                                             Colors.grey)),
                                     child: showSheetForImage()),
                               ));
-                          print("OPEN");
                         },
                       ),
                       Positioned(
@@ -111,13 +111,6 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                               ),
                             ),
                             color: CustomColors.colorDarkBlue,
-                            /*boxShadow: [
-                              BoxShadow(
-                                offset: Offset(2, 4),
-                                color: Colors.transparent,
-                                blurRadius: 3,
-                              ),
-                            ]*/
                           ),
                           child: InkWell(
                             child: Padding(
@@ -143,7 +136,6 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                                                 Colors.grey)),
                                         child: showSheetForImage()),
                                   ));
-                              print("OPEN");
                             },
                           ),
                         ),
@@ -153,7 +145,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
               const SizedBox(height: 15,),
               DatePicker(
                   dateController: dateController,
-                  lableText: "Date Of Birth",
+                  lableText: Strings.kDateOfBirth,
                 firstDate: DateTime(1950),
                 lastDate: DateTime.now(),
               ),
@@ -162,56 +154,55 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                 dropDownList: maritalList,
                 selectedValue: maritalList[0],
                 controller: meritalStatusController,
-                label: "Select Marital status",
+                label: Strings.kSelectMaritalStatusLabel,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefHeight"),
-                label: "Height",
-                hint: "Enter Height",
+                key: const Key(Strings.kHeightKey),
+                label: Strings.kHeightLabel,
+                hint: Strings.kHeightHint,
                 isEmail: true,
                 textEditingController: heightController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefWeight"),
-                label: "Weight",
-                hint: "Enter Weight",
+                key: const Key(Strings.kWeightKey),
+                label: Strings.kWeightLabel,
+                hint: Strings.kWeightHint,
                 isEmail: true,
                 textEditingController: weightController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefEmergencynumber"),
-                label: "Emergency Contact number",
-                hint: "Enter Emergency Contact number",
-                errorMessage: "Please Enter Emergency Contact number",
+                key: const Key(Strings.kEmergencyContactNumberKey),
+                label: Strings.kEmergencyContactNumberLabel,
+                hint: Strings.kEmergencyContactNumberHint,
+                errorMessage: Strings.kEmergencyContactNumberErrorMessage,
                 isMobile: true,
                 textInputType: TextInputType.phone,
                 textEditingController: emergenyContactController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefCity"),
-                label: "City",
-                hint: "Enter City name",
-                errorMessage: "Please Enter City name",
+                key: const Key(Strings.kCityKey),
+                label: Strings.kCityLabel,
+                hint: Strings.kCityHint,
+                errorMessage: Strings.kCityErrorMessage,
                 textEditingController: cityContactController,
               ),
               const SizedBox(height: 15,),
               CustomTextField(
-                key: const Key("tefOccupation"),
-                label: "Occupation",
-                hint: "Enter your occupation",
+                key: const Key(Strings.kOccupationKey),
+                label: Strings.kOccupationLabel,
+                hint: Strings.kOccupationHint,
                 textEditingController: occupationController,
               ),
               const SizedBox(height: 30,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextButton(
-                    child:  Text("<< Previous",style: CustomTextStyle.styleBold
+                    child:  Text(Strings.kPrevious,style: CustomTextStyle.styleBold
                         .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       widget.pageController.previousPage(
@@ -219,7 +210,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                     },
                   ),
                   TextButton(
-                    child:  Text("Register",style: CustomTextStyle.styleBold
+                    child:  Text(Strings.kRegister,style: CustomTextStyle.styleBold
                         .copyWith(fontSize: DeviceUtil.isTablet ? 16 : 14, color: CustomColors.colorDarkBlue),),
                     onPressed: () {
                       function();
@@ -227,12 +218,6 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                   ),
                 ],
               )
-              /*TextButton(
-                child: Text("NEXT"),
-                onPressed: (){
-                  widget.pageController.nextPage(duration: Duration(seconds: 2),curve: Curves.easeIn);
-                },
-              )*/
             ],
           ),
         ));
@@ -262,7 +247,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                   },
                 ),
                 Text(
-                  "Camera",
+                  Strings.kCamera,
                   style: CustomTextStyle.styleBold,
                 )
               ],
@@ -283,7 +268,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                     },
                   ),
                   Text(
-                    "Gallery",
+                    Strings.kGallery,
                     style: CustomTextStyle.styleBold,
                   )
                 ],
@@ -324,14 +309,14 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
   }
 
   function(){
-    map["profile_pic"] = imageFile?.path;
-    map["date_of_birth"] = dateController.text;
-    map["marital_status"] = meritalStatusController.text;
-    map["height"] = heightController.text;
-    map["weight"] = weightController.text;
-    map["emergency_contact_number"] = "+91${emergenyContactController.text}";
-    map["city"] = cityContactController.text;
-    map["occupation"] = occupationController.text;
+    map[CommonKeys.K_Profile_Pic] = imageFile?.path;
+    map[CommonKeys.K_Date_Of_Birth] = dateController.text;
+    map[CommonKeys.K_Marital_Status] = (meritalStatusController.text == maritalList[0]) ? "" : meritalStatusController.text;
+    map[CommonKeys.K_Height] = heightController.text;
+    map[CommonKeys.K_Weight] = weightController.text;
+    map[CommonKeys.K_Emergency_Contact_Number] = emergenyContactController.text.isNotEmpty ? "+91${emergenyContactController.text}" : "";
+    map[CommonKeys.K_City] = cityContactController.text;
+    map[CommonKeys.K_Occupation] = occupationController.text;
     print(map);
     return widget.nextClick(map);
   }

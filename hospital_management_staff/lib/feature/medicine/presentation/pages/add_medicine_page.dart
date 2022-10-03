@@ -137,7 +137,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                                   ));
                             },
                             child:Text(
-                              "Change Medicine Image",
+                              "Add Medicine Image",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontStyle: FontStyle.normal,
@@ -205,13 +205,13 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
               dateController: medicineManufactureController,
               lableText: Strings.kMedicineManufactureLabel,
               firstDate: DateTime(1950),
-              lastDate: DateTime(2023),
+              lastDate: DateTime.now(),
               errorMessage: Strings.kMedicineManufactureErrorMessage,
             ),
             DatePicker(
               dateController: medicineExpiryController,
               lableText: Strings.kMedicineExpiryLabel,
-              firstDate: DateTime(1950),
+              firstDate: DateTime.now(),
               lastDate: DateTime(2023),
               errorMessage: Strings.kMedicineExpiryErrorMessage,
             ),
@@ -224,7 +224,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                 hint: Strings.kMedicineDescriptionHint,
                 borderRadius: 7,
                 minLines: 7,
-                lengthLimit: 120,
+               // lengthLimit: 300,
                 maxLines: 7,
                 errorMessage: Strings.kMedicineDescriptionErrorMessage,
                 textEditingController: medicineDescriptionController,

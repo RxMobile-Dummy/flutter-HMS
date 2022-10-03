@@ -1,24 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hospital_management/core/usecase.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/authentication/data/model/forgot_password_model.dart';
-import 'package:hospital_management/features/authentication/data/model/get_alleries_model.dart';
-import 'package:hospital_management/features/authentication/data/model/get_food_prefrence_model.dart';
-import 'package:hospital_management/features/authentication/data/model/get_injuries_model.dart';
-import 'package:hospital_management/features/authentication/data/model/get_medication_model.dart';
-import 'package:hospital_management/features/authentication/data/model/get_surgery_model.dart';
 import 'package:hospital_management/features/authentication/data/model/reset_password_model.dart';
 import 'package:hospital_management/features/authentication/data/model/sign_in_model.dart';
 import 'package:hospital_management/features/authentication/data/model/sign_up_model.dart';
 import 'package:hospital_management/features/authentication/domain/usecases/add_patient_usecase.dart';
 import 'package:hospital_management/features/authentication/domain/usecases/forgot_password_usecase.dart';
-import 'package:hospital_management/features/authentication/domain/usecases/get_allergies_usecase.dart';
-import 'package:hospital_management/features/authentication/domain/usecases/get_food_preference_usecase.dart';
-import 'package:hospital_management/features/authentication/domain/usecases/get_injuries_usecase.dart';
-import 'package:hospital_management/features/authentication/domain/usecases/get_medication_usecase.dart';
-import 'package:hospital_management/features/authentication/domain/usecases/get_surgery_usecase.dart';
 import 'package:hospital_management/features/authentication/domain/usecases/reset_password_usecase.dart';
 import 'package:hospital_management/features/authentication/domain/usecases/sign_in_patient_usecase.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
@@ -85,11 +74,11 @@ ResetPasswordUsecase? resetPasswordUsecase;
           emit(StateErrorGeneral(model?.error ?? ""));
         }else {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('access', model?.data!.authenticationToken!.access ?? "");
-          prefs.setString('refresh', model?.data!.authenticationToken!.refresh ?? "");
-          prefs.setString('id', model?.data?.id!.toString() ?? "");
+          prefs.setString(CommonKeys.K_Access, model?.data!.authenticationToken!.access ?? "");
+          prefs.setString(CommonKeys.K_Refresh, model?.data!.authenticationToken!.refresh ?? "");
+          prefs.setString(CommonKeys.K_Id, model?.data?.id!.toString() ?? "");
           String patient = jsonEncode(model?.data?.toJson());
-          prefs.setString('patientData', patient);
+          prefs.setString(CommonKeys.K_Patient_Data, patient);
           emit(AddPatientState(model: model));
         }
       }else if (event is SignInPatientSuccessEvent){
@@ -99,13 +88,13 @@ ResetPasswordUsecase? resetPasswordUsecase;
           emit(StateErrorGeneral(model?.error??""));
         }else{
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('access', model!.data?.authenticationToken?.access ?? "");
-          prefs.setString('refresh', model.data?.authenticationToken?.refresh ?? "");
-          prefs.setString('id', model.data?.id!.toString() ?? "");
-          String? token = prefs.getString("access");
+          prefs.setString(CommonKeys.K_Access, model!.data?.authenticationToken?.access ?? "");
+          prefs.setString(CommonKeys.K_Refresh, model.data?.authenticationToken?.refresh ?? "");
+          prefs.setString(CommonKeys.K_Id, model.data?.id!.toString() ?? "");
+          String? token = prefs.getString(CommonKeys.K_Access);
           print(token);
           String user = jsonEncode(model.data?.toJson());
-          prefs.setString('userData', user);
+          prefs.setString(CommonKeys.K_User_Data, user);
           emit(SignInPatientState(model: model));
         }
       }else if (event is ForgotPasswordSuccessEvent){

@@ -1,8 +1,16 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/patient/data/model/get_patient_model.dart';
+import 'package:hospital_management_doctor/utils/colors.dart';
 import 'package:hospital_management_doctor/utils/device_file.dart';
+import 'package:hospital_management_doctor/widget/open_image_widget.dart';
+import 'package:hospital_management_doctor/widget/open_pdf_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PatientDetailsPage extends StatefulWidget {
   GetPatientModel getPatientModel;
@@ -21,9 +29,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   void initState() {
     super.initState();
     if(widget.getPatientModel.data![widget.index].patientReportData != null &&
-        widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails!.isNotEmpty){
-      for(int i=0;i<widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails!.length;i++){
-        medicineList.add(widget.getPatientModel.data![widget.index].patientReportData!.medicineDetails![i].medicineName ?? "");
+        widget.getPatientModel.data![widget.index].patientMedicineReportDetails!.isNotEmpty){
+      for(int i=0;i<widget.getPatientModel.data![widget.index].patientMedicineReportDetails!.length;i++){
+        medicineList.add(widget.getPatientModel.data![widget.index].patientMedicineReportDetails![i].medicineName ?? "");
       }
     }
   }
@@ -210,8 +218,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
             ),
-            const SizedBox(height: 25,),
-            (widget.getPatientModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null &&
+                widget.getPatientModel.data![widget.index].patientReportData!.isNotEmpty)
+                ? const SizedBox(height: 25,) : const SizedBox(),
+            (widget.getPatientModel.data![widget.index].patientReportData != null &&
+                widget.getPatientModel.data![widget.index].patientReportData!.isNotEmpty)
                 ? Text(
               Strings.kReportSuggestion,
               style: TextStyle(
@@ -223,20 +234,90 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                   fontWeight: FontWeight.w500),
             )
                 : const SizedBox(),
-            (widget.getPatientModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientReportData != null &&
+                widget.getPatientModel.data![widget.index].patientReportData!.isNotEmpty)
                 ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getPatientModel.data![widget.index].patientReportData != null)
-                ?Text(
-              widget.getPatientModel.data![widget.index].patientReportData!.reportDescription ?? "",
+            (widget.getPatientModel.data![widget.index].patientReportData != null &&
+                widget.getPatientModel.data![widget.index].patientReportData!.isNotEmpty)
+                ?
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(child: Text(
+                      widget.getPatientModel.data![widget.index].patientReportData![index].reportName ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: DeviceUtil.isTablet ? 22 : 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                    ),),
+                    widget.getPatientModel.data![widget.index].patientReportData![index].reportFile!.isNotEmpty ? Row(
+                      children:  [
+                        Icon(
+                          Icons.remove_red_eye,
+                          color: CustomColors.colorDarkBlue,
+                          size: DeviceUtil.isTablet ? 20 :16,
+                        ),
+                        SizedBox(width: 7,),
+                        InkWell(
+                          child: Text(
+                            Strings.kView,
+                            style: TextStyle(
+                                fontSize: DeviceUtil.isTablet ? 22 : 16,
+                                color: CustomColors.colorDarkBlue,
+                                fontWeight: FontWeight.w500),
+                          ),
+                          onTap: () async {
+                            String path = "";
+                            await  createFileOfPdfUrl(widget.getPatientModel.data![widget.index].patientReportData![index].reportFile ?? "").then((f) {
+                              setState(() {
+                                path = f.path;
+                              });
+                            });
+                            if (path.isNotEmpty) {
+                              (path.contains(".jpeg") ||
+                                  path.contains(".jpg") ||
+                                  path.contains(".png"))
+                                  ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getPatientModel.data![widget.index].patientReportData![index].reportFile}",),
+                                ),
+                              )
+                                  : Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PDFScreen(path: path),
+                                ),
+                              );
+                            }
+                          },
+                        )
+                      ],
+                    )
+                        : const SizedBox()
+                  ],
+                );
+              },
+              itemCount: widget.getPatientModel.data![widget.index].patientReportData!.length,
+            )/*Text(
+              reportList.join(" , "),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 22 : 16,
                   color: Colors.black,
                   fontWeight: FontWeight.w500),
-            )
+            )*/
                 : const SizedBox(),
-            const SizedBox(height: 25,),
-            (widget.getPatientModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientMedicineReportDetails != null &&
+                widget.getPatientModel.data![widget.index].patientMedicineReportDetails!.isNotEmpty)
+                ? const SizedBox(height: 25,) : const SizedBox(),
+            (widget.getPatientModel.data![widget.index].patientMedicineReportDetails != null &&
+                widget.getPatientModel.data![widget.index].patientMedicineReportDetails!.isNotEmpty)
                 ? Text(
               Strings.kMedicineGiven,
               style: TextStyle(
@@ -248,9 +329,11 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                   fontWeight: FontWeight.w500),
             )
                 : const SizedBox(),
-            (widget.getPatientModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientMedicineReportDetails != null &&
+                widget.getPatientModel.data![widget.index].patientMedicineReportDetails!.isNotEmpty)
                 ? const SizedBox(height: 10,) : const SizedBox(),
-            (widget.getPatientModel.data![widget.index].patientReportData != null)
+            (widget.getPatientModel.data![widget.index].patientMedicineReportDetails != null &&
+                widget.getPatientModel.data![widget.index].patientMedicineReportDetails!.isNotEmpty)
                 ?Text(
               medicineList.join(" , "),
               overflow: TextOverflow.ellipsis,
@@ -270,6 +353,28 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
         (imagePath == null || imagePath == "")
             ? Strings.kDummyPersonImage
             : imagePath);
+  }
+
+
+  Future<File> createFileOfPdfUrl(String filePath) async {
+    Completer<File> completer = Completer();
+    try {
+      final url = "${Strings.baseUrl}$filePath";
+      final filename = url.substring(url.lastIndexOf("/") + 1);
+      var request = await HttpClient().getUrl(Uri.parse(url));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      var dir = await getApplicationDocumentsDirectory();
+      print("${dir.path}/$filename");
+      File file = File("${dir.path}/$filename");
+
+      await file.writeAsBytes(bytes, flush: true);
+      completer.complete(file);
+    } catch (e) {
+      throw Exception(Strings.kErrorParsing);
+    }
+
+    return completer.future;
   }
 
   String getFormattedDateFromFormattedString(

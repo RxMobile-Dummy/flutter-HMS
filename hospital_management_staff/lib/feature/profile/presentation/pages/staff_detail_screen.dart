@@ -69,239 +69,242 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
 
   buildWidget() {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Card(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            Container(
-                              height: DeviceUtil.isTablet ? 200 :140,
-                              width: MediaQuery.of(context).size.width / (DeviceUtil.isTablet ? 3.4 :2.6),
-                              decoration: BoxDecoration(
-                                  color: Colors.blue.shade100,
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                            Container(
-                              height: DeviceUtil.isTablet ? 250 :190,
-                              width: MediaQuery.of(context).size.width /(DeviceUtil.isTablet ? 3.4 :2.6),
-                              decoration:  BoxDecoration(
-                                image: DecorationImage(
-                                  image: userProfilePic(
-                                    imagePath:
-                                    (widget.getProfileModel.data!.profilePic != null && widget.getProfileModel.data!.profilePic != "")
-                                        ? "${Strings.baseUrl}${widget.getProfileModel.data!.profilePic}"
-                                        : "",),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20, top: 50),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 10),
+        child: Column(
+          children: [
+            Card(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Stack(
+                            alignment: Alignment.bottomCenter,
                             children: [
-                              Text(
-                                Strings.kExperience,
-                                style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 18 :14,
-                                    color: (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                        ? Colors.white
-                                        : Colors.grey.shade400,
-                                    fontWeight: FontWeight.w500),
+                              Container(
+                                height: DeviceUtil.isTablet ? 200 :140,
+                                width: MediaQuery.of(context).size.width / (DeviceUtil.isTablet ? 3.4 :2.6),
+                                decoration: BoxDecoration(
+                                    color: Colors.blue.shade100,
+                                    borderRadius: BorderRadius.circular(10)),
                               ),
-                              SizedBox(
-                                height: DeviceUtil.isTablet ? 8 :5,
-                              ),
-                              Text(
-                                "${widget.getProfileModel.data!.yearsOfExperience} years",
-                                style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 20 :16,
-                                    color: (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                Strings.kEducationLabel,
-                                style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 18 :14,
-                                    color: (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                        ? Colors.white
-                                        : Colors.grey.shade400,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: DeviceUtil.isTablet ? 10 :5,
-                              ),
-                              Text(
-                                "${widget.getProfileModel.data!.education}",
-                                style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 20 :16,
-                                    color: (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                Strings.kMobileLabel,
-                                style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 18 :14,
-                                    color: (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                        ? Colors.white
-                                        : Colors.grey.shade400,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              SizedBox(
-                                height: DeviceUtil.isTablet ? 10 :5,
-                              ),
-                              Text(
-                                "${widget.getProfileModel.data!.contactNumber}",
-                                style: TextStyle(
-                                    fontSize: DeviceUtil.isTablet ? 20 :16,
-                                    color: (Theme.of(context).brightness ==
-                                        Brightness.dark)
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontWeight: FontWeight.w500),
+                              Container(
+                                height: DeviceUtil.isTablet ? 250 :190,
+                                width: MediaQuery.of(context).size.width /(DeviceUtil.isTablet ? 3.4 :2.6),
+                                decoration:  BoxDecoration(
+                                  image: DecorationImage(
+                                    image: userProfilePic(
+                                      imagePath:
+                                      (widget.getProfileModel.data!.profilePic != null && widget.getProfileModel.data!.profilePic != "")
+                                          ? "${Strings.baseUrl}${widget.getProfileModel.data!.profilePic}"
+                                          : "",),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: DeviceUtil.isTablet ? 20 :10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Strings.kNurse,
-                              maxLines: 3,
-                              style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 24 :22,
-                                  color: (Theme.of(context).brightness ==
-                                      Brightness.dark)
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.w500),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20, top: 50),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  Strings.kExperience,
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 18 :14,
+                                      color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                          ? Colors.white
+                                          : Colors.grey.shade400,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: DeviceUtil.isTablet ? 8 :5,
+                                ),
+                                Text(
+                                  "${widget.getProfileModel.data!.yearsOfExperience} years",
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 20 :16,
+                                      color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  Strings.kEducationLabel,
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 18 :14,
+                                      color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                          ? Colors.white
+                                          : Colors.grey.shade400,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: DeviceUtil.isTablet ? 10 :5,
+                                ),
+                                Text(
+                                  "${widget.getProfileModel.data!.education}",
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 20 :16,
+                                      color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  Strings.kMobileLabel,
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 18 :14,
+                                      color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                          ? Colors.white
+                                          : Colors.grey.shade400,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                SizedBox(
+                                  height: DeviceUtil.isTablet ? 10 :5,
+                                ),
+                                Text(
+                                  "${widget.getProfileModel.data!.contactNumber.toString().substring(3)}",
+                                  style: TextStyle(
+                                      fontSize: DeviceUtil.isTablet ? 20 :16,
+                                      color: (Theme.of(context).brightness ==
+                                          Brightness.dark)
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "${widget.getProfileModel.data!.firstName}",
-                              maxLines: 3,
-                              style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 24 :22,
-                                  color: (Theme.of(context).brightness ==
-                                      Brightness.dark)
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              "${widget.getProfileModel.data!.lastName}",
-                              maxLines: 3,
-                              style: TextStyle(
-                                  fontSize: DeviceUtil.isTablet ? 24 :22,
-                                  color: (Theme.of(context).brightness ==
-                                      Brightness.dark)
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            SizedBox(
-                              height: DeviceUtil.isTablet ? 10 :7,
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              )),
-          Card(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(child: Text(
-                          Strings.kServicesAt,
-                          style: TextStyle(
-                              fontSize: DeviceUtil.isTablet ? 18 :14,
-                              color: (Theme.of(context).brightness ==
-                                  Brightness.dark)
-                                  ? Colors.white
-                                  : Colors.grey.shade400,
-                              fontWeight: FontWeight.w500),
-                        ),),
-                        InkWell(
-                          child:  Text(
-                            Strings.kViewInMap,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: DeviceUtil.isTablet ? 20 :10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                Strings.kNurse,
+                                maxLines: 3,
+                                style: TextStyle(
+                                    fontSize: DeviceUtil.isTablet ? 24 :22,
+                                    color: (Theme.of(context).brightness ==
+                                        Brightness.dark)
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                "${widget.getProfileModel.data!.firstName}",
+                                maxLines: 3,
+                                style: TextStyle(
+                                    fontSize: DeviceUtil.isTablet ? 24 :22,
+                                    color: (Theme.of(context).brightness ==
+                                        Brightness.dark)
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                "${widget.getProfileModel.data!.lastName}",
+                                maxLines: 3,
+                                style: TextStyle(
+                                    fontSize: DeviceUtil.isTablet ? 24 :22,
+                                    color: (Theme.of(context).brightness ==
+                                        Brightness.dark)
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              SizedBox(
+                                height: DeviceUtil.isTablet ? 10 :7,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                )),
+            Card(
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(child: Text(
+                            Strings.kServicesAt,
                             style: TextStyle(
                                 fontSize: DeviceUtil.isTablet ? 18 :14,
-                                color: CustomColors.colorDarkBlue,
+                                color: (Theme.of(context).brightness ==
+                                    Brightness.dark)
+                                    ? Colors.white
+                                    : Colors.grey.shade400,
                                 fontWeight: FontWeight.w500),
-                          ),
-                          onTap: () async {
-                            List<Location> locations = await locationFromAddress(Strings.kAddress);
-                            navigateTo(locations.first.latitude, locations.first.longitude);
-                          },
-                        )
-                      ],
-                    ),
-                    SizedBox(height: DeviceUtil.isTablet ? 18 :15,),
-                    Text(
-                      Strings.kHospitalLabel,
-                      style: TextStyle(
-                          fontSize: DeviceUtil.isTablet ? 20 :16,
-                          color: (Theme.of(context).brightness ==
-                              Brightness.dark)
-                              ? Colors.white
-                              : Colors.black,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
-                     Text(
-                      Strings.kAddress,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 3,
-                      style: CustomTextStyle.styleMedium.copyWith(
-                        fontSize: DeviceUtil.isTablet ? 20 : 16
+                          ),),
+                          InkWell(
+                            child:  Text(
+                              Strings.kViewInMap,
+                              style: TextStyle(
+                                  fontSize: DeviceUtil.isTablet ? 18 :14,
+                                  color: CustomColors.colorDarkBlue,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onTap: () async {
+                              List<Location> locations = await locationFromAddress(Strings.kAddress);
+                              navigateTo(locations.first.latitude, locations.first.longitude);
+                            },
+                          )
+                        ],
                       ),
-                    ),
-                  ],
-                )),
-          ),
-        ],
+                      SizedBox(height: DeviceUtil.isTablet ? 18 :15,),
+                      Text(
+                        Strings.kHospitalLabel,
+                        style: TextStyle(
+                            fontSize: DeviceUtil.isTablet ? 20 :16,
+                            color: (Theme.of(context).brightness ==
+                                Brightness.dark)
+                                ? Colors.white
+                                : Colors.black,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      SizedBox(height: DeviceUtil.isTablet ? 10 :7,),
+                      Text(
+                        Strings.kAddress,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        style: CustomTextStyle.styleMedium.copyWith(
+                            fontSize: DeviceUtil.isTablet ? 20 : 16
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ],
+        ),
       ),
     );
   }

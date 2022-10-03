@@ -1,6 +1,7 @@
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_status.dart';
+import 'package:hospital_management_doctor/feature/appointments/data/model/get_report_model.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/update_appointment_model.dart';
 
 class GetAppointmentState extends BaseState {
@@ -19,4 +20,10 @@ class UpdateAppointmentState extends BaseState {
   UpdateAppointmentModel? model;
 
   UpdateAppointmentState({this.model});
+}
+
+class GetReportListState extends BaseState {
+  GetReportListModel? model;
+
+  GetReportListState({this.model});
 }

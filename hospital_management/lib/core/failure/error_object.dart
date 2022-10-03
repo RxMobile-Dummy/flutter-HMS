@@ -48,7 +48,7 @@ class ErrorObject {
       } else if (e.response!.statusCode == 500) {
         return FailureMessage(Strings.kInternalServerError);
       } else {
-        return FailureMessage("Something went wrong.");
+        return FailureMessage(Strings.kSomethingWentWrong);
          // return FailureMessage(e.toString());
       }
     } else {

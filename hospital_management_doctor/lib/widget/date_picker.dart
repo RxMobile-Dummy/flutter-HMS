@@ -77,7 +77,10 @@ class _DatePickerState extends State<DatePicker> {
                   onTap: () async {
                     DateTime? pickedDate = await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
+                        initialDate: (widget.dateController.text != "")? DateTime.parse(getFormattedDateFromFormattedString(
+                            currentFormat: "dd-MM-yyyy - HH:mm",
+                            desiredFormat: "yyyy-MM-dd HH:mm:ss.SSSSSS",
+                            value:  "${widget.dateController.text} - 00:00".replaceAll("/", "-"))):DateTime.now(),
                         builder: (BuildContext context, Widget ?child) {
                           return Theme(
                             data: ThemeData(
@@ -119,5 +122,21 @@ class _DatePickerState extends State<DatePicker> {
         const SizedBox(height: 10,),
       ],
     ));
+  }
+
+  String getFormattedDateFromFormattedString(
+      {required String currentFormat,
+        required String desiredFormat,
+        String? value}) {
+    String formattedDate = "";
+    if (value != null || value!.isNotEmpty) {
+      try {
+        DateTime dateTime = DateFormat(currentFormat).parse(value, true).toLocal();
+        formattedDate = DateFormat(desiredFormat).format(dateTime);
+      } catch (e) {
+        print("$e");
+      }
+    }
+    return formattedDate.toString();
   }
 }

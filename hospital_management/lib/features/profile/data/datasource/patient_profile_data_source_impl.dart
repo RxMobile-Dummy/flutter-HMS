@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 
 
 
@@ -22,8 +24,8 @@ class PatientProfileDataSourceImpl implements PatientProfileDataSource {
 
   @override
   Future<GetPatientProfileModel> getPatientProfileCall(GetPatientProfileParams params) async{
-   /* var map =  HashMap<String, dynamic>();
-    map['id'] = params.id;*/
+    var map =  HashMap<String, dynamic>();
+    map[CommonKeys.K_Id] = params.id;
     final response = await _apiClient.getPatientProfile();
     print(response);
     var data;
@@ -31,7 +33,7 @@ class PatientProfileDataSourceImpl implements PatientProfileDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -40,7 +42,7 @@ class PatientProfileDataSourceImpl implements PatientProfileDataSource {
   Future<UpdatePatientProfileModel> updatePatientProfileCall(UpdatePatientParams params) async {
     MultipartFile? multipartFile;
     if(params.profile_pic!.isNotEmpty) {
-      if(!params.profile_pic![0].contains("patient_images")) {
+      if(!params.profile_pic![0].contains(CommonKeys.K_Patient_Images)) {
         multipartFile =
         await MultipartFile.fromFile(
             params.profile_pic ?? "",
@@ -49,29 +51,29 @@ class PatientProfileDataSourceImpl implements PatientProfileDataSource {
       }
     }
     var map =  HashMap<String, dynamic>();
-    map['patient_id'] = params.patient_id;
-    map['first_name'] = params.first_name;
-    map['last_name'] = params.last_name;
-    map['contact_number'] = params.contact_number;
-    map['email'] = params.email;
-    map['gender'] = params.gender;
-    map['date_of_birth'] = params.date_of_birth;
-    map['blood_group'] = params.blood_group;
-    map['marital_status'] = params.marital_status;
-    map['height'] = params.height;
-    map['weight'] = params.weight;
-    map['emergency_contact_number'] = params.emergency_contact_number;
-    map['city'] = params.city;
-    map['allergy'] = params.allergy;
-    map['current_medication'] = params.current_medication;
-    map['past_injury'] = params.past_injury;
-    map['past_surgery'] = params.past_surgery;
-    map['smoking_habits'] = params.smoking_habits;
-    map['alchol_consumption'] = params.alchol_consumption;
-    map['activity_level'] = params.activity_level;
-    map['food_preference'] = params.food_preference;
-    map['occupation'] = params.occupation;
-    map['profile_pic'] =  params.profile_pic!.isNotEmpty ? multipartFile : params.profile_pic;
+    map[CommonKeys.K_Patient_Id] = params.patient_id;
+    map[CommonKeys.K_First_Name] = params.first_name;
+    map[CommonKeys.K_Last_Name] = params.last_name;
+    map[CommonKeys.K_Contact_Number] = params.contact_number;
+    map[CommonKeys.K_Email] = params.email;
+    map[CommonKeys.K_Gender] = params.gender;
+    map[CommonKeys.K_Date_Of_Birth] = params.date_of_birth;
+    map[CommonKeys.K_Blood_Group] = params.blood_group;
+    map[CommonKeys.K_Marital_Status] = params.marital_status;
+    map[CommonKeys.K_Height] = params.height;
+    map[CommonKeys.K_Weight] = params.weight;
+    map[CommonKeys.K_Emergency_Contact_Number] = params.emergency_contact_number;
+    map[CommonKeys.K_City] = params.city;
+    map[CommonKeys.K_Allergy] = params.allergy;
+    map[CommonKeys.K_Current_Medication] = params.current_medication;
+    map[CommonKeys.K_Past_Injury] = params.past_injury;
+    map[CommonKeys.K_Past_Surgery] = params.past_surgery;
+    map[CommonKeys.K_Smoking_Habit] = params.smoking_habits;
+    map[CommonKeys.K_Alcohol_Consumption] = params.alchol_consumption;
+    map[CommonKeys.K_Activity_Level] = params.activity_level;
+    map[CommonKeys.K_Food_Preference] = params.food_preference;
+    map[CommonKeys.K_Occupation] = params.occupation;
+    map[CommonKeys.K_Profile_Pic] =  params.profile_pic!.isNotEmpty ? multipartFile : params.profile_pic;
     FormData formData =  FormData.fromMap(map);
     final response = await _apiClient.updatePatientProfile(formData);
     print(response);
@@ -80,7 +82,7 @@ class PatientProfileDataSourceImpl implements PatientProfileDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }

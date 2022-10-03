@@ -32,7 +32,7 @@ class ErrorObject {
     ProgressDialog.hideLoadingDialog(navigatorKey.currentContext!);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    prefs.setString("isOnBoardingCompleted", "true");
+    prefs.setString(Strings.kOnBoardingBool, Strings.kTrue);
     print(prefs);
     Future.delayed(Duration.zero, () {
       Navigator.pushAndRemoveUntil(

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/utils/colors.dart';
 
 class ExpandableText extends StatefulWidget {
@@ -29,7 +30,7 @@ class ExpandableTextState extends State<ExpandableText> {
     final colorClickableText = CustomColors.colorDarkBlue;
     final widgetColor = Colors.black;
     TextSpan link = TextSpan(
-        text: _readMore ? "... Read more" : " Read less",
+        text: _readMore ? Strings.kReadMore : Strings.kReadLess,
         style: TextStyle(
           color: colorClickableText,
         ),

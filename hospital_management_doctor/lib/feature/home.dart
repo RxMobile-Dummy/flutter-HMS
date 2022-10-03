@@ -9,6 +9,7 @@ import 'package:hospital_management_doctor/feature/appointments/presentation/blo
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/report_list_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_list_page.dart';
 import 'package:hospital_management_doctor/feature/patient/presentation/bloc/patient_bloc.dart';
 import 'package:hospital_management_doctor/feature/patient/presentation/pages/patient_list_page.dart';
@@ -108,6 +109,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                     ),
                                     BlocProvider<AppointmentStatusBloc>(
                                       create: (context) => Sl.Sl<AppointmentStatusBloc>(),
+                                    ),
+                                    BlocProvider<ReportListBloc>(
+                                      create: (context) => Sl.Sl<ReportListBloc>(),
                                     ),
                                   ],
                                   child: AppoinmentListPage())),

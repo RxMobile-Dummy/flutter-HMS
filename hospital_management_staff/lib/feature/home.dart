@@ -9,6 +9,7 @@ import 'package:hospital_management_staff/feature/appointments/presentation/bloc
 import 'package:hospital_management_staff/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_staff/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management_staff/feature/appointments/presentation/pages/appointment_list_page.dart';
+import 'package:hospital_management_staff/feature/laboratory/presentation/pages/laboratory_page.dart';
 import 'package:hospital_management_staff/feature/medicine/presentation/bloc/medicine_bloc.dart';
 import 'package:hospital_management_staff/feature/medicine/presentation/pages/medicine_list_page.dart';
 import 'package:hospital_management_staff/feature/patient/presentation/bloc/patient_bloc.dart';
@@ -57,17 +58,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
       duration: const Duration(milliseconds: 500),
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _getAppointment("","");
+      await _getAppointment("","", "");
     });
   }
 
-  Future<String> _getAppointment(String id,String date) {
+  Future<String> _getAppointment(String id,String date,String search) {
     return Future.delayed(const Duration()).then((_) {
       ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<AppointmentBloc>(context).add(
           GetAppointmentEvent(
               id: id,
-              date: date));
+              date: date,
+          search: search));
       return "";
     });
   }
@@ -167,7 +169,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                               )),
                         );
                       });
+                    }else if(index == 4){
+                      Future.delayed(Duration.zero, () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider<AppointmentBloc>(
+                                        create: (context) =>
+                                            Sl.Sl<AppointmentBloc>(),
+                                      ),
+                                      BlocProvider<AppointmentStatusBloc>(
+                                        create: (context) =>
+                                            Sl.Sl<AppointmentStatusBloc>(),
+                                      ),
+                                    ],
+                                    child: LaboratoryPage(),
+                                  )),
+                        );
+                      });
                     }
+
                   },
                   child: Card(
                       shape: RoundedRectangleBorder(
@@ -217,16 +241,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     );
   }
 
-/*  Future<String> _getAppointment(String id,String date) {
-    return Future.delayed(const Duration()).then((_) {
-      ProgressDialog.showLoadingDialog(context);
-      BlocProvider.of<AppointmentBloc>(context).add(
-          GetAppointmentEvent(
-              id: id,
-              date: date));
-      return "";
-    });
-  }*/
 
   getFormatedDate(date) {
     var inputFormat = DateFormat('yyyy-MM-dd HH:mm');
@@ -359,19 +373,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     );
   }
 
-/*  getMenuItem() {
-    if (menuIndex == 0 && selectedWidget != doctorList) {
-      selectedWidget = doctorList;
-      setState(() {});
-    } else if (menuIndex == 1 && selectedWidget != dashboardWidget) {
-      selectedWidget = dashboardWidget;
-      setState(() {});
-    } else if (menuIndex == 2 && selectedWidget != appointmentWidget) {
-      selectedWidget = appointmentWidget;
-      setState(() {});
-    }else if (menuIndex == 3 && selectedWidget != profileWidget) {
-      selectedWidget = profileWidget;
-      setState(() {});
-    }
-  }*/
 }

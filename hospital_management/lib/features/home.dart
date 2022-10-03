@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_status_bloc.dart';
 import 'package:hospital_management/features/appoinment/presentation/pages/appoinment_list_page.dart';
-import 'package:hospital_management/features/appoinment/presentation/pages/appointment_details_page.dart';
-import 'package:hospital_management/features/appoinment/presentation/pages/appointment_feedback_page.dart';
-import 'package:hospital_management/features/appoinment/presentation/pages/book_appointment_page.dart';
-import 'package:hospital_management/features/appoinment/presentation/pages/edit_appointment_page.dart';
 import 'package:hospital_management/features/doctor/data/model/get_doctor_model.dart';
 import 'package:hospital_management/features/doctor/presentation/bloc/doctor_bloc.dart';
 import 'package:hospital_management/features/doctor/presentation/pages/doctor_list_page.dart';
-import 'package:hospital_management/features/feedback/presentation/bloc/feedback_bloc.dart';
 import 'package:hospital_management/features/profile/presentation/bloc/patient_profile_bloc.dart';
 import 'package:hospital_management/features/profile/presentation/pages/profile_page.dart';
 import 'package:hospital_management/utils/colors.dart';
-import 'package:hospital_management/widget/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/base/base_bloc.dart';
@@ -50,27 +46,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   GetDoctorModel getDoctorModel = GetDoctorModel();
 
   static const List<IconData> icons = const [ Icons.add_task, Icons.note_add_outlined, Icons.check_box_outlined ];
-  static const _actionTitles = ['Create Post', 'Upload Photo', 'Upload Video'];
   List<String> gridNameList = [
-    "Appointments",
-    "Doctors",
+    Strings.kAppointments,
+    Strings.kDoctors,
     /*"Departments",*/
-    "Profile"
+    Strings.kProfile
     /*"Feedbacks"*/
   ];
-  List<String> gridNameSubTitleList = [
-    "289",
-    "23",
-    "14",
-    "Set Profile",
-    "123 people Reviewed"
-  ];
   List imageList = [
-    "assets/images/appointment.png",
-    "assets/images/doctors.png",
-    "assets/images/departments.png",
-    "assets/images/profile.png",
-    "assets/images/feedback.png",
+    Strings.kAppointmentImage,
+    Strings.kDoctorImage,
+    Strings.kDepartmentImage,
+    Strings.kProfileImage,
+    Strings.kFeedbackImage,
   ];
   @override
   void initState() {
@@ -81,7 +69,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
     );
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      patientId = prefs.getString('id');
+      patientId = prefs.getString(CommonKeys.K_Id);
       await _getAppointment(patientId ?? "","");
       await _getDoctor("");
     });
@@ -91,7 +79,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
 
   Future<String> _getAppointment(String id,String date) {
     return Future.delayed(const Duration()).then((_) {
-      //ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<AppointmentBloc>(context).add(
           GetAppointmentEvent(
               id: id,
@@ -125,7 +112,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
           ),
           Flexible(child: Container(
             height: MediaQuery.of(context).size.height,
-            padding: EdgeInsets.only(top: 8,left: 10,right: 10),
+            padding: const EdgeInsets.only(top: 8,left: 10,right: 10),
             decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(topRight: Radius.circular(25.0),
@@ -227,16 +214,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                                         color: Colors.black
                                     ),
                                   ),
-                                 /* Text(
-                                    gridNameSubTitleList[index],
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontStyle: FontStyle.normal,
-                                        fontFamily: 'Open Sans',
-                                        fontSize: 12,
-                                        color: Colors.grey
-                                    ),),*/
-
                                 ],
                               )
                           ),
@@ -273,7 +250,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children:  [
                Text(
-                "Apollo Hospital",
+                Strings.kHospitalName,
                 style:  TextStyle(
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.normal,
@@ -289,7 +266,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             ],
           ),
            Text(
-            "General Hospital",
+            Strings.kGeneralHospital,
             style: TextStyle(
                 fontStyle: FontStyle.normal,
                 //fontFamily: 'Open Sans',
@@ -328,7 +305,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
 
                     const SizedBox(height: 5,),
                      Text(
-                      "Appointments",
+                      Strings.kAppointments,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,
@@ -360,7 +337,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
                     }),
                     const SizedBox(height: 5,),
                      Text(
-                      "Doctors available",
+                      Strings.kDoctorsAvailable,
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontStyle: FontStyle.normal,

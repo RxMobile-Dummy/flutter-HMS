@@ -183,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               SizedBox(height: 10,),
               Text(
-                "${getProfileModel.data?.contactNumber}",
+                "${getProfileModel.data?.contactNumber.toString().substring(3)}",
                 style: CustomTextStyle.styleBold.copyWith(fontSize: DeviceUtil.isTablet ? 22 : 20),
               ),
             ],
