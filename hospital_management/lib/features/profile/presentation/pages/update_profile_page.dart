@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/authentication/data/model/get_alleries_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_food_prefrence_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_injuries_model.dart';
@@ -272,9 +274,9 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           radius: DeviceUtil.isTablet ? 75 : 48,
                           backgroundColor: Colors.transparent,
                           backgroundImage: (imageFile!.path == null || imageFile!.path == "")
-                              ? AssetImage(Strings.kPersonImage)
+                              ? AssetImage(ImagesName.kPersonImage)
                               :  imageFile.toString().contains(Strings.kPatientImagePath)
-                              ? NetworkImage( "${Strings.baseUrl}${imageFile?.path}")
+                              ? NetworkImage( "${CommonKeys.baseUrl}${imageFile?.path}")
                               : FileImage(imageFile!) as ImageProvider, /*(imageFile == null || imageFile == "")
                               ? const AssetImage(
                             'assets/images/person_image.jpeg',

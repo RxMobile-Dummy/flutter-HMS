@@ -1,4 +1,6 @@
 class CommonKeys{
+
+  static const baseUrl = "https://a0ef-180-211-112-179.in.ngrok.io/";
   static const String K_Date = "date";
   static const String K_Appointment_Files = "appointment_files";
   static const String K_Patient_Profile_Pic_Files = "patient_profile_pic_files";

@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/custom/progress_bar.dart';
@@ -173,7 +175,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   Future<File> createFileOfPdfUrl(String filePath) async {
     Completer<File> completer = Completer();
     try {
-      final url = "${Strings.baseUrl}$filePath";
+      final url = "${CommonKeys.baseUrl}$filePath";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
@@ -223,7 +225,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                               .data![widget.index]
                                               .patientProfilePic !=
                                           "")
-                                  ? "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
+                                  ? "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
                                   : "",
                             ),
                             fit: BoxFit.fill),
@@ -460,7 +462,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                         MaterialPageRoute(
                                           builder: (context) => OpenImageWidget(
                                             path:
-                                                "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",
+                                                "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",
                                           ),
                                         ),
                                       )
@@ -985,7 +987,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                                       .doctorData!
                                                       .profilePic !=
                                                   "")
-                                          ? "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].doctorData!.profilePic}"
+                                          ? "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].doctorData!.profilePic}"
                                           : "",
                                     ), //AssetImage("assets/images/ii_1.png"),
                                   ),
@@ -1187,7 +1189,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 

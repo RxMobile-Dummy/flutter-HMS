@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/login.dart';
@@ -136,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child:   userProfilePic(radius: DeviceUtil.isTablet ?  60.0: 46.0,
             imagePath:
             (getPatientProfileModel.data?.profilePic != null && getPatientProfileModel.data?.profilePic != "")
-                ? "${Strings.baseUrl}${getPatientProfileModel.data?.profilePic}"
+                ? "${CommonKeys.baseUrl}${getPatientProfileModel.data?.profilePic}"
                 : "",),
         ) :  Positioned(
           top: ((MediaQuery.of(context).size.height / (DeviceUtil.isTablet ? 2.8 :3.8)) / 2) ,
@@ -377,7 +378,7 @@ class _ProfilePageState extends State<ProfilePage> {
       radius: radius,
       backgroundImage:  Image.network(
           (imagePath == null || imagePath == "")
-              ? Strings.kDummyPersonImage
+              ? ImagesName.kDummyPersonImage
               : imagePath)
           .image,
     );

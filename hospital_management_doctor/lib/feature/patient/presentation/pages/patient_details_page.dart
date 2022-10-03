@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/patient/data/model/get_patient_model.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
@@ -88,7 +90,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                             image: userProfilePic(
                               imagePath:
                               (widget.getPatientModel.data![widget.index].profilePic != null && widget.getPatientModel.data![widget.index].profilePic != "")
-                                  ? "${Strings.baseUrl}${widget.getPatientModel.data![widget.index].profilePic}"
+                                  ? "${CommonKeys.baseUrl}${widget.getPatientModel.data![widget.index].profilePic}"
                                   : "",),
                             fit: BoxFit.fill
                         ),
@@ -285,7 +287,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
                                   ? Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getPatientModel.data![widget.index].patientReportData![index].reportFile}",),
+                                  builder: (context) => OpenImageWidget(path: "${CommonKeys.baseUrl}${widget.getPatientModel.data![widget.index].patientReportData![index].reportFile}",),
                                 ),
                               )
                                   : Navigator.push(
@@ -351,7 +353,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? Strings.kDummyPersonImage
+            ? ImagesName.kDummyPersonImage
             : imagePath);
   }
 
@@ -359,7 +361,7 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   Future<File> createFileOfPdfUrl(String filePath) async {
     Completer<File> completer = Completer();
     try {
-      final url = "${Strings.baseUrl}$filePath";
+      final url = "${CommonKeys.baseUrl}$filePath";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_staff/utils/colors.dart';
@@ -117,7 +119,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   Future<File> createFileOfPdfUrl(String filePath) async {
     Completer<File> completer = Completer();
     try {
-      final url = "${Strings.baseUrl}$filePath";
+      final url = "${CommonKeys.baseUrl}$filePath";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
@@ -167,7 +169,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                               .data![widget.index]
                                               .patientProfilePic !=
                                           "")
-                                  ? "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
+                                  ? "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
                                   : "",
                             ),
                             fit: BoxFit.fill),
@@ -404,7 +406,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                         MaterialPageRoute(
                                           builder: (context) => OpenImageWidget(
                                             path:
-                                                "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",
+                                                "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",
                                           ),
                                         ),
                                       )
@@ -784,7 +786,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                             ? Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile}",),
+                                            builder: (context) => OpenImageWidget(path: "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile}",),
                                           ),
                                         )
                                             : Navigator.push(
@@ -853,7 +855,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                           widget.getAppointmentModel
                                               .data![widget.index].doctorData!.profilePic !=
                                               "")
-                                          ? "${Strings.baseUrl}${widget.getAppointmentModel
+                                          ? "${CommonKeys.baseUrl}${widget.getAppointmentModel
                                           .data![widget.index].doctorData!.profilePic}"
                                           : "",
                                     ), //AssetImage("assets/images/ii_1.png"),
@@ -1037,7 +1039,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 

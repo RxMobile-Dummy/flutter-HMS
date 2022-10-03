@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_event.dart';
@@ -105,11 +106,11 @@ class _UpdateAppointmentPageState extends State<UpdateAppointmentPage> {
                           backgroundColor: Colors.transparent,
                           backgroundImage: (fileForProfilePic!.path == null || fileForProfilePic!.path == "")
                               ? const AssetImage(
-                            Strings.kPersonImage,
+                            ImagesName.kPersonImage,
                           )
                               : fileForProfilePic.toString().contains(CommonKeys.K_Patient_Profile_Pic_Files)
                               ? NetworkImage(
-                            "${Strings.baseUrl}${fileForProfilePic?.path}",
+                            "${CommonKeys.baseUrl}${fileForProfilePic?.path}",
                           )
                               : FileImage(
                             fileForProfilePic!,

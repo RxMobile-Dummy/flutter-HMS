@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/doctor/data/model/get_doctor_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -102,7 +104,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                   image: userProfilePic(
                                     imagePath:
                                     (widget.getDoctorModel.data![widget.index].profilePic != null && widget.getDoctorModel.data![widget.index].profilePic != "")
-                                        ? "${Strings.baseUrl}${widget.getDoctorModel.data![widget.index].profilePic}"
+                                        ? "${CommonKeys.baseUrl}${widget.getDoctorModel.data![widget.index].profilePic}"
                                         : "",),
                                   //AssetImage("assets/images/ii_1.png"),
                                 ),
@@ -515,7 +517,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? Strings.kDummyPersonImage
+            ? ImagesName.kDummyPersonImage
             : imagePath);
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/custom/progress_bar.dart';
@@ -157,7 +159,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          Strings.kNoDataImage,
+                          ImagesName.kNoDataImage,
                           height: 150,
                         ),
                         const SizedBox(
@@ -387,7 +389,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                       getMedicineModel
                                           .data![index].medicinePhoto !=
                                           "")
-                                      ? "${Strings.baseUrl}${getMedicineModel.data![index].medicinePhoto}"
+                                      ? "${CommonKeys.baseUrl}${getMedicineModel.data![index].medicinePhoto}"
                                       : "",
                                 ),
                               ),

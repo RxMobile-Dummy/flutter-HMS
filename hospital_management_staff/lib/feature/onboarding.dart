@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/feature/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management_staff/feature/authentication/presentation/pages/login_screen.dart';
@@ -34,9 +35,9 @@ class _OnBoardingState extends State<OnBoarding> {
     Strings.kOnBoardingDescription3
   ];
   List<String> listImage = [
-    Strings.kOnBoardingImage1,
-    Strings.kOnBoardingImage2,
-    Strings.kOnBoardingImage3
+    ImagesName.kOnBoardingImage1,
+    ImagesName.kOnBoardingImage2,
+    ImagesName.kOnBoardingImage3
   ];
   int currentPage = 0;
 

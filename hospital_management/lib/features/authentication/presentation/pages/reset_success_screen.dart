@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/login.dart';
@@ -26,7 +27,7 @@ class _ResetSuccessState extends State<ResetSuccess> {
           children: [
             Expanded(child: Container()),
             Image.asset(
-              Strings.kResetSuccessfullyImage,
+              ImagesName.kResetSuccessfullyImage,
               width: MediaQuery.of(context).size.width * .5,
               height: MediaQuery.of(context).size.width * .5,
             ),

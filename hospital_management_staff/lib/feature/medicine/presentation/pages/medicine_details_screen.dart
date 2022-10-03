@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/feature/medicine/data/model/get_medicine_model.dart';
 import 'package:hospital_management_staff/utils/colors.dart';
@@ -73,7 +74,7 @@ class _MedicineDetailsScreenState extends State<MedicineDetailsScreen> {
                   Image.network(
                     (widget.getMedicineModel.data![widget.index].medicinePhoto != null
                         && widget.getMedicineModel.data![widget.index].medicinePhoto != "")
-                        ? "${Strings.baseUrl}${widget.getMedicineModel.data![widget.index].medicinePhoto}"
+                        ? "${CommonKeys.baseUrl}${widget.getMedicineModel.data![widget.index].medicinePhoto}"
                         : "",
                     height: DeviceUtil.isTablet ? 250 :200,
                     width: DeviceUtil.isTablet ? 250 :200,

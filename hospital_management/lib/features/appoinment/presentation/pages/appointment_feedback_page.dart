@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/feedback/presentation/bloc/feedback_bloc.dart';
 import 'package:hospital_management/features/feedback/presentation/bloc/feedback_event.dart';
@@ -220,7 +221,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
               ),
             ),
             Image.asset(
-              Strings.kAppointmentFeedback,
+              ImagesName.kAppointmentFeedback,
             ),
           ],
         ));

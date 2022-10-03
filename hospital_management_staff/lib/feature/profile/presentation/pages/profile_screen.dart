@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
 import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
@@ -130,7 +131,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child:   userProfilePic(radius: DeviceUtil.isTablet ?  80.0: 46.0,
             imagePath:
             (getProfileModel.data?.profilePic != null && getProfileModel.data?.profilePic != "")
-                ? "${Strings.baseUrl}${getProfileModel.data?.profilePic}"
+                ? "${CommonKeys.baseUrl}${getProfileModel.data?.profilePic}"
                 : "",),
         ) :  Positioned(
           top: ((MediaQuery.of(context).size.height / (DeviceUtil.isTablet ? 2.8 :3.8)) / 2) ,
@@ -452,7 +453,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         image: DecorationImage(
           image: NetworkImage(
               (imagePath == null || imagePath == "")
-                  ? Strings.kDummyPersonImage
+                  ? ImagesName.kDummyPersonImage
                   : imagePath)
         ),
         borderRadius: BorderRadius.circular(15)

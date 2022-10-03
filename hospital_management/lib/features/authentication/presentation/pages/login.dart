@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 width: DeviceUtil.isTablet ? 300: 200,
                                 decoration:  const BoxDecoration(
                                     image: DecorationImage(
-                                      image: AssetImage(Strings.kPatientImage),
+                                      image: AssetImage(ImagesName.kPatientImage),
                                       fit: BoxFit.fill,
                                     )
                                 ),

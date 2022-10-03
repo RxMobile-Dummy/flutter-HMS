@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
@@ -46,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     Strings.kProfile
   ];
   List imageList = [
-    Strings.kAppointmentImage,
-    Strings.kDepartmentImage,
-    Strings.kProfileImage,
+    ImagesName.kAppointmentImage,
+    ImagesName.kDepartmentImage,
+    ImagesName.kProfileImage,
   ];
   @override
   void initState() {

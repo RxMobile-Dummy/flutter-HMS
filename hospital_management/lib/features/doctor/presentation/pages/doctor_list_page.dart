@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/doctor/data/model/filter_doctor_model.dart';
 import 'package:hospital_management/features/doctor/data/model/get_doctor_model.dart';
 import 'package:hospital_management/features/doctor/presentation/bloc/doctor_bloc.dart';
@@ -111,7 +113,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    Strings.kNoDataImage,
+                    ImagesName.kNoDataImage,
                     height: 150,
                   ),
                   const SizedBox(height: 20,),
@@ -319,7 +321,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
               ),
             ),
             Image.asset(
-              Strings.kDoctorImage,
+              ImagesName.kDoctorImage,
             ),
           ],
         ));
@@ -363,7 +365,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 
@@ -454,7 +456,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                           getDoctorModel
                                                   .data![index].profilePic !=
                                               "")
-                                      ? "${Strings.baseUrl}${getDoctorModel.data![index].profilePic}"
+                                      ? "${CommonKeys.baseUrl}${getDoctorModel.data![index].profilePic}"
                                       : "",
                                 ), //AssetImage("assets/images/ii_1.png"),
                               ),

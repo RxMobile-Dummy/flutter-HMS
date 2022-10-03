@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/core/strings/strings.dart';
 import 'package:image_picker/image_picker.dart';
@@ -70,7 +71,7 @@ class _SignUpScreen2State extends State<SignUpScreen2> {
                           backgroundColor: Colors.transparent,
                           backgroundImage: (imageFile == null || imageFile == "")
                               ? const AssetImage(
-                            Strings.kPersonImage,
+                            ImagesName.kPersonImage,
                           )
                               : imageFile.toString().contains(Strings.kStatic)
                               ? NetworkImage(

@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/appointments/data/model/get_appointment_model.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
@@ -95,7 +97,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   Future<File> createFileOfPdfUrl(String filePath) async {
     Completer<File> completer = Completer();
     try {
-      final url = "${Strings.baseUrl}$filePath";
+      final url = "${CommonKeys.baseUrl}$filePath";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
@@ -137,7 +139,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                             image: userProfilePic(
                               imagePath:
                               (widget.getAppointmentModel.data![widget.index].patientProfilePic != null && widget.getAppointmentModel.data![widget.index].patientProfilePic != "")
-                                  ? "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
+                                  ? "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].patientProfilePic}"
                                   : "",),
                             fit: BoxFit.fill
                         ),
@@ -334,7 +336,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                               ? Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",),
+                              builder: (context) => OpenImageWidget(path: "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].fileData}",),
                             ),
                           )
                               : Navigator.push(
@@ -421,7 +423,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
                                         ? Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => OpenImageWidget(path: "${Strings.baseUrl}${widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile}",),
+                                        builder: (context) => OpenImageWidget(path: "${CommonKeys.baseUrl}${widget.getAppointmentModel.data![widget.index].patientData!.patientReportData![index].reportFile}",),
                                       ),
                                     )
                                         : Navigator.push(
@@ -490,7 +492,7 @@ class _AppointmentDetailsPageState extends State<AppointmentDetailsPage> {
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? Strings.kDummyPersonImage
+            ? ImagesName.kDummyPersonImage
             : imagePath);
   }
 

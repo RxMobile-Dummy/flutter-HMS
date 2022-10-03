@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
@@ -106,7 +107,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      Strings.kNoDataImage,
+                      ImagesName.kNoDataImage,
                       height: 150,
                     ),
                     const SizedBox(height: 20,),
@@ -320,7 +321,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
            ),
            Expanded(
              child:  Image.asset(
-               Strings.kAppointmentImage,
+               ImagesName.kAppointmentImage,
              ),
            )
           ],
@@ -358,7 +359,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 
@@ -491,7 +492,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                     imagePath:
                                     (getAppointmentModel.data![index].patientProfilePic != null
                                         && getAppointmentModel.data![index].patientProfilePic != "")
-                                        ? "${Strings.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
+                                        ? "${CommonKeys.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
                                         : "",),//AssetImage("assets/images/ii_1.png"),
                                    fit: BoxFit.fill
                                 ),

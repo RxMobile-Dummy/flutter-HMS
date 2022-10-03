@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/presentation/bloc/authentication_event.dart';
 import 'package:hospital_management/features/authentication/presentation/pages/reset_success_screen.dart';
@@ -114,7 +115,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           width: DeviceUtil.isTablet ? 300:200,
                           decoration: const BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(Strings.kResetImage),
+                                image: AssetImage(ImagesName.kResetImage),
                                 fit: BoxFit.fill,
                               )
                           ),

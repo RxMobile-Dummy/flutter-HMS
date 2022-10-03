@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
 import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
@@ -54,11 +55,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
     /*"Feedbacks"*/
   ];
   List imageList = [
-    Strings.kAppointmentImage,
-    Strings.kDoctorImage,
-    Strings.kDepartmentImage,
-    Strings.kProfileImage,
-    Strings.kFeedbackImage,
+    ImagesName.kAppointmentImage,
+    ImagesName.kDoctorImage,
+    ImagesName.kDepartmentImage,
+    ImagesName.kProfileImage,
+    ImagesName.kFeedbackImage,
   ];
   @override
   void initState() {

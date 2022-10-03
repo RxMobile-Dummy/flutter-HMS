@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/custom/progress_bar.dart';
@@ -160,7 +162,7 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
-                  Strings.kNoDataImage,
+                  ImagesName.kNoDataImage,
                   height: 150,
                 ),
                 const SizedBox(height: 20,),
@@ -267,7 +269,7 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
             ),
             Expanded(
               child: Image.asset(
-                Strings.kDepartmentImage,
+                ImagesName.kDepartmentImage,
               ),
             )
           ],
@@ -299,7 +301,7 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
                                       imagePath:
                                       (getAppointmentModel.data![index].patientProfilePic != null
                                           && getAppointmentModel.data![index].patientProfilePic != "")
-                                          ? "${Strings.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
+                                          ? "${CommonKeys.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
                                           : "",),
                                     fit: BoxFit.fill
                                 ),
@@ -459,7 +461,7 @@ class _LaboratoryPageState extends State<LaboratoryPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 

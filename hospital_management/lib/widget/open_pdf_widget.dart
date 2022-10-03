@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/utils/colors.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -57,7 +58,7 @@ class _PDFScreenState extends State<PDFScreen> with WidgetsBindingObserver {
           (widget.path!.contains(".png") ||
               widget.path!.contains(".jpeg") ||
               widget.path!.contains(".jpg"))
-              ? Image.network("${Strings.baseUrl}${widget.path}")
+              ? Image.network("${CommonKeys.baseUrl}${widget.path}")
               : PDFView(
             filePath: widget.path,
             enableSwipe: true,

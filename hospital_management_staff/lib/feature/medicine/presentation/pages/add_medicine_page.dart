@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/custom/progress_bar.dart';
@@ -92,7 +93,7 @@ class _AddMedicinePageState extends State<AddMedicinePage> {
                           )
                               : imageFile.toString().contains("medicine/app/medicine_photos")
                               ? NetworkImage(
-                            "${Strings.baseUrl}${imageFile!.path}",
+                            "${CommonKeys.baseUrl}${imageFile!.path}",
 
                           )
                               : FileImage(
