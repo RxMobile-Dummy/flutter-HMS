@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:hospital_management/core/failure/failure.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/data/datasource/authentication_data_source.dart';
 import 'package:hospital_management/features/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_alleries_model.dart';
@@ -38,7 +39,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -53,7 +54,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -68,7 +69,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -83,7 +84,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -98,7 +99,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -113,7 +114,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -128,7 +129,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -143,7 +144,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 
@@ -158,7 +159,7 @@ class AuthenticationRepositoriesImpl extends AuthenticationRepositories{
       Failure error = await ErrorObject.checkErrorState(e);
       yield Left(FailureMessage(error.message.toString()));
       print(e);
-      print("Fail");
+      print(Strings.kFail);
     }
   }
 }

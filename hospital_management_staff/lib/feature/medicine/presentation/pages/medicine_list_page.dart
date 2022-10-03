@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/custom/progress_bar.dart';
@@ -157,7 +159,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                          Strings.kNoDataImage,
+                          ImagesName.kNoDataImage,
                           height: 150,
                         ),
                         const SizedBox(
@@ -282,9 +284,9 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   InkWell(
-                                    child: const Icon(Icons.edit,
+                                    child:  Icon(Icons.edit,
                                         color: CustomColors.colorDarkBlue,
-                                        size: 20),
+                                        size: DeviceUtil.isTablet? 28:20),
                                     onTap: () {
                                       Navigator.push(
                                         context,
@@ -311,10 +313,10 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                     padding:
                                     const EdgeInsets.symmetric(horizontal: 5),
                                     child: InkWell(
-                                      child: const Icon(
+                                      child:  Icon(
                                           Icons.delete_outline_rounded,
                                           color: CustomColors.colorDarkBlue,
-                                          size: 20),
+                                          size: DeviceUtil.isTablet? 28:20),
                                       onTap: () {
                                         showDialog(
                                             context: context,
@@ -387,7 +389,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                       getMedicineModel
                                           .data![index].medicinePhoto !=
                                           "")
-                                      ? "${Strings.baseUrl}${getMedicineModel.data![index].medicinePhoto}"
+                                      ? "${CommonKeys.baseUrl}${getMedicineModel.data![index].medicinePhoto}"
                                       : "",
                                 ),
                               ),
@@ -400,7 +402,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: DeviceUtil.isTablet ? 18 : 14,
+                                    fontSize: DeviceUtil.isTablet ? 20 : 14,
                                     color: Colors.black87),
                               ),
                               Text(
@@ -409,7 +411,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: DeviceUtil.isTablet ? 18 : 14,
+                                    fontSize: DeviceUtil.isTablet ? 20 : 14,
                                     color: Colors.black87),
                               ),
                               SizedBox(
@@ -421,7 +423,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: DeviceUtil.isTablet ? 18 : 16,
+                                    fontSize: DeviceUtil.isTablet ? 20 : 16,
                                     color: Colors.black),
                               ),
                               SizedBox(
@@ -433,7 +435,7 @@ class _MedicineListPageState extends State<MedicineListPage> {
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FontStyle.normal,
                                     fontFamily: 'Open Sans',
-                                    fontSize: DeviceUtil.isTablet ? 16 : 14,
+                                    fontSize: DeviceUtil.isTablet ? 20 : 14,
                                     color: Colors.grey.shade400),
                               ),
                               /* Row(

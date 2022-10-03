@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/feedback/presentation/bloc/feedback_bloc.dart';
 import 'package:hospital_management/features/feedback/presentation/bloc/feedback_event.dart';
 import 'package:hospital_management/features/feedback/presentation/bloc/feedback_state.dart';
@@ -75,7 +77,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Comment",
+              Strings.kComment,
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 :16,
                   color: Colors.grey.shade500,
@@ -83,18 +85,18 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
             ),
              SizedBox(height: DeviceUtil.isTablet ? 15 :10,),
             CustomTextFieldWithBorder(
-              key: const Key("tefComment"),
-              label: "Comment",
-              hint: "Enter Comment",
+              key: const Key(Strings.kCommentKey),
+              label: Strings.kComment,
+              hint: Strings.kCommentHint,
               borderRadius: 10.0,
               maxLines: 10,
               minLines: 10,
-              errorMessage: "Please Enter Comment",
+              errorMessage: Strings.kCommentErrorMessage,
               textEditingController: commentController,
             ),
             const SizedBox(height: 20,),
             Text(
-              "Ratings",
+              Strings.kRatings,
               style: TextStyle(
                   fontSize: DeviceUtil.isTablet ? 18 : 16,
                   color: Colors.grey.shade500,
@@ -148,7 +150,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
                       FocusScope.of(context).unfocus();
                       Fluttertoast.cancel();
                       Fluttertoast.showToast(
-                          msg: "Please fill all the details.",
+                          msg: Strings.kFillAllDetails,
                           toastLength: Toast.LENGTH_LONG,
                           fontSize: DeviceUtil.isTablet ? 20 : 12,
                           backgroundColor: CustomColors.colorDarkBlue,
@@ -161,7 +163,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
                     shape: StadiumBorder(),
                   ),
                   child:  Text(
-                    "Send Feedback",
+                    Strings.kSendFeedback,
                     style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                   ),
                 ),
@@ -207,7 +209,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
                     height: 30,
                   ),
                   const Text(
-                    "FeedBack",
+                    Strings.kFeedback,
                     style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontStyle: FontStyle.normal,
@@ -219,7 +221,7 @@ class _AppointmentFeedbackPageState extends State<AppointmentFeedbackPage> {
               ),
             ),
             Image.asset(
-              "assets/images/feedback2.png",
+              ImagesName.kAppointmentFeedback,
             ),
           ],
         ));

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
@@ -9,6 +10,7 @@ import 'package:hospital_management_doctor/feature/appointments/presentation/blo
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_status_bloc.dart';
+import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/report_list_bloc.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/pages/appointment_list_page.dart';
 import 'package:hospital_management_doctor/feature/patient/presentation/bloc/patient_bloc.dart';
 import 'package:hospital_management_doctor/feature/patient/presentation/pages/patient_list_page.dart';
@@ -45,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
     Strings.kProfile
   ];
   List imageList = [
-    Strings.kAppointmentImage,
-    Strings.kDepartmentImage,
-    Strings.kProfileImage,
+    ImagesName.kAppointmentImage,
+    ImagesName.kDepartmentImage,
+    ImagesName.kProfileImage,
   ];
   @override
   void initState() {
@@ -108,6 +110,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin{
                                     ),
                                     BlocProvider<AppointmentStatusBloc>(
                                       create: (context) => Sl.Sl<AppointmentStatusBloc>(),
+                                    ),
+                                    BlocProvider<ReportListBloc>(
+                                      create: (context) => Sl.Sl<ReportListBloc>(),
                                     ),
                                   ],
                                   child: AppoinmentListPage())),

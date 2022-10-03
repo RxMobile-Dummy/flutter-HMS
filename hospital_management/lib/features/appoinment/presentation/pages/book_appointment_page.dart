@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_event.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_state.dart';
@@ -43,9 +45,9 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
   File? fileForProfilePic;
   File? fileForReport;
   List<String> timeSlotDropDown = [
-    "-- Select time slot --",
-    "10:00 AM to 02:00 PM",
-    "4:00 PM to 7:30 PM"
+    Strings.kSelectTimeSlot,
+    Strings.kTimeSlot1,
+    Strings.kTimeSlot2
   ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -53,7 +55,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
   void initState() {
   WidgetsBinding.instance.addPostFrameCallback((_) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var patientId = prefs.getString('id');
+    var patientId = prefs.getString(CommonKeys.K_Id);
   });
     super.initState();
   }
@@ -63,7 +65,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Book Appointment",isBackPress: true),
+        child: CustomAppBar(title: Strings.kBookAppointment,isBackPress: true),
       ),
       body: ErrorBlocListener<AppointmentBloc>(
         bloc: BlocProvider.of<AppointmentBloc>(context),
@@ -102,9 +104,9 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                         backgroundColor: Colors.transparent,
                         backgroundImage: (fileForProfilePic == null || fileForProfilePic == "")
                             ? const AssetImage(
-                          'assets/images/person_image.jpeg',
+                          ImagesName.kPersonImage,
                         )
-                            : fileForProfilePic.toString().contains("patient_profile_pic_files")
+                            : fileForProfilePic.toString().contains(CommonKeys.K_Patient_Profile_Pic_Files)
                             ? NetworkImage(
                           "${fileForProfilePic?.path}",
                         )
@@ -126,7 +128,6 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                                           Colors.grey)),
                                   child: showSheetForImage()),
                             ));
-                        print("OPEN");
                       },
                     ),
                     Positioned(
@@ -184,48 +185,48 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                   ],
                 )),
             CustomTextField(
-              key: const Key("tefFirstname"),
-              label: "First Name",
-              hint: "Enter First Name",
-              errorMessage: "Please Enter First name",
+              key: const Key(Strings.kFirstNameKey),
+              label: Strings.kFirstNameLabel,
+              hint: Strings.kFirstNameHint,
+              errorMessage: Strings.kFirstNameErrorMessage,
               textEditingController: firstNameController,
             ),
             CustomTextField(
-              key: const Key("tefLastName"),
-              label: "Last Name",
-              hint: "Enter Last Name",
-              errorMessage: "Please Enter Last name",
+              key: const Key(Strings.kLastNameKey),
+              label: Strings.kLastNameLabel,
+              hint: Strings.kLastNameHint,
+              errorMessage: Strings.kLastNameErrorMessage,
               textEditingController: lastNameController,
             ),
             CustomTextField(
-              key: const Key("tefMobilenumber"),
-              label: "Mobile number",
-              hint: "Enter mobile number",
-              errorMessage: "Please Enter mobile number",
+              key: const Key(Strings.kMobileKey),
+              label: Strings.kMobileLabel,
+              hint: Strings.kMobileHint,
+              errorMessage: Strings.kMobileErrorMessage,
               isMobile: true,
               textInputType: TextInputType.phone,
               textEditingController: mobileNumberController,
             ),
             CustomTextField(
-              key: const Key("tefDisease"),
-              label: "Enter Disease",
-              hint: "Enter Disease",
-              errorMessage: "Please Enter Disease",
+              key: const Key(Strings.kDiseaseKey),
+              label: Strings.kDiseaseLabel,
+              hint: Strings.kDiseaseHint,
+              errorMessage: Strings.kDiseaseErrorMessage,
               textEditingController: diseaseController,
             ),
             DropDown(
                 controller: timeSlotController,
                 dropDownList: timeSlotDropDown,
                 selectedValue: timeSlotDropDown[0],
-                label: "Select time slot",
-              errorMessage: "Select time slot",
+                label: Strings.kSelectTimeSlotLabel,
+              errorMessage: Strings.kSelectTimeSlotLabel,
             ),
             DatePicker(
                 dateController: appointmentDateController,
-                lableText: "Appointment Date",
+                lableText: Strings.kAppointmentDate,
               firstDate: DateTime.now(),
               lastDate: DateTime(2024),
-              errorMessage: "Select appointment date",
+              errorMessage: Strings.kAppointmentDateErrorMessage,
             ),
             const SizedBox(height: 20,),
             Row(
@@ -260,7 +261,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                     getFromGalleryForReport();
                   },
                   child:  Text(
-                      "Upload PDF",
+                      Strings.kUploadFile,
                     style: CustomTextStyle.styleMedium.copyWith(color: CustomColors.colorDarkBlue),
                   ),
                 ),
@@ -276,7 +277,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                         _formKey.currentState?.save();
                         FocusScope.of(context).unfocus();
                         SharedPreferences prefs = await SharedPreferences.getInstance();
-                        var patientId = prefs.getString('id');
+                        var patientId = prefs.getString(CommonKeys.K_Id);
                         _bookAppointment(
                           doctorId: widget.doctorId ,
                           firstName: firstNameController.text,
@@ -298,7 +299,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                         print(getFormatedDate(DateTime.now().toString()));
                         Fluttertoast.cancel();
                         Fluttertoast.showToast(
-                            msg: "Please fill all the details.",
+                            msg: Strings.kFillAllDetails,
                             toastLength: Toast.LENGTH_LONG,
                             fontSize: DeviceUtil.isTablet ? 20 : 12,
                             backgroundColor: CustomColors.colorDarkBlue,
@@ -311,7 +312,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                       shape: StadiumBorder(),
                     ),
                     child:  Text(
-                      "Book Appointment",
+                      Strings.kBookAppointment,
                       style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                     ),
                   ),
@@ -349,7 +350,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                   },
                 ),
                 Text(
-                  "Camera",
+                  Strings.kCamera,
                   style: CustomTextStyle.styleBold,
                 )
               ],
@@ -370,7 +371,7 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
                     },
                   ),
                   Text(
-                    "Gallery",
+                    Strings.kGallery,
                     style: CustomTextStyle.styleBold,
                   )
                 ],

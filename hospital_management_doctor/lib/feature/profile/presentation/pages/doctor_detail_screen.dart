@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
+import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/profile/data/model/get_profile_model.dart';
 import 'package:hospital_management_doctor/utils/colors.dart';
@@ -98,7 +100,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                   image: userProfilePic(
                                     imagePath:
                                     (widget.getProfileModel.data!.profilePic != null && widget.getProfileModel.data!.profilePic != "")
-                                        ? "${Strings.baseUrl}${widget.getProfileModel.data!.profilePic}"
+                                        ? "${CommonKeys.baseUrl}${widget.getProfileModel.data!.profilePic}"
                                         : "",),
                                 ),
                               ),
@@ -457,7 +459,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
   userProfilePic({String? imagePath}) {
     return NetworkImage(
         (imagePath == null || imagePath == "")
-            ? Strings.kDummyPersonImage
+            ? ImagesName.kDummyPersonImage
             : imagePath);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:dio/dio.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/profile/data/datasourse/profile_data_sourse.dart';
@@ -37,7 +38,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   Future<UpdateProfileModel> updateProfileCall(UpdateProfileParams params) async {
     MultipartFile? multipartFile;
     if(params.profilePic!.isNotEmpty) {
-      if(!params.profilePic![0].contains(Strings.kDoctorImageStoredPath)) {
+      if(!params.profilePic![0].contains(ImagesName.kDoctorImageStoredPath)) {
         multipartFile =
             await MultipartFile.fromFile(
           params.profilePic ?? "",

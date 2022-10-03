@@ -117,85 +117,85 @@ class Data {
 
 class DoctorData {
   int? id;
-  String? nextAvailableAt;
-  String? education;
-  String? inClinicAppointmentFees;
-  String? specialistField;
   String? yearsOfExperience;
+  String? specialistField;
   String? about;
   String? createAt;
-  String? lastName;
-  String? contactNumber;
-  String? firstName;
-  String? email;
-  String? dateOfBirth;
-  String? hospitalId;
+  String? education;
+  String? nextAvailableAt;
+  String? inClinicAppointmentFees;
   String? password;
   String? profilePic;
   String? gender;
   String? bloodGroup;
+  String? contactNumber;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? dateOfBirth;
+  String? hospitalId;
 
   DoctorData(
       {this.id,
-        this.nextAvailableAt,
-        this.education,
-        this.inClinicAppointmentFees,
-        this.specialistField,
         this.yearsOfExperience,
+        this.specialistField,
         this.about,
         this.createAt,
-        this.lastName,
-        this.contactNumber,
-        this.firstName,
-        this.email,
-        this.dateOfBirth,
-        this.hospitalId,
+        this.education,
+        this.nextAvailableAt,
+        this.inClinicAppointmentFees,
         this.password,
         this.profilePic,
         this.gender,
-        this.bloodGroup});
+        this.bloodGroup,
+        this.contactNumber,
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.dateOfBirth,
+        this.hospitalId});
 
   DoctorData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    nextAvailableAt = json['next_available_at'];
-    education = json['education'];
-    inClinicAppointmentFees = json['in_clinic_appointment_fees'];
-    specialistField = json['specialist_field'];
     yearsOfExperience = json['years_of_experience'];
+    specialistField = json['specialist_field'];
     about = json['about'];
     createAt = json['create_at'];
-    lastName = json['last_name'];
-    contactNumber = json['contact_number'];
-    firstName = json['first_name'];
-    email = json['email'];
-    dateOfBirth = json['date_of_birth'];
-    hospitalId = json['hospital_id'];
+    education = json['education'];
+    nextAvailableAt = json['next_available_at'];
+    inClinicAppointmentFees = json['in_clinic_appointment_fees'];
     password = json['password'];
     profilePic = json['profile_pic'];
     gender = json['gender'];
     bloodGroup = json['blood_group'];
+    contactNumber = json['contact_number'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    email = json['email'];
+    dateOfBirth = json['date_of_birth'];
+    hospitalId = json['hospital_id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['next_available_at'] = this.nextAvailableAt;
-    data['education'] = this.education;
-    data['in_clinic_appointment_fees'] = this.inClinicAppointmentFees;
-    data['specialist_field'] = this.specialistField;
     data['years_of_experience'] = this.yearsOfExperience;
+    data['specialist_field'] = this.specialistField;
     data['about'] = this.about;
     data['create_at'] = this.createAt;
-    data['last_name'] = this.lastName;
-    data['contact_number'] = this.contactNumber;
-    data['first_name'] = this.firstName;
-    data['email'] = this.email;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['hospital_id'] = this.hospitalId;
+    data['education'] = this.education;
+    data['next_available_at'] = this.nextAvailableAt;
+    data['in_clinic_appointment_fees'] = this.inClinicAppointmentFees;
     data['password'] = this.password;
     data['profile_pic'] = this.profilePic;
     data['gender'] = this.gender;
     data['blood_group'] = this.bloodGroup;
+    data['contact_number'] = this.contactNumber;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['email'] = this.email;
+    data['date_of_birth'] = this.dateOfBirth;
+    data['hospital_id'] = this.hospitalId;
     return data;
   }
 }
@@ -221,6 +221,8 @@ class PatientData {
   String? email;
   String? dateOfBirth;
   String? bloodGroup;
+  List<PatientMedicineReportDetails>? patientMedicineReportDetails;
+  List<PatientReportData>? patientReportData;
   List<PatientAllergies>? patientAllergies;
   List<PatientCurrentMedications>? patientCurrentMedications;
   List<PatientPastInjuries>? patientPastInjuries;
@@ -248,6 +250,8 @@ class PatientData {
         this.email,
         this.dateOfBirth,
         this.bloodGroup,
+        this.patientMedicineReportDetails,
+        this.patientReportData,
         this.patientAllergies,
         this.patientCurrentMedications,
         this.patientPastInjuries,
@@ -275,6 +279,19 @@ class PatientData {
     email = json['email'];
     dateOfBirth = json['date_of_birth'];
     bloodGroup = json['blood_group'];
+    if (json['patient_medicine_report_details'] != null) {
+      patientMedicineReportDetails = <PatientMedicineReportDetails>[];
+      json['patient_medicine_report_details'].forEach((v) {
+        patientMedicineReportDetails!
+            .add(new PatientMedicineReportDetails.fromJson(v));
+      });
+    }
+    if (json['patient_report_data'] != null) {
+      patientReportData = <PatientReportData>[];
+      json['patient_report_data'].forEach((v) {
+        patientReportData!.add(new PatientReportData.fromJson(v));
+      });
+    }
     if (json['patient_allergies'] != null) {
       patientAllergies = <PatientAllergies>[];
       json['patient_allergies'].forEach((v) {
@@ -330,6 +347,14 @@ class PatientData {
     data['email'] = this.email;
     data['date_of_birth'] = this.dateOfBirth;
     data['blood_group'] = this.bloodGroup;
+    if (this.patientMedicineReportDetails != null) {
+      data['patient_medicine_report_details'] =
+          this.patientMedicineReportDetails!.map((v) => v.toJson()).toList();
+    }
+    if (this.patientReportData != null) {
+      data['patient_report_data'] =
+          this.patientReportData!.map((v) => v.toJson()).toList();
+    }
     if (this.patientAllergies != null) {
       data['patient_allergies'] =
           this.patientAllergies!.map((v) => v.toJson()).toList();
@@ -350,6 +375,62 @@ class PatientData {
       data['patient_food_preferences'] =
           this.patientFoodPreferences!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class PatientMedicineReportDetails {
+  String? patientId;
+  String? medicineId;
+  String? medicineName;
+
+  PatientMedicineReportDetails(
+      {this.patientId, this.medicineId, this.medicineName});
+
+  PatientMedicineReportDetails.fromJson(Map<String, dynamic> json) {
+    patientId = json['patient_id'];
+    medicineId = json['medicine_id'];
+    medicineName = json['medicine_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['patient_id'] = this.patientId;
+    data['medicine_id'] = this.medicineId;
+    data['medicine_name'] = this.medicineName;
+    return data;
+  }
+}
+
+class PatientReportData {
+  String? patientId;
+  String? reportId;
+  String? reportFile;
+  int? id;
+  String? reportName;
+
+  PatientReportData(
+      {this.patientId,
+        this.reportId,
+        this.reportFile,
+        this.id,
+        this.reportName});
+
+  PatientReportData.fromJson(Map<String, dynamic> json) {
+    patientId = json['patient_id'];
+    reportId = json['report_id'];
+    reportFile = json['report_file'];
+    id = json['id'];
+    reportName = json['report_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['patient_id'] = this.patientId;
+    data['report_id'] = this.reportId;
+    data['report_file'] = this.reportFile;
+    data['id'] = this.id;
+    data['report_name'] = this.reportName;
     return data;
   }
 }

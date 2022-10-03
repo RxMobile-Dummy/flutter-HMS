@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/strings/strings.dart';
 import 'package:hospital_management_doctor/feature/appointments/presentation/bloc/appointment_bloc.dart';
 import 'package:hospital_management_doctor/feature/authentication/presentation/bloc/authentication_bloc.dart';
@@ -54,7 +55,7 @@ class _SplashState extends State<Splash> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(Strings.kHospitalImage,width: imageWidth,height: imageWidth,),
+            Image.asset(ImagesName.kHospitalImage,width: imageWidth,height: imageWidth,),
             sized_16(),
             Text(
               Strings.kHospitalManagement,

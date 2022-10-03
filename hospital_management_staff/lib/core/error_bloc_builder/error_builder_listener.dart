@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
+import 'package:hospital_management_staff/feature/appointments/presentation/bloc/appointment_state.dart';
 import 'package:hospital_management_staff/feature/medicine/presentation/bloc/medicine_state.dart';
 import 'package:hospital_management_staff/feature/profile/presentation/bloc/profile_state.dart';
 
@@ -36,6 +37,9 @@ class ErrorBlocListener<b extends Bloc<BaseEvent, BaseState>>
         }else  if(state is AddMedicineState) {
           ProgressDialog.hideLoadingDialog(context);
           return Navigator.of(context).pop();
+        }else if(state is UpdateAppointmentState){
+          ProgressDialog.hideLoadingDialog(context);
+          return Navigator.pop(context);
         }else if (state is StateOnSuccess) {
           ProgressDialog.hideLoadingDialog(context);
         }

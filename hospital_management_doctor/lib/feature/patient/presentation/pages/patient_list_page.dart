@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management_doctor/core/assets/images_name.dart';
 import 'package:hospital_management_doctor/core/base/base_bloc.dart';
 import 'package:hospital_management_doctor/core/common_keys/common_keys.dart';
 import 'package:hospital_management_doctor/core/error_bloc_builder/error_builder_listener.dart';
@@ -144,7 +145,7 @@ class _PatientListPageState extends State<PatientListPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
-                         Strings.kNoDataImage,
+                          ImagesName.kNoDataImage,
                           height: 150,
                         ),
                         const SizedBox(
@@ -211,7 +212,7 @@ class _PatientListPageState extends State<PatientListPage> {
             ),
             Expanded(
               child: Image.asset(
-                Strings.kDepartmentImage,
+                ImagesName.kDepartmentImage,
               ),
             )
           ],
@@ -255,7 +256,7 @@ class _PatientListPageState extends State<PatientListPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? Strings.kDummyPersonImage
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 
@@ -287,7 +288,7 @@ class _PatientListPageState extends State<PatientListPage> {
                                               getPatientModel.data![index]
                                                       .profilePic !=
                                                   "")
-                                          ? "${Strings.baseUrl}${getPatientModel.data![index].profilePic}"
+                                          ? "${CommonKeys.baseUrl}${getPatientModel.data![index].profilePic}"
                                           : "",
                                     ),
                                     fit: BoxFit.fill),

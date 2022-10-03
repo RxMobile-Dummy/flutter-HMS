@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/profile/data/model/get_patient_profile_model.dart';
 import 'package:hospital_management/utils/style.dart';
 
@@ -53,7 +54,7 @@ class _MedicalInformationPageState extends State<MedicalInformationPage> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size(double.infinity, 100),
-        child: CustomAppBar(title: "Patient Medical Information", isBackPress: true),
+        child: CustomAppBar(title: Strings.kPatientMedicalInformation, isBackPress: true),
       ),
       body: buildWidget(),
     );
@@ -66,26 +67,26 @@ class _MedicalInformationPageState extends State<MedicalInformationPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            customCard(title: "Blood group : ${widget.getPatientProfileModel.data!.bloodGroup ?? ""}"),
-            customCard(title: "Alcohol Consumption  : ${widget.getPatientProfileModel.data!.alcholConsumption}"),
-            customCard(title: "Smoking Habit : ${widget.getPatientProfileModel.data!.smokingHabits}"),
+            customCard(title: "${Strings.kBloodGroup} : ${widget.getPatientProfileModel.data!.bloodGroup ?? ""}"),
+            customCard(title: "${Strings.kAlcoholConsumption}  : ${widget.getPatientProfileModel.data!.alcholConsumption}"),
+            customCard(title: "${Strings.kSmokingHabit} : ${widget.getPatientProfileModel.data!.smokingHabits}"),
             (widget.getPatientProfileModel.data!.activityLevel!.isNotEmpty)
-            ? customCard(title: "Activity Level : ${widget.getPatientProfileModel.data!.activityLevel}")
+            ? customCard(title: "${Strings.kActivityLevel} : ${widget.getPatientProfileModel.data!.activityLevel}")
             : const SizedBox(),
             (allergiesList.isNotEmpty)
-            ? customCard(title: "Allergy List : ${allergiesList.join(" , ")}")
+            ? customCard(title: "${Strings.kAllergyList} : ${allergiesList.join(" , ")}")
             : const SizedBox(),
             (medicationList.isNotEmpty)
-            ? customCard(title: "Medication List : ${medicationList.join(" , ")}")
+            ? customCard(title: "${Strings.kMedicationList} : ${medicationList.join(" , ")}")
             : const SizedBox(),
             (surgeryList.isNotEmpty)
-            ? customCard(title: "Past Surgeries List : ${surgeryList.join(" , ")}")
+            ? customCard(title: "${Strings.kPastSurgeriesList} : ${surgeryList.join(" , ")}")
             : const SizedBox(),
             (injuryList.isNotEmpty)
-            ? customCard(title: "Past Injuries List : ${injuryList.join(" , ")}")
+            ? customCard(title: "${Strings.kPastInjuriesList} : ${injuryList.join(" , ")}")
             : const SizedBox(),
             (foodList.isNotEmpty)
-            ? customCard(title: "Food Consumption List : ${foodList.join(" , ")}")
+            ? customCard(title: "${Strings.kFoodConsumptionList} : ${foodList.join(" , ")}")
             : const SizedBox(),
           ],
         ),

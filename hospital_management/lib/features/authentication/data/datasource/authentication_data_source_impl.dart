@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
+import 'package:hospital_management/core/strings/strings.dart';
 import 'package:hospital_management/features/authentication/data/datasource/authentication_data_source.dart';
 import 'package:hospital_management/features/authentication/data/model/forgot_password_model.dart';
 import 'package:hospital_management/features/authentication/data/model/get_alleries_model.dart';
@@ -40,7 +42,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -54,7 +56,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -68,7 +70,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -82,7 +84,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -96,7 +98,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -105,7 +107,7 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   Future<AddPatientModel> addPatientCall(AddPatientParams params) async{
     MultipartFile? multipartFile;
     if(params.profilePic!.isNotEmpty) {
-      if(!params.profilePic![0].contains("patient_images")) {
+      if(!params.profilePic![0].contains(CommonKeys.K_Patient_Images)) {
         multipartFile =
         await MultipartFile.fromFile(
           params.profilePic ?? "",
@@ -116,48 +118,40 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
    /* MultipartFile multipartFile =
     await MultipartFile.fromFile(params.profilePic ?? "", filename: pathManager.basename(params.profilePic ?? ""));*/
     var map =  HashMap<String, dynamic>();
-    map['first_name'] = params.firstName;
-    map['last_name'] = params.lastName;
-    map['contact_number'] = params.contactNumber;
-    map['password'] = params.password;
-    map['email'] = params.email;
-    map['gender'] = params.gender;
-    map['date_of_birth'] = params.dateOfBirth;
-    map['blood_group'] = params.bloodGroup;
-    map['marital_status'] = params.maritalStatus;
-    map['height'] = params.height;
-    map['weight'] = params.weight;
-    map['emergency_contact_number'] = params.emergencyContactNumber;
-    map['city'] = params.city;
-    map['allergy'] = params.allergy;
+    map[CommonKeys.K_First_Name] = params.firstName;
+    map[CommonKeys.K_Last_Name] = params.lastName;
+    map[CommonKeys.K_Contact_Number] = params.contactNumber;
+    map[CommonKeys.K_Password] = params.password;
+    map[CommonKeys.K_Email] = params.email;
+    map[CommonKeys.K_Gender] = params.gender;
+    map[CommonKeys.K_Date_Of_Birth] = params.dateOfBirth;
+    map[CommonKeys.K_Blood_Group] = params.bloodGroup;
+    map[CommonKeys.K_Marital_Status] = params.maritalStatus;
+    map[CommonKeys.K_Height] = params.height;
+    map[CommonKeys.K_Weight] = params.weight;
+    map[CommonKeys.K_Emergency_Contact_Number] = params.emergencyContactNumber;
+    map[CommonKeys.K_City] = params.city;
+    map[CommonKeys.K_Allergy] = params.allergy;
     print(params.allergy);
-    map['current_medication'] = params.currentMedication;
-    map['past_injury'] = params.pastInjury;
-    map['past_surgery'] = params.pastSurgery;
-    map['smoking_habits'] = params.smokingHabits;
-    map['alchol_consumption'] = params.alcoholCunsumption;
-    map['activity_level'] = params.activityLevel;
-    map['food_preference'] = params.foodPreference;
-    map['occupation'] = params.occupation;
-    map['profile_pic'] =   params.profilePic!.isNotEmpty ? multipartFile : params.profilePic;
+    map[CommonKeys.K_Current_Medication] = params.currentMedication;
+    map[CommonKeys.K_Past_Injury] = params.pastInjury;
+    map[CommonKeys.K_Past_Surgery] = params.pastSurgery;
+    map[CommonKeys.K_Smoking_Habit] = params.smokingHabits;
+    map[CommonKeys.K_Alcohol_Consumption] = params.alcoholCunsumption;
+    map[CommonKeys.K_Activity_Level] = params.activityLevel;
+    map[CommonKeys.K_Food_Preference] = params.foodPreference;
+    map[CommonKeys.K_Occupation] = params.occupation;
+    map[CommonKeys.K_Profile_Pic] =   params.profilePic!.isNotEmpty ? multipartFile : params.profilePic;
     FormData formData =  FormData.fromMap(map);
     print(formData);
      final response = await _apiClient.addPatient(formData);
-   /* print("before api");
-    final http.Response response = await http.post(
-        Uri.parse('https://f01b-180-211-112-179.in.ngrok.io/patient/add_patient/'),
-        headers: <String, String>{
-          'Content-Type': 'multipart/form-data',
-        },
-        body: formData);*/
-    print("response for http");
     print(response.error);
     var data;
     if (response != null) {
       data = response;
       return data;
     } else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -165,15 +159,15 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @override
   Future<SignInPatientModel> signInPatientCall(SignInParams params) async{
     var map = new HashMap<String, String>();
-    map['email'] = params.email;
-    map['password'] = params.password;
+    map[CommonKeys.K_Email] = params.email;
+    map[CommonKeys.K_Password] = params.password;
     final response = await _apiClient.signInPatient(map);
     var data ;
     if(response != null ){
       data = response;
       return data;
     }else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -181,14 +175,14 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @override
   Future<ForgotPasswordModel> forgotPasswordCall(ForgotPasswordParams params) async {
     var map = new HashMap<String, String>();
-    map['email'] = params.email;
+    map[CommonKeys.K_Email] = params.email;
     final response = await _apiClient.forgotPassword(map);
     var data ;
     if(response != null ){
       data = response;
       return data;
     }else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }
@@ -196,15 +190,15 @@ class AuthenticationDataSourceImpl implements AuthenticationDataSource {
   @override
   Future<ResetPasswardModel> resetPasswordCall(ResetPasswordParams params) async {
     var map = new HashMap<String, String>();
-    map['new_password'] = params.password;
-    map['otp'] = params.OTP;
+    map[CommonKeys.K_New_Password] = params.password;
+    map[CommonKeys.K_OTP] = params.OTP;
     final response = await _apiClient.resetPassword(map);
     var data ;
     if(response != null ){
       data = response;
       return data;
     }else {
-      print('failed');
+      print(Strings.kFailed);
     }
     return data;
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hospital_management/core/assets/images_name.dart';
+import 'package:hospital_management/core/common_keys/common_keys.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_model.dart';
 import 'package:hospital_management/features/appoinment/data/model/get_appointment_status_model.dart';
 import 'package:hospital_management/features/appoinment/presentation/bloc/appointment_bloc.dart';
@@ -37,7 +39,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController filterDateController = TextEditingController();
   List<String> statusRadioList = [
-    "-- Select Status --"
+    Strings.kSelectStatus
   ];
   GetAppointmentStatusModel getAppointmentStatusModel = GetAppointmentStatusModel();
   String appointmentStatus = "";
@@ -46,7 +48,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      patientId = prefs.getString('id');
+      patientId = prefs.getString(CommonKeys.K_Id);
       await _getAppointmentStatus("");
       await _getAppointment(patientId ?? "","");
     });
@@ -55,7 +57,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
 
   Future<String> _getAppointmentStatus(String id) {
     return Future.delayed(const Duration()).then((_) {
-     // ProgressDialog.showLoadingDialog(context);
       BlocProvider.of<AppointmentStatusBloc>(context).add(
           GetAppointmentStatusEvent(
             id: id,));
@@ -90,7 +91,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
       backgroundColor: Colors.white,
         body: ErrorBlocListener<AppointmentBloc>(
           bloc: BlocProvider.of<AppointmentBloc>(context),
-          // callback:  _loginUser(userName.text,tiePassword.text),
           child:  BlocBuilder<AppointmentBloc, BaseState>(builder: (context, state)  {
             if(state is GetAppointmentState) {
               ProgressDialog.hideLoadingDialog(context);
@@ -107,12 +107,12 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/images/noData.jpeg",
+                      ImagesName.kNoDataImage,
                       height: 150,
                     ),
                     const SizedBox(height: 20,),
                     const Text(
-                      "No Data Found",
+                      Strings.kNoDataFound,
                       style: TextStyle(
                           fontSize: 22,
                           color: Colors.black,
@@ -140,7 +140,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
             children:  [
               InkWell(
                 child:  Text(
-                  "Apply filter",
+                  Strings.kApplyFilter,
                   style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontStyle: FontStyle.normal,
@@ -205,7 +205,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Appointment Filter",
+                            Strings.kAppointmentFilter,
                             style: CustomTextStyle.styleBold.copyWith(
                                 color: CustomColors.colorDarkBlue,
                                 fontSize: DeviceUtil.isTablet ? 20 :18
@@ -218,10 +218,10 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                       ),
                       DatePicker(
                         dateController: filterDateController,
-                        lableText: "Filter Appointment Date",
+                        lableText: Strings.kAppointmentFilterDate,
                         firstDate: DateTime(1950),
                         lastDate: DateTime(2023),
-                        errorMessage: "Please enter filter appointment date",
+                        errorMessage: Strings.kAppointmentFilterErrorMessage,
                       ),
                       const SizedBox(
                         height: 32,
@@ -244,7 +244,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                           }
                         },
                         child:  Text(
-                          "Apply Filter",
+                          Strings.kApplyFilter,
                           style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white,),
                         ),
                       ),),
@@ -256,7 +256,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                             await _getAppointment(patientId,"");
                           },
                           child:  Text(
-                            "Reset Filter",
+                            Strings.kResetFilter,
                             style: CustomTextStyle.styleSemiBold.copyWith(color: Colors.white),
                           ),
                         ),
@@ -321,7 +321,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
            ),
            Expanded(
              child:  Image.asset(
-               "assets/images/appointment.png",
+               ImagesName.kAppointmentImage,
              ),
            )
           ],
@@ -359,7 +359,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
 
   userProfilePic({String? imagePath}) {
     return NetworkImage((imagePath == null || imagePath == "")
-        ? "https://mpng.subpng.com/20190123/jtv/kisspng-computer-icons-vector-graphics-person-portable-net-myada-baaranmy-teknik-servis-hizmetleri-5c48d5c2849149.051236271548277186543.jpg"
+        ? ImagesName.kDummyPersonImage
         : imagePath);
   }
 
@@ -369,7 +369,10 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
         elevation: 4,
         child: Stack(
           children: [
-            Align(
+            (getAppointmentModel.data![index].statusId == "4" ||
+                getAppointmentModel.data![index].statusId == "7" )
+                ? SizedBox()
+                : Align(
               alignment: Alignment.topRight,
               child: Container(
                   decoration:  BoxDecoration(
@@ -414,10 +417,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                            });
                           },
                         ),
-                        (getAppointmentModel.data![index].statusId == "4" ||
-                            getAppointmentModel.data![index].statusId == "7" )
-                       ? SizedBox()
-                        : Padding(
+                         Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child:  InkWell(
                               child: const Icon(Icons.delete_outline_rounded,color: CustomColors.colorDarkBlue,),
@@ -428,12 +428,12 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       padding: EdgeInsets.symmetric(horizontal: 20),
                                       child: AlertDialog(
                                         title:  Text(
-                                          "Delete Appointment",
+                                          Strings.kDeleteAppointment,
                                           style: TextStyle(fontSize:  DeviceUtil.isTablet ? 18 : 14),
                                         ),
                                         content:  Container(
                                           child: Text(
-                                            "Are you sure you want to delete?",
+                                            Strings.kConfirmDeleteMessage,
                                             softWrap: true,
                                             overflow: TextOverflow.fade,
                                             style:  CustomTextStyle.styleMedium.copyWith(
@@ -450,7 +450,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                               Navigator.of(ctx).pop();
                                             },
                                             child: Text(
-                                              "Yes",
+                                              Strings.kYes,
                                               style: CustomTextStyle.styleSemiBold
                                                   .copyWith(color: CustomColors.colorDarkBlue, fontSize:
                                               DeviceUtil.isTablet ? 18 : 16),),
@@ -492,7 +492,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                     imagePath:
                                     (getAppointmentModel.data![index].patientProfilePic != null
                                         && getAppointmentModel.data![index].patientProfilePic != "")
-                                        ? "${Strings.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
+                                        ? "${CommonKeys.baseUrl}${getAppointmentModel.data![index].patientProfilePic}"
                                         : "",),//AssetImage("assets/images/ii_1.png"),
                                    fit: BoxFit.fill
                                 ),
@@ -504,7 +504,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15, top: 25),
                             child: Column(
-                              //mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
@@ -523,7 +522,7 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      "with",
+                                      Strings.kWith,
                                       softWrap: false,
                                       overflow: TextOverflow.fade,
                                       maxLines: 4,
@@ -619,19 +618,9 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                       return  const SizedBox();
 
                                     }),
-                                  /*Text(
-                                  appointmentStatus,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w900,
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'Open Sans',
-                                      fontSize: DeviceUtil.isTablet ? 18 :16,
-                                      color: CustomColors.colorDarkBlue
-                                  ),
-                                ),*/
-                                    InkWell(
+                                    (getAppointmentModel.data![index].statusId == "4") ?  InkWell(
                                       child:  Text(
-                                        "Give feedback",
+                                        Strings.kGiveFeedback,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w900,
                                             fontStyle: FontStyle.normal,
@@ -660,45 +649,9 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
                                               )),
                                         );
                                       },
-                                    ),
+                                    ) : const SizedBox(),
                                   ],
                                 ),
-                                /*IntrinsicHeight(
-                                child:  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        getFormattedDateFromFormattedString(
-                                            currentFormat: "dd-MM-yyyy - HH:mm",
-                                            desiredFormat: "dd MMM yyyy",
-                                            value:  "${getAppointmentModel.data![index].appointmentDate} - 00:00".replaceAll("/", "-")),
-                                        // DateFormat.yMMMMd().format(DateTime.parse(DateFormat('dd-MM-yyyy hh:mm:ss a').parse("30/08/2022".replaceAll("/", "-")).toString())),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 2),
-                                        child: VerticalDivider(
-                                          color: Colors.grey.shade400,
-                                          thickness: 2,
-                                        ),
-                                      ),
-                                      Text(
-                                        getAppointmentModel.data![index].timeSlot ?? "",
-                                        overflow: TextOverflow.ellipsis,
-                                        //softWrap: false,
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                )*/
                               ],
                             ),
                           ),
@@ -726,7 +679,6 @@ class _AppoinmentListPageState extends State<AppoinmentListPage> {
         print("$e");
       }
     }
-    // print("Formatted date time:  $formattedDate");
     return formattedDate.toString();
   }
 

@@ -5,7 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:hospital_management_staff/core/assets/images_name.dart';
 import 'package:hospital_management_staff/core/base/base_bloc.dart';
+import 'package:hospital_management_staff/core/common_keys/common_keys.dart';
 import 'package:hospital_management_staff/core/error_bloc_builder/error_builder_listener.dart';
 import 'package:hospital_management_staff/core/strings/strings.dart';
 import 'package:hospital_management_staff/custom/progress_bar.dart';
@@ -115,11 +117,11 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
                           backgroundColor: Colors.transparent,
                           backgroundImage: (imageFile == null || imageFile == "")
                               ? const AssetImage(
-                            Strings.kPersonImage,
+                            ImagesName.kPersonImage,
                           )
                               : imageFile.toString().contains(Strings.kStaffImageStoredPath)
                               ? NetworkImage(
-                            "${Strings.baseUrl}${imageFile?.path}",
+                            "${CommonKeys.baseUrl}${imageFile?.path}",
                           )
                               : FileImage(
                             imageFile!,
